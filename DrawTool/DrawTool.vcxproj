@@ -103,6 +103,7 @@
     <ClInclude Include="DrawItemManagement.h" />
     <ClInclude Include="DrawTool.h" />
     <ClInclude Include="DrawToolDlg.h" />
+    <ClInclude Include="L4Cpp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="StrategyItem.h" />
@@ -114,6 +115,7 @@
     <ClCompile Include="DrawItemManagement.cpp" />
     <ClCompile Include="DrawTool.cpp" />
     <ClCompile Include="DrawToolDlg.cpp" />
+    <ClCompile Include="L4Cpp.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

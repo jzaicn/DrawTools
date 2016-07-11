@@ -84,6 +84,8 @@ BOOL CDrawToolDlg::OnInitDialog()
 
 	CRect rcClient;
 	GetClientRect(rcClient);
+	rcClient.bottom -= 120;
+	m_manager.setDrawRect(rcClient);
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -125,8 +127,30 @@ void CDrawToolDlg::OnPaint()
 	}
 	else
 	{
+		CRect rcClient;
+		GetClientRect(rcClient);
+
+		CRect drawRect = m_manager.getDrawRect();
+
 		CPaintDC dc(this);
-		m_manager.OnPaint(dc);
+
+		CDC dcMem;
+		dcMem.CreateCompatibleDC(&dc);
+		CBitmap bmpMem;
+		bmpMem.CreateCompatibleBitmap(&dc, rcClient.Width(), rcClient.Height());
+		dcMem.SelectObject(&bmpMem);
+		Graphics g(dcMem.m_hDC);
+		COLORREF colBK = GetSysColor(CTLCOLOR_DLG);
+
+		g.FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), rcClient.left, rcClient.top, rcClient.Width(), rcClient.Height());
+		m_manager.OnPaintWithoutPrework(g);//画图
+
+		
+
+		dc.BitBlt(0, 0, rcClient.Width(), rcClient.Height(), &dcMem, 0, 0, SRCCOPY);
+
+		bmpMem.DeleteObject();
+		dcMem.DeleteDC();
 
 		//CDialogEx::OnPaint();
 	}
@@ -161,35 +185,35 @@ BOOL CDrawToolDlg::OnEraseBkgnd(CDC* pDC)
 void CDrawToolDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
 	m_manager.OnMouseMove(nFlags,point);
-
+	InvalidateRect(m_manager.getDrawRect());
 	CDialogEx::OnMouseMove(nFlags, point);
 }
 
 void CDrawToolDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	m_manager.OnLButtonDown(nFlags,point);
-
+	InvalidateRect(m_manager.getDrawRect());
 	CDialogEx::OnLButtonDown(nFlags, point);
 }
 
 void CDrawToolDlg::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	m_manager.OnLButtonUp(nFlags,point);
-
+	InvalidateRect(m_manager.getDrawRect());
 	CDialogEx::OnLButtonUp(nFlags, point);
 }
 
 void CDrawToolDlg::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	m_manager.OnRButtonDown(nFlags,point);
-
+	InvalidateRect(m_manager.getDrawRect());
 	CDialogEx::OnRButtonDown(nFlags, point);
 }
 
 void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
 {
 	m_manager.OnRButtonUp(nFlags,point);
-
+	InvalidateRect(m_manager.getDrawRect());
 	CDialogEx::OnRButtonUp(nFlags, point);
 }
 
@@ -221,6 +245,8 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	DrawItemBase* item = new DrawItemBase();
 	item->setRect(0,0,100,100);
 	m_manager.addDrawItem(item);
+
+	InvalidateRect(m_manager.getDrawRect());
 }
 
 void CDrawToolDlg::clearDrawMap()

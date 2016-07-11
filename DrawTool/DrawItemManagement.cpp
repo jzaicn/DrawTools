@@ -110,3 +110,8 @@ void DrawItemManagement::setDrawRect(CRect drawRect)
 {
 	m_drawRect = drawRect;
 }
+
+CRect DrawItemManagement::getDrawRect()
+{
+	return m_drawRect;
+}

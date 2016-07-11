@@ -49,8 +49,8 @@ public:
 
 	void setRect(int x1,int y1,int x2,int y2);
 	void setRect(CPoint topLeft,CPoint bottomRight);
-	void beginActive();
-	void endActive();
+	void beginActive(CPoint point);
+	void endActive(CPoint point);
 private:
 	bool m_isActive;
 	CRect m_myRect;

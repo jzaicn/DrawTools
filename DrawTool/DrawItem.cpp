@@ -1,13 +1,15 @@
 #include "StdAfx.h"
 #include "DrawItem.h"
 
+#include "L4Cpp.h"
+
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
 
 DrawItemBase::DrawItemBase()
 {
-	bool m_isActive = false;
+	m_isActive = false;
 	m_posStart = CPoint(0,0);
 	m_myRect = CRect(0,0,0,0);
 }
@@ -39,7 +41,6 @@ int DrawItemBase::getZIndex()
 
 void DrawItemBase::OnPaint( Graphics &g )
 {
-	
 	g.FillRectangle(&SolidBrush(Color::Blue), m_myRect.left,m_myRect.top,m_myRect.Width(),m_myRect.Height());
 }
 
@@ -81,12 +82,12 @@ void DrawItemBase::OnLButtonDown(CPoint point)
 		//有效的时候，譬如布置的时候，点击意味着确认摆放
 		if (isActive())
 		{
-			endActive();
+			endActive(point);
 		}
 		//无效的时候，譬如静止，点击意味着受到点选
 		else
 		{
-			beginActive();
+			beginActive(point);
 		}
 	}
 }
@@ -98,7 +99,7 @@ void DrawItemBase::OnLButtonUp(CPoint point)
 		//有效的时候，譬如布置的时候，释放意味着确认摆放
 		if (isActive())
 		{
-			endActive();
+			endActive(point);
 		}
 	}
 }
@@ -113,14 +114,22 @@ void DrawItemBase::OnRButtonUp(CPoint point)
 
 }
 
-void DrawItemBase::beginActive()
+void DrawItemBase::beginActive(CPoint point)
 {
 	m_isActive = true;
+
+	m_posStart = point;
+
+	L4Cpp::Log()->debug("beginActive");
 }
 
-void DrawItemBase::endActive()
+void DrawItemBase::endActive(CPoint point)
 {
 	m_isActive = false;
+
+	m_posStart = point;
+
+	L4Cpp::Log()->debug("endActive");
 }
 
 void DrawItemBase::setRect(int x1,int y1,int x2,int y2)

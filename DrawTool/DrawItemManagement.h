@@ -29,5 +29,6 @@ public:
 	void addDrawItem(IDrawItem* drawItem);
 	void clearDrawItem();
 	void setDrawRect(CRect drawRect);
+	CRect getDrawRect();
 };
 
