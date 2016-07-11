@@ -14,50 +14,50 @@ DrawItemBase::DrawItemBase()
 	m_myRect = CRect(0,0,0,0);
 }
 
-
 DrawItemBase::~DrawItemBase(void)
 {
 }
 
+//获得包围矩形
 CRect DrawItemBase::getRect()
 {
 	return m_myRect;
 }
 
+//获得类型
 CString DrawItemBase::getType()
 {
 	return CString();
 }
 
+//获得ID
 CString DrawItemBase::getID()
 {
 	return CString();
 }
 
+//获得顺序
 int DrawItemBase::getZIndex()
 {
 	return 0;
 }
 
+//画图
 void DrawItemBase::OnPaint( Graphics &g )
 {
 	g.FillRectangle(&SolidBrush(Color::Blue), m_myRect.left,m_myRect.top,m_myRect.Width(),m_myRect.Height());
 }
 
+//是否可用
 bool DrawItemBase::isActive()
 {
 	return m_isActive;
 }
 
+//是否选中，//TODO: 应该抽取到策略中
 bool DrawItemBase::checkSelected( CPoint point )
 {
 	return (bool)(m_myRect.PtInRect(point));
-}
-
-bool DrawItemBase::checkMovable( const std::vector<IDrawItem>& allItem,CPoint dstPoint )
-{
-	//TODO: 将会抽出
-	return true;
 }
 
 void DrawItemBase::OnCommand( CString command,CString param )
@@ -114,6 +114,7 @@ void DrawItemBase::OnRButtonUp(CPoint point)
 
 }
 
+//开始启动
 void DrawItemBase::beginActive(CPoint point)
 {
 	m_isActive = true;
@@ -122,7 +123,7 @@ void DrawItemBase::beginActive(CPoint point)
 
 	L4Cpp::Log()->debug("beginActive");
 }
-
+//结束启动
 void DrawItemBase::endActive(CPoint point)
 {
 	m_isActive = false;
@@ -131,11 +132,12 @@ void DrawItemBase::endActive(CPoint point)
 
 	L4Cpp::Log()->debug("endActive");
 }
-
+//设置矩形位置，矩形必须而接口非必须
 void DrawItemBase::setRect(int x1,int y1,int x2,int y2)
 {
 	m_myRect.SetRect(x1,y1,x2,y2);
 }
+//设置矩形位置，矩形必须而接口非必须
 void DrawItemBase::setRect(CPoint topLeft,CPoint bottomRight)
 {
 	m_myRect.SetRect(topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);

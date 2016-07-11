@@ -13,7 +13,6 @@ public:
 	virtual void OnPaint(Graphics &g) = 0;
 	virtual bool isActive() = 0;
 	virtual bool checkSelected(CPoint point) = 0;
-	virtual bool checkMovable(const std::vector<IDrawItem>& allItem,CPoint dstPoint) = 0;
 
 	virtual void OnCommand(CString command,CString param) = 0;
 	virtual void OnMouseMove( CPoint point ) = 0;
@@ -38,7 +37,6 @@ public:
 
 	virtual bool isActive();
 	virtual bool checkSelected( CPoint point );
-	virtual bool checkMovable( const std::vector<IDrawItem>& allItem,CPoint dstPoint );
 
 	virtual void OnCommand( CString command,CString param );
 	virtual void OnMouseMove( CPoint point );
