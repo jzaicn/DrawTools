@@ -4,6 +4,7 @@
 
 class IDrawItem
 {
+public:
 	virtual CRect getRect() = 0;
 	virtual CString getType() = 0;
 	virtual CString getID() = 0;
@@ -15,7 +16,7 @@ class IDrawItem
 	virtual bool checkMovable(const std::vector<IDrawItem>& allItem,CPoint dstPoint) = 0;
 
 	virtual void OnCommand(CString command,CString param) = 0;
-	virtual void OnMove( CPoint point ) = 0;
+	virtual void OnMouseMove( CPoint point ) = 0;
 	virtual void OnLButtonDown(CPoint point) = 0;
 	virtual void OnLButtonUp(CPoint point) = 0;
 	virtual void OnRButtonDown(CPoint point) = 0;
@@ -40,7 +41,7 @@ public:
 	virtual bool checkMovable( const std::vector<IDrawItem>& allItem,CPoint dstPoint );
 
 	virtual void OnCommand( CString command,CString param );
-	virtual void OnMove( CPoint point );
+	virtual void OnMouseMove( CPoint point );
 	virtual void OnLButtonDown(CPoint point);
 	virtual void OnLButtonUp(CPoint point);
 	virtual void OnRButtonDown(CPoint point);

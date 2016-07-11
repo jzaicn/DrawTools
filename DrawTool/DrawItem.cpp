@@ -63,7 +63,7 @@ void DrawItemBase::OnCommand( CString command,CString param )
 {
 }
 
-void DrawItemBase::OnMove( CPoint point )
+void DrawItemBase::OnMouseMove( CPoint point )
 {
 	if (isActive())
 	{

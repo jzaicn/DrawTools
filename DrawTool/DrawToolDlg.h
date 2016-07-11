@@ -4,8 +4,12 @@
 
 #pragma once
 
+#include "stdafx.h"
 #include <vector>
 #include "UI/SkinButton.h"
+
+
+#include "DrawItemManagement.h"
 
 // CDrawToolDlg ¶Ô»°¿ò
 class CDrawToolDlg : public CDialogEx
@@ -52,6 +56,9 @@ private:
 	std::vector<CSkinButton*> m_vpDragableRect;
 	int m_nSelectedDragRect;
 	CPoint m_ptDragStartPos;
+
+
+	DrawItemManagement m_manager;
 
 public:
 	//////////////////////////////////////////////////////////////////////////
