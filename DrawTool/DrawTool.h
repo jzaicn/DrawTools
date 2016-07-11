@@ -27,6 +27,12 @@ public:
 // й╣ож
 
 	DECLARE_MESSAGE_MAP()
+
+protected:
+	Gdiplus::GdiplusStartupInput m_gdiplusStartupInput;
+	ULONG_PTR m_pGdiToken;
+public:
+	virtual int ExitInstance();
 };
 
 extern CDrawToolApp theApp;

@@ -6,41 +6,13 @@
 #include "DrawTool.h"
 #include "DrawToolDlg.h"
 #include "afxdialogex.h"
+#include "DrawItem.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
-// 用于应用程序“关于”菜单项的 CAboutDlg 对话框
-
-class CAboutDlg : public CDialogEx
-{
-public:
-	CAboutDlg();
-
-// 对话框数据
-	enum { IDD = IDD_ABOUTBOX };
-
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
-
-// 实现
-protected:
-	DECLARE_MESSAGE_MAP()
-};
-
-CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
-{
-}
-
-void CAboutDlg::DoDataExchange(CDataExchange* pDX)
-{
-	CDialogEx::DoDataExchange(pDX);
-}
-
-BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
-END_MESSAGE_MAP()
 
 
 // CDrawToolDlg 对话框
@@ -63,6 +35,16 @@ BEGIN_MESSAGE_MAP(CDrawToolDlg, CDialogEx)
 	ON_WM_SYSCOMMAND()
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_WM_KEYDOWN()
+	ON_WM_ERASEBKGND()
+	ON_WM_MOUSEMOVE()
+//	ON_WM_MOUSEWHEEL()
+ON_WM_LBUTTONDOWN()
+ON_WM_LBUTTONUP()
+ON_WM_RBUTTONDOWN()
+ON_WM_RBUTTONUP()
+ON_BN_CLICKED(IDC_RELOAD, &CDrawToolDlg::OnBnClickedReload)
+ON_BN_CLICKED(IDC_INPUTITEM, &CDrawToolDlg::OnBnClickedInputitem)
 END_MESSAGE_MAP()
 
 
@@ -101,6 +83,9 @@ BOOL CDrawToolDlg::OnInitDialog()
 
 	// TODO: 在此添加额外的初始化代码
 
+	m_rcDragArea.SetRect(0, 0, 300, 300);
+
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -108,8 +93,7 @@ void CDrawToolDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
 	{
-		CAboutDlg dlgAbout;
-		dlgAbout.DoModal();
+
 	}
 	else
 	{
@@ -142,7 +126,36 @@ void CDrawToolDlg::OnPaint()
 	}
 	else
 	{
-		CDialogEx::OnPaint();
+		CPaintDC dc(this);
+
+		CRect rcClient;
+		GetClientRect(rcClient);
+
+		CDC dcMem;
+		dcMem.CreateCompatibleDC(&dc);
+		CBitmap bmpMem;
+		bmpMem.CreateCompatibleBitmap(&dc, rcClient.Width(), rcClient.Height());
+		dcMem.SelectObject(&bmpMem);
+
+		Graphics g(dcMem.m_hDC);
+		COLORREF colBK = GetSysColor(CTLCOLOR_DLG);//GetBkColor(dc.m_hDC);
+
+		g.FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), rcClient.left, rcClient.top, rcClient.Width(), rcClient.Height());
+		g.FillRectangle(&SolidBrush(Color::Black), m_rcDragArea.left, m_rcDragArea.top, m_rcDragArea.Width(), m_rcDragArea.Height());
+
+
+		for(int i = 0; i < m_vpDragableRect.size(); i++)
+		{
+			m_vpDragableRect[i]->Draw(g);
+		}
+
+		dc.BitBlt(0, 0, rcClient.Width(), rcClient.Height(), &dcMem, 0, 0, SRCCOPY);
+
+		bmpMem.DeleteObject();
+		dcMem.DeleteDC();
+
+
+		//CDialogEx::OnPaint();
 	}
 }
 
@@ -153,3 +166,119 @@ HCURSOR CDrawToolDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+
+
+void CDrawToolDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
+}
+
+
+BOOL CDrawToolDlg::OnEraseBkgnd(CDC* pDC)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	return TRUE;
+	//return CDialogEx::OnEraseBkgnd(pDC);
+}
+
+
+void CDrawToolDlg::OnMouseMove(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	if(m_nSelectedDragRect != -1 && m_nSelectedDragRect < m_vpDragableRect.size())
+	{
+		CRect rc = (CRect)(*(m_vpDragableRect[m_nSelectedDragRect]));
+		rc.OffsetRect(point.x - m_ptDragStartPos.x, point.y - m_ptDragStartPos.y);
+		m_vpDragableRect[m_nSelectedDragRect]->SetRect(rc.left, rc.top, rc.right, rc.bottom);
+		m_ptDragStartPos = point;
+		InvalidateRect(m_rcDragArea);
+	}
+	else
+	{
+		for(int i = 0; i < m_vpDragableRect.size(); i++)
+		{
+			if (m_vpDragableRect[i]->PtInRect(point) &&  m_vpDragableRect[i]->GetButtonState() != CSkinButton::bs_Down)
+				m_vpDragableRect[i]->SetButtonState(CSkinButton::bs_Hovered);
+			else if(!m_vpDragableRect[i]->PtInRect(point))
+				m_vpDragableRect[i]->SetButtonState(CSkinButton::bs_Normal);
+
+		}
+	}
+
+
+	CDialogEx::OnMouseMove(nFlags, point);
+}
+
+void CDrawToolDlg::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	for(int i = 0; i < m_vpDragableRect.size(); i++)
+	{
+		if (m_vpDragableRect[i]->PtInRect(point))
+		{
+			m_vpDragableRect[i]->SetButtonState(CSkinButton::bs_Down);
+			m_nSelectedDragRect = i;
+			m_ptDragStartPos = point;
+			break;
+		}
+	}
+
+
+	CDialogEx::OnLButtonDown(nFlags, point);
+}
+
+
+void CDrawToolDlg::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+
+	if(m_nSelectedDragRect != -1 && m_nSelectedDragRect < m_vpDragableRect.size())
+	{
+		m_vpDragableRect[m_nSelectedDragRect]->SetButtonState(CSkinButton::bs_Hovered);
+		m_nSelectedDragRect = -1;
+		InvalidateRect(m_rcDragArea);
+	}
+
+	CDialogEx::OnLButtonUp(nFlags, point);
+}
+
+
+void CDrawToolDlg::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDialogEx::OnRButtonDown(nFlags, point);
+}
+
+
+void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CDialogEx::OnRButtonUp(nFlags, point);
+}
+
+
+void CDrawToolDlg::OnBnClickedReload()
+{
+	// TODO: 在此添加控件通知处理程序代码
+}
+
+
+void CDrawToolDlg::OnBnClickedInputitem()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	CSkinButton* pNewBtn = new CSkinButton(L"", 0, 0, 0, this);
+	m_vpDragableRect.push_back(pNewBtn);
+
+	int nPanelWidth = 50;
+	int nPanelHeight = 50;
+
+	pNewBtn->SetRect(m_rcDragArea.left, m_rcDragArea.top, m_rcDragArea.left+nPanelWidth, m_rcDragArea.top+nPanelHeight);
+
+	InvalidateRect(m_rcDragArea);
+}

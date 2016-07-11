@@ -67,6 +67,8 @@ BOOL CDrawToolApp::InitInstance()
 	// 例如修改为公司或组织名
 	SetRegistryKey(_T("应用程序向导生成的本地应用程序"));
 
+	Gdiplus::GdiplusStartup(&m_pGdiToken,&m_gdiplusStartupInput,NULL); 
+
 	CDrawToolDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
@@ -92,3 +94,10 @@ BOOL CDrawToolApp::InitInstance()
 	return FALSE;
 }
 
+int CDrawToolApp::ExitInstance()
+{
+	// TODO: 在此添加专用代码和/或调用基类
+	GdiplusShutdown(m_pGdiToken);
+
+	return CWinApp::ExitInstance();
+}
