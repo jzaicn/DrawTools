@@ -166,8 +166,11 @@ HCURSOR CDrawToolDlg::OnQueryDragIcon()
 	return static_cast<HCURSOR>(m_hIcon);
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
-
+//按下按键
 void CDrawToolDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
@@ -175,14 +178,12 @@ void CDrawToolDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
-
 BOOL CDrawToolDlg::OnEraseBkgnd(CDC* pDC)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	return TRUE;
 	//return CDialogEx::OnEraseBkgnd(pDC);
 }
-
 
 void CDrawToolDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
@@ -230,7 +231,6 @@ void CDrawToolDlg::OnLButtonDown(UINT nFlags, CPoint point)
 	CDialogEx::OnLButtonDown(nFlags, point);
 }
 
-
 void CDrawToolDlg::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
@@ -246,14 +246,12 @@ void CDrawToolDlg::OnLButtonUp(UINT nFlags, CPoint point)
 	CDialogEx::OnLButtonUp(nFlags, point);
 }
 
-
 void CDrawToolDlg::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 
 	CDialogEx::OnRButtonDown(nFlags, point);
 }
-
 
 void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
 {
@@ -262,10 +260,16 @@ void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
 	CDialogEx::OnRButtonUp(nFlags, point);
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
 void CDrawToolDlg::OnBnClickedReload()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	clearDrawMap();
+
+	
+
 }
 
 
@@ -273,12 +277,25 @@ void CDrawToolDlg::OnBnClickedInputitem()
 {
 	// TODO: 在此添加控件通知处理程序代码
 	CSkinButton* pNewBtn = new CSkinButton(L"", 0, 0, 0, this);
-	m_vpDragableRect.push_back(pNewBtn);
-
 	int nPanelWidth = 50;
 	int nPanelHeight = 50;
-
 	pNewBtn->SetRect(m_rcDragArea.left, m_rcDragArea.top, m_rcDragArea.left+nPanelWidth, m_rcDragArea.top+nPanelHeight);
 
+	addItemDrawMap(pNewBtn);
+
 	InvalidateRect(m_rcDragArea);
+}
+
+void CDrawToolDlg::clearDrawMap()
+{
+	for (int i = 0;i<m_vpDragableRect.size();i++)
+	{
+		delete m_vpDragableRect[i];
+	}
+	m_vpDragableRect.clear();
+}
+
+void CDrawToolDlg::addItemDrawMap(CSkinButton* drawItem)
+{
+	m_vpDragableRect.push_back(drawItem);
 }

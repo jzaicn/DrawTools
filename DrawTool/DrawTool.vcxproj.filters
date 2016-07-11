@@ -45,6 +45,9 @@
     <ClInclude Include="UI\SkinButton.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="StrategyItem.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DrawTool.cpp">
@@ -60,6 +63,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="UI\SkinButton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StrategyItem.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
