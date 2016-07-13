@@ -12,11 +12,12 @@ public:
 
 private:
 	CRect m_drawRect;
-	std::vector<IDrawItem*> m_DrawItemList;
+	std::vector<IDrawItem*> m_staticDrawItemList;
+	std::vector<IDrawItem*> m_activeDrawItemList;
 
 public:
-	void OnPaintWithoutPrework(Graphics& g);
 	void OnPaint(CPaintDC& dc);
+	void OnPaintWithoutPrework(Graphics& g);
 	void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
 	BOOL OnEraseBkgnd(CDC* pDC);
 	void OnMouseMove(UINT nFlags, CPoint point);
@@ -27,8 +28,12 @@ public:
 
 public:
 	void addDrawItem(IDrawItem* drawItem);
+	std::vector<IDrawItem*>& getDrawItemList();
 	void clearDrawItem();
 	void setDrawRect(CRect drawRect);
 	CRect getDrawRect();
+
+public:
+	bool checkMoveable(IDrawItem* item , CPoint point);
 };
 

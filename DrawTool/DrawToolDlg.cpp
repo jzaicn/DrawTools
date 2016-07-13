@@ -87,6 +87,10 @@ BOOL CDrawToolDlg::OnInitDialog()
 	rcClient.bottom -= 120;
 	m_manager.setDrawRect(rcClient);
 
+	CreateOutterFrame(rcClient);
+
+
+
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -232,16 +236,6 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
-// 	// TODO: 在此添加控件通知处理程序代码
-// 	CSkinButton* pNewBtn = new CSkinButton(L"", 0, 0, 0, this);
-// 	int nPanelWidth = 50;
-// 	int nPanelHeight = 50;
-// 	pNewBtn->SetRect(m_rcDragArea.left, m_rcDragArea.top, m_rcDragArea.left+nPanelWidth, m_rcDragArea.top+nPanelHeight);
-// 
-// 	addItemDrawMap(pNewBtn);
-// 
-// 	InvalidateRect(m_rcDragArea);
-
 	DrawItemBase* item = new DrawItemBase();
 	item->setRect(0,0,100,100);
 	m_manager.addDrawItem(item);
@@ -256,5 +250,24 @@ void CDrawToolDlg::clearDrawMap()
 
 void CDrawToolDlg::addItemDrawMap(CSkinButton* drawItem)
 {
-//	m_vpDragableRect.push_back(drawItem);
+
+}
+
+void CDrawToolDlg::CreateOutterFrame( CRect &rcClient )
+{
+	DrawItemBase* leftBorder = new DrawItemBase();
+	leftBorder->setRect(rcClient.left - 10,rcClient.top,rcClient.left,rcClient.bottom);
+	m_manager.addDrawItem(leftBorder);
+
+	DrawItemBase* rightBorder = new DrawItemBase();
+	leftBorder->setRect(rcClient.right,rcClient.top,rcClient.right + 10,rcClient.bottom);
+	m_manager.addDrawItem(rightBorder);
+
+	DrawItemBase* topBorder = new DrawItemBase();
+	leftBorder->setRect(rcClient.left,rcClient.top - 10,rcClient.right,rcClient.top);
+	m_manager.addDrawItem(topBorder);
+
+	DrawItemBase* bottomBorder = new DrawItemBase();
+	leftBorder->setRect(rcClient.left,rcClient.bottom ,rcClient.right,rcClient.bottom + 10);
+	m_manager.addDrawItem(bottomBorder);
 }

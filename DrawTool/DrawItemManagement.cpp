@@ -11,7 +11,23 @@ DrawItemManagement::DrawItemManagement(void)
 DrawItemManagement::~DrawItemManagement(void)
 {
 }
-
+// 
+// void DrawItemManagement::OnPaint(CPaintDC& dc)
+// {
+// 	CDC dcMem;
+// 	dcMem.CreateCompatibleDC(&dc);
+// 	CBitmap bmpMem;
+// 	bmpMem.CreateCompatibleBitmap(&dc, m_drawRect.Width(), m_drawRect.Height());
+// 	dcMem.SelectObject(&bmpMem);
+// 	Graphics g(dcMem.m_hDC);
+// 
+// 	OnPaintWithoutPrework(g);	//画图
+// 
+// 	dc.BitBlt(0, 0, m_drawRect.Width(), m_drawRect.Height(), &dcMem, 0, 0, SRCCOPY);
+// 
+// 	bmpMem.DeleteObject();
+// 	dcMem.DeleteDC();
+// }
 
 void DrawItemManagement::OnPaintWithoutPrework(Graphics& g)
 {
@@ -21,26 +37,16 @@ void DrawItemManagement::OnPaintWithoutPrework(Graphics& g)
 	//画每个子元素
 	for(int i = 0; i < m_DrawItemList.size(); i++)
 	{
-		m_DrawItemList[i]->OnPaint(g);
+		m_staticDrawItemList[i]->OnPaint(g);
+	}
+
+	//画每个子元素
+	for(int i = 0; i < m_DrawItemList.size(); i++)
+	{
+		m_activeDrawItemList[i]->OnPaint(g);
 	}
 }
 
-void DrawItemManagement::OnPaint(CPaintDC& dc)
-{
-	CDC dcMem;
-	dcMem.CreateCompatibleDC(&dc);
-	CBitmap bmpMem;
-	bmpMem.CreateCompatibleBitmap(&dc, m_drawRect.Width(), m_drawRect.Height());
-	dcMem.SelectObject(&bmpMem);
-	Graphics g(dcMem.m_hDC);
-
-	OnPaintWithoutPrework(g);	//画图
-
-	dc.BitBlt(0, 0, m_drawRect.Width(), m_drawRect.Height(), &dcMem, 0, 0, SRCCOPY);
-
-	bmpMem.DeleteObject();
-	dcMem.DeleteDC();
-}
 
 void DrawItemManagement::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
@@ -54,9 +60,22 @@ BOOL DrawItemManagement::OnEraseBkgnd(CDC* pDC)
 
 void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
 {
-	for (int i = 0;i<m_DrawItemList.size();i++)
+	
+
+	for (int i = 0;i<m_activeDrawItemList.size();i++)
 	{
-		m_DrawItemList[i]->OnMouseMove(point);
+		CRect itemRect = m_activeDrawItemList[i]->getRect();
+
+
+		HRGN itemRgn=CreateRectRgn(itemRect.left,itemRect.top,itemRect.right,itemRect.bottom);
+		CombineRgn(crashRgn,itemRgn,crashRgn,RGN_OR);
+		Region rgn(RectF(10,10,100,200));  
+
+
+		if (checkMoveable(m_DrawItemList[i],point))
+		{
+			m_DrawItemList[i]->OnMouseMove(point);
+		}
 	}
 }
 
@@ -92,9 +111,32 @@ void DrawItemManagement::OnRButtonUp(UINT nFlags, CPoint point)
 	}
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void DrawItemManagement::addDrawItem(IDrawItem* drawItem)
 {
 	m_DrawItemList.push_back(drawItem);
+}
+
+std::vector<IDrawItem*>& DrawItemManagement::getDrawItemList()
+{
+	return m_DrawItemList;
 }
 
 void DrawItemManagement::clearDrawItem()
@@ -115,3 +157,13 @@ CRect DrawItemManagement::getDrawRect()
 {
 	return m_drawRect;
 }
+
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
+bool DrawItemManagement::checkMoveable(IDrawItem* item , CPoint point)
+{
+
+	return m_drawRect.PtInRect(point);
+}
+

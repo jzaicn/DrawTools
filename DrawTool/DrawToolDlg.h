@@ -32,6 +32,8 @@ protected:
 	//////////////////////////////////////////////////////////////////////////
 	// 生成的消息映射函数
 	virtual BOOL OnInitDialog();
+
+
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
@@ -64,9 +66,10 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	//按钮事件
 	afx_msg void OnBnClickedReload();
+	afx_msg void OnBnClickedInputitem();
 
 	void clearDrawMap();
 	void addItemDrawMap(CSkinButton* drawItem);
+	void CreateOutterFrame( CRect &rcClient );
 
-	afx_msg void OnBnClickedInputitem();
 };
