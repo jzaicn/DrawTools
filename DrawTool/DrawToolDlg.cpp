@@ -237,9 +237,16 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
-	DrawItemBase* item = new DrawItemBase();
-	item->setRect(0,0,100,100);
-	m_manager.addDrawItem(item);
+	std::vector<CPoint> points;
+	points.push_back(CPoint(0,0));
+	points.push_back(CPoint(100,50));
+	points.push_back(CPoint(50,100));
+	DrawItemSmallPanel* panel = new DrawItemSmallPanel(points);
+	m_manager.addDrawItem(panel);
+
+// 	DrawItemBase* item = new DrawItemBase();
+// 	item->setRect(0,0,100,100);
+// 	m_manager.addDrawItem(item);
 
 	InvalidateRect(m_manager.getDrawRect());
 }
@@ -257,18 +264,18 @@ void CDrawToolDlg::addItemDrawMap(CSkinButton* drawItem)
 void CDrawToolDlg::CreateOutterFrame( CRect &rcClient )
 {
 	DrawItemBase* leftBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.left - 10,rcClient.top,rcClient.left,rcClient.bottom);
+	leftBorder->setRect(rcClient.left - 10,rcClient.top,rcClient.left + 15,rcClient.bottom);
 	m_manager.addDrawItem(leftBorder);
 
 	DrawItemBase* rightBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.right,rcClient.top,rcClient.right + 10,rcClient.bottom);
+	leftBorder->setRect(rcClient.right -15 ,rcClient.top,rcClient.right + 10,rcClient.bottom);
 	m_manager.addDrawItem(rightBorder);
 
 	DrawItemBase* topBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.left,rcClient.top - 10,rcClient.right,rcClient.top);
+	leftBorder->setRect(rcClient.left,rcClient.top + 10,rcClient.right,rcClient.top-15);
 	m_manager.addDrawItem(topBorder);
 
 	DrawItemBase* bottomBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.left,rcClient.bottom ,rcClient.right,rcClient.bottom + 10);
+	leftBorder->setRect(rcClient.left,rcClient.bottom +15 ,rcClient.right,rcClient.bottom - 10);
 	m_manager.addDrawItem(bottomBorder);
 }

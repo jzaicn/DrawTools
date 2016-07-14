@@ -41,18 +41,18 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
 	//处理组件鼠标着色
 	if (1)
 	{
-		//SetActiveState(DrawItemBase::StateDown);
+		SetActiveState(DrawItemBase::StateDown);
 
 
 		for(int i = 0; i < m_staticDrawItemList.size(); i++)
 		{
 			if (m_staticDrawItemList[i]->IsVisible(point))
 			{
-				//m_staticDrawItemList[i]->setState(DrawItemBase::StateHovered);
+				m_staticDrawItemList[i]->setState(DrawItemBase::StateHovered);
 			}
 			else
 			{
-				//m_staticDrawItemList[i]->setState(DrawItemBase::StateNormal);
+				m_staticDrawItemList[i]->setState(DrawItemBase::StateNormal);
 			}
 		}
 	}

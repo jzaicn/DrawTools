@@ -121,6 +121,9 @@ public:
 	virtual Gdiplus::Region* getCloneRigon();
 	virtual bool IsVisible(CPoint point);
 
+private:
+	Point* getOutlineArr();
+
 protected:
 	std::vector<CPoint> m_outlines;
 };

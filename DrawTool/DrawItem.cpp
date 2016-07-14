@@ -27,18 +27,27 @@ const int DrawItemBase::StateError = 4;
 //实际基础类
 DrawItemBase::DrawItemBase()
 {
+	m_type = "";
+	m_ID = "";
+	m_order = 0;
 	m_state = StateNormal;
 	m_myRect = CRect(0,0,0,0);
 }
 
 DrawItemBase::DrawItemBase(CPoint topLeft,CPoint bottomRight)
 {
+	m_type = "";
+	m_ID = "";
+	m_order = 0;
 	m_state = StateNormal;
 	m_myRect = CRect(topLeft,bottomRight);
 }
 
 DrawItemBase::DrawItemBase(CRect rect)
 {
+	m_type = "";
+	m_ID = "";
+	m_order = 0;
 	m_state = StateNormal;
 	m_myRect = rect;
 }
@@ -190,7 +199,7 @@ DrawItemSmallPanel::~DrawItemSmallPanel()
 
 void DrawItemSmallPanel::OnPaint( Graphics &g )
 {
-
+	DrawItemBase::OnPaint(g);
 }
 
 void DrawItemSmallPanel::setOutline(std::vector<CPoint> outlines)
@@ -256,19 +265,47 @@ CRect DrawItemSmallPanel::getRect()
 
 Gdiplus::Region* DrawItemSmallPanel::getCloneRigon()
 {
-	
-// 
-// 	GraphicsPath path;
-// 	path.AddPolygon()
-// 
-// 	Region region()
-
-
-	return NULL;
+	if (m_outlines.size()>0)
+	{
+		GraphicsPath path;
+		Point* outlineArr = getOutlineArr();
+		path.AddPolygon(outlineArr,m_outlines.size());
+		Region region(&path);
+		delete outlineArr;
+		return region.Clone(); 
+	}
+	else
+	{
+		Region region;
+		return region.Clone();
+	}
 }
 bool DrawItemSmallPanel::IsVisible(CPoint point)
 {
-	return false;
+	if (m_outlines.size()>0)
+	{
+		GraphicsPath path;
+		Point* outlineArr = getOutlineArr();
+		path.AddPolygon(outlineArr,m_outlines.size());
+		Region region(&path);
+		delete outlineArr;
+		return region.IsVisible(point.x,point.y);
+	}
+	else
+	{
+		return false;
+	}
+}
+
+Point* DrawItemSmallPanel::getOutlineArr()
+{
+	Point* outlineArr = new Point[m_outlines.size()];
+	for (int i = 0;i<m_outlines.size();i++)
+	{
+		outlineArr[i].X = m_outlines[i].x;
+		outlineArr[i].Y = m_outlines[i].y;
+	}
+	return outlineArr;
 }
 
 #endif
