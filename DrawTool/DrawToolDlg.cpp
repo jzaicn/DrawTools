@@ -291,19 +291,19 @@ void CDrawToolDlg::addItemDrawMap(CSkinButton* drawItem)
 void CDrawToolDlg::CreateOutterFrame( CRect &rcClient )
 {
 	DrawItemBase* leftBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.left - 10,rcClient.top,rcClient.left + 15,rcClient.bottom);
+	leftBorder->setRect(rcClient.left,rcClient.top,rcClient.left + 10,rcClient.bottom);
 	m_manager.addDrawItem(leftBorder);
 
 	DrawItemBase* rightBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.right -15 ,rcClient.top,rcClient.right + 10,rcClient.bottom);
+	rightBorder->setRect(rcClient.right - 10 ,rcClient.top,rcClient.right,rcClient.bottom);
 	m_manager.addDrawItem(rightBorder);
 
 	DrawItemBase* topBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.left,rcClient.top + 10,rcClient.right,rcClient.top-15);
+	topBorder->setRect(rcClient.left,rcClient.top,rcClient.right,rcClient.top + 10);
 	m_manager.addDrawItem(topBorder);
 
 	DrawItemBase* bottomBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.left,rcClient.bottom +15 ,rcClient.right,rcClient.bottom - 10);
+	bottomBorder->setRect(rcClient.left,rcClient.bottom -10 ,rcClient.right,rcClient.bottom);
 	m_manager.addDrawItem(bottomBorder);
 }
 

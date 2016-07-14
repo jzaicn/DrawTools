@@ -88,14 +88,14 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
 			m_activeDrawItemList[i]->move(diff);
 		}
 
-// 		//处理活动组件跟静态部分碰撞问题
-// 		if (IsCrashArea())
-// 		{
-// 			for(int i = 0; i < m_activeDrawItemList.size(); i++)
-// 			{
-// 				m_activeDrawItemList[i]->move(rediff);
-// 			}
-// 		}
+		//处理活动组件跟静态部分碰撞问题
+		if (IsCrashArea())
+		{
+			for(int i = 0; i < m_activeDrawItemList.size(); i++)
+			{
+				m_activeDrawItemList[i]->move(rediff);
+			}
+		}
 
 		m_mouseStartPoint = point;
 	}
