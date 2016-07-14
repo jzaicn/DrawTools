@@ -147,7 +147,8 @@ void CDrawToolDlg::OnPaint()
 		COLORREF colBK = GetSysColor(CTLCOLOR_DLG);
 
 		g.FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), rcClient.left, rcClient.top, rcClient.Width(), rcClient.Height());
-		m_manager.OnPaintWithoutPrework(g);//»­Í¼
+		
+		m_manager.OnPaint(g);//»­Í¼
 
 		
 

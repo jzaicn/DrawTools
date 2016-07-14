@@ -2,9 +2,16 @@
 #include "stdafx.h"
 #include <vector>
 
+/************************************************************************/
+/*  绘图接口                                                            */
+/************************************************************************/
+#if 1
 class IDrawItem
 {
 public:
+	virtual void setState(int state) = 0;	//状态
+	virtual int getState() = 0;				//状态
+
 	virtual void setType(CString type) = 0;	//类型
 	virtual CString getType() = 0;			//类型
 
@@ -22,9 +29,14 @@ public:
 	virtual void setRect(CRect rect) = 0;	//区域
 	virtual CRect getRect() = 0;			//区域
 
-	virtual Region getRigon() = 0;			//区域
+	virtual Gdiplus::Region* getCloneRigon() = 0;			//区域
+	virtual bool IsVisible(CPoint point) = 0;		//区域判断
 };
-
+#endif
+/************************************************************************/
+/*  绘图基类                                                            */
+/************************************************************************/
+#if 1
 class DrawItemBase : public IDrawItem
 {
 public:
@@ -32,6 +44,9 @@ public:
 	DrawItemBase(CPoint topLeft,CPoint bottomRight);
 	DrawItemBase(CRect rect);
 	virtual ~DrawItemBase(void);
+
+	virtual void setState(int state);
+	virtual int getState();
 
 	virtual void setType(CString type);
 	virtual CString getType();
@@ -45,21 +60,17 @@ public:
 	virtual void OnPaint( Graphics &g );
 	
 	virtual void moveTo(CPoint point);
-	void moveTo(LONG x,LONG y);
-
 	virtual void move(CPoint offset);
-	void move(LONG x,LONG y);
 
-	virtual void setRect(CRect rect);
+	virtual void setRect( CRect rect );
 	void setRect(CPoint topLeft,CPoint bottomRight);
 	void setRect(int x1,int y1,int x2,int y2);
 	virtual CRect getRect();
 
 	std::vector<CPoint> getPoints();
-	virtual Region getRigon();
+	virtual Gdiplus::Region* getCloneRigon();
+	virtual bool IsVisible(CPoint point);
 
-	void setState(int state);
-	int getState();
 	
 public:
 	static Color ColorNormal;
@@ -67,12 +78,12 @@ public:
 	static Color ColorDisable;
 	static Color ColorDown;
 	static Color ColorError;
-
-	static int StateNormal;
-	static int StateHovered;
-	static int StateDisable;
-	static int StateDown;
-	static int StateError;
+	
+	const static int StateNormal;
+	const static int StateHovered;
+	const static int StateDisable;
+	const static int StateDown;
+	const static int StateError;
 
 protected:
 	CString m_type;
@@ -81,16 +92,36 @@ protected:
 	int m_state;
 	CRect m_myRect;
 };
-/*
+#endif
+/************************************************************************/
+/*  绘图小板类                                                            */
+/************************************************************************/
+#if 1
 class DrawItemSmallPanel : public DrawItemBase
 {
 public:
-	DrawItemSmallPanel();
+	DrawItemSmallPanel();	
+	DrawItemSmallPanel(CPoint topLeft,CPoint bottomRight);
+	DrawItemSmallPanel(CRect rect);
+	DrawItemSmallPanel(const std::vector<CPoint>& outlines);
 	~DrawItemSmallPanel();
 
 public:
-	void setOutline(const std::vector<CPoint>& outlines);
+	void setOutline(std::vector<CPoint> outlines);
+	std::vector<CPoint> getOutline();
+
+	virtual void OnPaint( Graphics &g );
+
+	virtual void moveTo(CPoint point);
+	virtual void move(CPoint offset);
+
+	virtual void setRect(CRect rect);
+	virtual CRect getRect();
+
+	virtual Gdiplus::Region* getCloneRigon();
+	virtual bool IsVisible(CPoint point);
 
 protected:
-	std::vector<CPoint> outlines;
-};*/
+	std::vector<CPoint> m_outlines;
+};
+#endif

@@ -6,22 +6,22 @@
 /************************************************************************/
 /*  绘图基类                                                            */
 /************************************************************************/
-
+#if 1
 //////////////////////////////////////////////////////////////////////////
 // 基础颜色定义
 Color DrawItemBase::ColorNormal = Color(228, 238, 249);
 Color DrawItemBase::ColorHovered = Color(242, 247, 252);
 Color DrawItemBase::ColorDisable = Color(211, 216, 224);
-Color DrawItemBase::ColorDown = Color(0, 0 ,0);
+Color DrawItemBase::ColorDown = Color(255, 255 ,255);
 Color DrawItemBase::ColorError = Color(230, 12,3);
 
 //////////////////////////////////////////////////////////////////////////
 // 基础状态定义
-int DrawItemBase::StateNormal = 0;
-int DrawItemBase::StateHovered = 1;
-int DrawItemBase::StateDisable = 2;
-int DrawItemBase::StateDown = 3;
-int DrawItemBase::StateError = 4;
+const int DrawItemBase::StateNormal = 0;
+const int DrawItemBase::StateHovered = 1;
+const int DrawItemBase::StateDisable = 2;
+const int DrawItemBase::StateDown = 3;
+const int DrawItemBase::StateError = 4;
 
 //////////////////////////////////////////////////////////////////////////
 //实际基础类
@@ -45,6 +45,15 @@ DrawItemBase::DrawItemBase(CRect rect)
 
 DrawItemBase::~DrawItemBase(void)
 {
+}
+
+void DrawItemBase::setState(int state)
+{
+	m_state = state;
+}
+int DrawItemBase::getState()
+{
+	return m_state;
 }
 
 void DrawItemBase::setType(CString type)
@@ -76,61 +85,58 @@ int DrawItemBase::getOrder()
 
 void DrawItemBase::OnPaint( Graphics &g )
 {
-	switch(m_state)
+	Region* region = getCloneRigon();
+	if (StateNormal == m_state)
 	{
-	case StateNormal:
-		g.FillRectangle(&SolidBrush(ColorNormal), getRigon());
-		break;
-	case StateHovered:
-		g.FillRectangle(&SolidBrush(ColorHovered), getRigon());
-		break;
-	case StateDisable:
-		g.FillRectangle(&SolidBrush(ColorDisable), getRigon());
-		break;
-	case StateDown:
-		g.FillRectangle(&SolidBrush(ColorDown), getRigon());
-		break;
-	case StateError:
-		g.FillRectangle(&SolidBrush(ColorError), getRigon());
-		break;
-	case default:
-		g.FillRectangle(&SolidBrush(ColorNormal), getRigon());
-		break;
+		g.FillRegion(&SolidBrush(ColorNormal), region);
 	}
+	else if (StateHovered == m_state)
+	{
+		g.FillRegion(&SolidBrush(ColorHovered), region);
+	}
+	else if (StateDisable == m_state)
+	{
+		g.FillRegion(&SolidBrush(ColorDisable), region);
+	}
+	else if (StateDown == m_state)
+	{
+		g.FillRegion(&SolidBrush(ColorDown), region);
+	}
+	else if (StateError == m_state)
+	{
+		g.FillRegion(&SolidBrush(ColorError), region);
+	}
+	else
+	{
+		//TODO: 记录日志报错
+		g.FillRegion(&SolidBrush(ColorNormal), region);
+	}
+	delete region;
 }
 
 void DrawItemBase::moveTo(CPoint point)
 {
-	moveTo(point.x,point.y);
-}
-void DrawItemBase::moveTo(LONG x,LONG y)
-{
-	m_myRect.SetRect(x, y, 
-		m_myRect.right - m_myRect.left,
-		m_myRect.bottom - m_myRect.top );
+	m_myRect.MoveToXY(point.x,point.y);
 }
 
 void DrawItemBase::move(CPoint offset)
 {
 	m_myRect.OffsetRect(offset.x,offset.y);
 }
-void DrawItemBase::move(LONG x,LONG y)
-{
-	m_myRect.OffsetRect(x,y);
-}
 
 void DrawItemBase::setRect(CRect rect)
 {
-	m_myRect.SetRect(rect);
+	m_myRect = rect;
 }
 void DrawItemBase::setRect(CPoint topLeft,CPoint bottomRight)
 {
-	m_myRect.SetRect(topLeft,bottomRight);
+	setRect(CRect(topLeft,bottomRight));
 }
 void DrawItemBase::setRect(int x1,int y1,int x2,int y2)
 {
-	m_myRect.SetRect(x1,y1,x2,y2);
+	setRect(CRect(x1,y1,x2,y2));
 }
+
 CRect DrawItemBase::getRect()
 {
 	return m_myRect;
@@ -139,186 +145,130 @@ CRect DrawItemBase::getRect()
 std::vector<CPoint> DrawItemBase::getPoints()
 {
 	std::vector<CPoint> points;
-	points.push_back(m_myRect.TopLeft());
-	points.push_back(m_myRect.BottomRight());
+	points.push_back(getRect().TopLeft());
+	points.push_back(getRect().BottomRight());
+	return points;
 }
-Region DrawItemBase::getRigon()
+Region* DrawItemBase::getCloneRigon()
 {
-	Region region(getRect());
-	return region;
+	CRect rect = getRect();
+	Region region(Rect(rect.left,rect.top,rect.Width(),rect.Height()));
+	return region.Clone();  
 }
 
-void DrawItemBase::setState(int state)
+bool DrawItemBase::IsVisible(CPoint point)
 {
-	m_state = state;
+	CRect rect = getRect();
+	Region region(Rect(rect.left,rect.top,rect.Width(),rect.Height()));
+	return region.IsVisible(point.x,point.y);
 }
-int DrawItemBase::getState()
+#endif
+/************************************************************************/
+/*  绘图小板类                                                            */
+/************************************************************************/
+#if 1
+DrawItemSmallPanel::DrawItemSmallPanel()
 {
-	return m_state;
+
+}
+DrawItemSmallPanel::DrawItemSmallPanel(CPoint topLeft,CPoint bottomRight)
+{
+	m_myRect = CRect(topLeft,bottomRight);
+}
+DrawItemSmallPanel::DrawItemSmallPanel(CRect rect)
+{
+	m_myRect = rect;
+}
+DrawItemSmallPanel::DrawItemSmallPanel(const std::vector<CPoint>& outlines)
+{
+	setOutline(outlines);
+}
+DrawItemSmallPanel::~DrawItemSmallPanel()
+{
+
 }
 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// //获得包围矩形
-// CRect DrawItemBase::getRect()
-// {
-// 	return m_myRect;
-// }
-// 
-// //获得类型
-// CString DrawItemBase::getType()
-// {
-// 	return CString();
-// }
-// 
-// //获得ID
-// CString DrawItemBase::getID()
-// {
-// 	return CString();
-// }
-// 
-// //获得顺序
-// int DrawItemBase::getZIndex()
-// {
-// 	return 0;
-// }
-// 
-// //画图
-// void DrawItemBase::OnPaint( Graphics &g )
-// {
+void DrawItemSmallPanel::OnPaint( Graphics &g )
+{
 
-// 	
-// }
-// 
-// //是否可用
-// bool DrawItemBase::isActive()
-// {
-// 	return m_isActive;
-// }
-// 
-// //是否选中，//TODO: 应该抽取到策略中
-// bool DrawItemBase::checkSelected( CPoint point )
-// {
-// 	return (bool)(m_myRect.PtInRect(point));
-// }
-// 
-// void DrawItemBase::OnCommand( CString command,CString param )
-// {
-// }
-// 
-// void DrawItemBase::OnMouseMove( CPoint point )
-// {
-// 	if (checkSelected(point))
-// 	{
-// 		m_isMouseHover = true;
-// 	}
-// 	else
-// 	{
-// 		m_isMouseHover = false;
-// 	}
-// 
-// 	if (isActive())
-// 	{
-// 		move(point.x - m_posStart.x, point.y - m_posStart.y);
-// 		m_posStart = point;
-// 	}
-// }
-// 
-// void DrawItemBase::OnLButtonDown(CPoint point)
-// {
-// 	if (checkSelected(point))
-// 	{
-// 		//有效的时候，譬如布置的时候，点击意味着确认摆放
-// 		if (isActive())
-// 		{
-// 			endActive(point);
-// 		}
-// 		//无效的时候，譬如静止，点击意味着受到点选
-// 		else
-// 		{
-// 			beginActive(point);
-// 		}
-// 	}
-// }
-// 
-// void DrawItemBase::OnLButtonUp(CPoint point)
-// {
-// 	if (checkSelected(point))
-// 	{
-// 		//有效的时候，譬如布置的时候，释放意味着确认摆放
-// 		if (isActive())
-// 		{
-// 			endActive(point);
-// 		}
-// 	}
-// }
-// 
-// void DrawItemBase::OnRButtonDown(CPoint point)
-// {
-// 
-// }
-// 
-// void DrawItemBase::OnRButtonUp(CPoint point)
-// {
-// 
-// }
-// 
-// //开始启动
-// void DrawItemBase::beginActive(CPoint point)
-// {
-// 	m_isActive = true;
-// 
-// 	m_posStart = point;
-// 
-// 	L4Cpp::Log()->debug("beginActive");
-// }
-// //结束启动
-// void DrawItemBase::endActive(CPoint point)
-// {
-// 	m_isActive = false;
-// 
-// 	m_posStart = point;
-// 
-// 	L4Cpp::Log()->debug("endActive");
-// }
-// 
-// void DrawItemBase::moveTo(LONG x,LONG y)
-// {
+}
 
-// }
-// 
-// void DrawItemBase::moveTo(CPoint point)
-// {
+void DrawItemSmallPanel::setOutline(std::vector<CPoint> outlines)
+{
+	CPoint topLeft(MAXINT,MAXINT);
+	CPoint bottomRight(MININT,MININT);
+	for(int i = 0; i < outlines.size() ; i++)
+	{
+		//x最小的值保持在
+		if (outlines[i].x < topLeft.x)
+		{
+			topLeft.x = outlines[i].x;
+		}
+		//x最大的值保持在
+		if (outlines[i].x > bottomRight.x)
+		{
+			bottomRight.x = outlines[i].x;
+		}
+		//y最小的值保持在
+		if (outlines[i].y < topLeft.y)
+		{
+			topLeft.y = outlines[i].y;
+		}
+		//y最大的值保持在
+		if (outlines[i].y > bottomRight.y)
+		{
+			bottomRight.y = outlines[i].y;
+		}
+		m_outlines.push_back(outlines[i]);
+	}
 
-// }
+	setRect(CRect(topLeft,bottomRight));
+	
+}
+
+std::vector<CPoint> DrawItemSmallPanel::getOutline()
+{
+	return m_outlines;
+}
+
+void DrawItemSmallPanel::moveTo(CPoint point)
+{
+	CPoint topLeft = getRect().TopLeft();
+	move(CPoint(point.x - topLeft.x,point.y - topLeft.y));
+}
+void DrawItemSmallPanel::move(CPoint offset)
+{
+	for (int i = 0;i<m_outlines.size();i++)
+	{
+		m_outlines[i].Offset(offset);
+	}
+}
+
+void DrawItemSmallPanel::setRect(CRect rect)
+{
+	//TODO: 待商议的移动方法
+	moveTo(rect.TopLeft());
+}
+CRect DrawItemSmallPanel::getRect()
+{
+	return m_myRect;
+}
+
+Gdiplus::Region* DrawItemSmallPanel::getCloneRigon()
+{
+	
 // 
+// 	GraphicsPath path;
+// 	path.AddPolygon()
 // 
-// void DrawItemBase::move(LONG x,LONG y)
-// {
-// 	
-// }
-// 
-// void DrawItemBase::move(CPoint point)
-// {
-// 	
-// }
-// 
-// //设置矩形位置，矩形必须而接口非必须
-// void DrawItemBase::setRect(int x1,int y1,int x2,int y2)
-// {
-// 	m_myRect.SetRect(x1,y1,x2,y2);
-// }
-// //设置矩形位置，矩形必须而接口非必须
-// void DrawItemBase::setRect(CPoint topLeft,CPoint bottomRight)
-// {
-// 	m_myRect.SetRect(topLeft.x,topLeft.y,bottomRight.x,bottomRight.y);
-// }
-// 
+// 	Region region()
+
+
+	return NULL;
+}
+bool DrawItemSmallPanel::IsVisible(CPoint point)
+{
+	return false;
+}
+
+#endif
