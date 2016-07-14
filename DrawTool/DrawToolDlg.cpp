@@ -171,13 +171,28 @@ HCURSOR CDrawToolDlg::OnQueryDragIcon()
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
+//消息路由
+BOOL CDrawToolDlg::PreTranslateMessage(MSG* pMsg)
+{
+	//键盘按键
+	if (pMsg ->message == WM_KEYDOWN)  // If a keydown message
+	{
+		CString key;
+		key.Format(L"key press 0x%02x\n",pMsg->wParam);
+		OutputDebugString(key);
+
+		if (m_manager.PreTranslateMessage(pMsg)){
+			InvalidateRect(m_manager.getDrawRect());
+			return TRUE;
+		}
+	}
+	return CDialogEx::PreTranslateMessage(pMsg);
+}
+
 
 //按下按键
 void CDrawToolDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
-
-	CDialogEx::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
 BOOL CDrawToolDlg::OnEraseBkgnd(CDC* pDC)
@@ -229,21 +244,33 @@ void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
 void CDrawToolDlg::OnBnClickedReload()
 {
 	clearDrawMap();
-
-	
-
 }
 
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
+	//测试用凹型
 	std::vector<CPoint> points;
 	points.push_back(CPoint(0,0));
-	points.push_back(CPoint(100,50));
-	points.push_back(CPoint(50,100));
+	points.push_back(CPoint(50,0));
+	points.push_back(CPoint(50,50));
+	points.push_back(CPoint(150,50));
+	points.push_back(CPoint(150,0));
+	points.push_back(CPoint(200,0));
+	points.push_back(CPoint(200,100));
+	points.push_back(CPoint(0,100));
 	DrawItemSmallPanel* panel = new DrawItemSmallPanel(points);
 	m_manager.addDrawItem(panel);
 
+	//测试用三角形
+// 	std::vector<CPoint> points;
+// 	points.push_back(CPoint(0,0));
+// 	points.push_back(CPoint(100,100));
+// 	points.push_back(CPoint(200,50));
+// 	DrawItemSmallPanel* panel = new DrawItemSmallPanel(points);
+// 	m_manager.addDrawItem(panel);
+
+	//测试用正方形
 // 	DrawItemBase* item = new DrawItemBase();
 // 	item->setRect(0,0,100,100);
 // 	m_manager.addDrawItem(item);
@@ -279,3 +306,5 @@ void CDrawToolDlg::CreateOutterFrame( CRect &rcClient )
 	leftBorder->setRect(rcClient.left,rcClient.bottom +15 ,rcClient.right,rcClient.bottom - 10);
 	m_manager.addDrawItem(bottomBorder);
 }
+
+

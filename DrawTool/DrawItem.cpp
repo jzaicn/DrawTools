@@ -178,18 +178,35 @@ bool DrawItemBase::IsVisible(CPoint point)
 #if 1
 DrawItemSmallPanel::DrawItemSmallPanel()
 {
-
+	m_type = "companel";
 }
 DrawItemSmallPanel::DrawItemSmallPanel(CPoint topLeft,CPoint bottomRight)
 {
-	m_myRect = CRect(topLeft,bottomRight);
+	m_type = "companel";
+
+	CRect rect(topLeft,bottomRight);
+	std::vector<CPoint> points;
+	points.push_back(CPoint(rect.TopLeft()));
+	points.push_back(CPoint(rect.right,rect.top));
+	points.push_back(CPoint(rect.BottomRight()));
+	points.push_back(CPoint(rect.bottom,rect.left));
+	setOutline(points);
 }
 DrawItemSmallPanel::DrawItemSmallPanel(CRect rect)
 {
-	m_myRect = rect;
+	m_type = "companel";
+
+	std::vector<CPoint> points;
+	points.push_back(CPoint(rect.TopLeft()));
+	points.push_back(CPoint(rect.right,rect.top));
+	points.push_back(CPoint(rect.BottomRight()));
+	points.push_back(CPoint(rect.bottom,rect.left));
+	setOutline(points);
 }
 DrawItemSmallPanel::DrawItemSmallPanel(const std::vector<CPoint>& outlines)
 {
+	m_type = "companel";
+
 	setOutline(outlines);
 }
 DrawItemSmallPanel::~DrawItemSmallPanel()
@@ -206,7 +223,8 @@ void DrawItemSmallPanel::setOutline(std::vector<CPoint> outlines)
 {
 	CPoint topLeft(MAXINT,MAXINT);
 	CPoint bottomRight(MININT,MININT);
-	for(int i = 0; i < outlines.size() ; i++)
+	m_outlines.clear();
+	for(unsigned int i = 0; i < outlines.size() ; i++)
 	{
 		//x最小的值保持在
 		if (outlines[i].x < topLeft.x)
@@ -247,16 +265,16 @@ void DrawItemSmallPanel::moveTo(CPoint point)
 }
 void DrawItemSmallPanel::move(CPoint offset)
 {
-	for (int i = 0;i<m_outlines.size();i++)
+	for (unsigned int i = 0;i<m_outlines.size();i++)
 	{
 		m_outlines[i].Offset(offset);
 	}
+	m_myRect.OffsetRect(offset);
 }
 
 void DrawItemSmallPanel::setRect(CRect rect)
 {
-	//TODO: 待商议的移动方法
-	moveTo(rect.TopLeft());
+	m_myRect = rect;
 }
 CRect DrawItemSmallPanel::getRect()
 {
@@ -268,7 +286,7 @@ Gdiplus::Region* DrawItemSmallPanel::getCloneRigon()
 	if (m_outlines.size()>0)
 	{
 		GraphicsPath path;
-		Point* outlineArr = getOutlineArr();
+		Point* outlineArr = getOutlineArrClone();
 		path.AddPolygon(outlineArr,m_outlines.size());
 		Region region(&path);
 		delete outlineArr;
@@ -285,7 +303,7 @@ bool DrawItemSmallPanel::IsVisible(CPoint point)
 	if (m_outlines.size()>0)
 	{
 		GraphicsPath path;
-		Point* outlineArr = getOutlineArr();
+		Point* outlineArr = getOutlineArrClone();
 		path.AddPolygon(outlineArr,m_outlines.size());
 		Region region(&path);
 		delete outlineArr;
@@ -297,7 +315,7 @@ bool DrawItemSmallPanel::IsVisible(CPoint point)
 	}
 }
 
-Point* DrawItemSmallPanel::getOutlineArr()
+Point* DrawItemSmallPanel::getOutlineArrClone()
 {
 	Point* outlineArr = new Point[m_outlines.size()];
 	for (int i = 0;i<m_outlines.size();i++)
@@ -307,5 +325,4 @@ Point* DrawItemSmallPanel::getOutlineArr()
 	}
 	return outlineArr;
 }
-
 #endif

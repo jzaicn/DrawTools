@@ -19,7 +19,7 @@ private:
 
 public:
 	void OnPaint(Graphics& g);
-	void OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+	bool PreTranslateMessage(MSG* pMsg);
 	BOOL OnEraseBkgnd(CDC* pDC);
 	void OnMouseMove(UINT nFlags, CPoint point);
 
@@ -44,5 +44,13 @@ public:
 	void SetActiveState(int state);
 
 	bool checkMoveable(IDrawItem* item , CPoint point);
+
+	//角度转弧度  
+	double DrawItemManagement::getRadFromAngle(double angle)  ;
+	//根据某点，旋转一个角度   
+	void DrawItemManagement::rotateByAngle(PointF pointCenter,  
+		PointF &pointNeedRotate,  
+		double dAngleDegree)  ;
+	void DrawItemManagement::rotateDrawItem(IDrawItem* item);
 };
 

@@ -29,7 +29,7 @@ public:
 	virtual void setRect(CRect rect) = 0;	//区域
 	virtual CRect getRect() = 0;			//区域
 
-	virtual Gdiplus::Region* getCloneRigon() = 0;			//区域
+	virtual Gdiplus::Region* getCloneRigon() = 0;	//区域（需要外部释放）
 	virtual bool IsVisible(CPoint point) = 0;		//区域判断
 };
 #endif
@@ -45,52 +45,52 @@ public:
 	DrawItemBase(CRect rect);
 	virtual ~DrawItemBase(void);
 
-	virtual void setState(int state);
-	virtual int getState();
+	virtual void setState(int state);		//状态
+	virtual int getState();					//状态
 
-	virtual void setType(CString type);
-	virtual CString getType();
+	virtual void setType(CString type);		//类型
+	virtual CString getType();				//类型
 
-	virtual void setID(CString id);
-	virtual CString getID();
+	virtual void setID(CString id);			//ID
+	virtual CString getID();				//ID
 
-	virtual void setOrder(int order);
-	virtual int getOrder();
+	virtual void setOrder(int order);		//序号
+	virtual int getOrder();					//序号
 
-	virtual void OnPaint( Graphics &g );
+	virtual void OnPaint( Graphics &g );	//画图
 	
-	virtual void moveTo(CPoint point);
-	virtual void move(CPoint offset);
+	virtual void moveTo(CPoint point);		//移动到
+	virtual void move(CPoint offset);		//偏移
 
-	virtual void setRect( CRect rect );
-	void setRect(CPoint topLeft,CPoint bottomRight);
-	void setRect(int x1,int y1,int x2,int y2);
-	virtual CRect getRect();
+	virtual void setRect( CRect rect );		//区域
+	void setRect(CPoint topLeft,CPoint bottomRight);	//区域
+	void setRect(int x1,int y1,int x2,int y2);			//区域
+	virtual CRect getRect();				//区域
 
-	std::vector<CPoint> getPoints();
-	virtual Gdiplus::Region* getCloneRigon();
-	virtual bool IsVisible(CPoint point);
+	std::vector<CPoint> getPoints();		//区域顶点
+	virtual Gdiplus::Region* getCloneRigon();			//区域
+	virtual bool IsVisible(CPoint point);	//区域判断
 
 	
 public:
-	static Color ColorNormal;
-	static Color ColorHovered;
-	static Color ColorDisable;
-	static Color ColorDown;
-	static Color ColorError;
+	static Color ColorNormal;				//正常颜色
+	static Color ColorHovered;				//覆盖颜色
+	static Color ColorDisable;				//失效颜色
+	static Color ColorDown;					//下按颜色
+	static Color ColorError;				//错误颜色
 	
-	const static int StateNormal;
-	const static int StateHovered;
-	const static int StateDisable;
-	const static int StateDown;
-	const static int StateError;
+	const static int StateNormal;			//正常状态
+	const static int StateHovered;			//覆盖状态
+	const static int StateDisable;			//失效状态
+	const static int StateDown;				//下按状态
+	const static int StateError;			//错误状态
 
 protected:
-	CString m_type;
-	CString m_ID;
-	int m_order;
-	int m_state;
-	CRect m_myRect;
+	CString m_type;							//类型
+	CString m_ID;							//ID
+	int m_order;							//序号
+	int m_state;							//状态
+	CRect m_myRect;							//区域
 };
 #endif
 /************************************************************************/
@@ -107,22 +107,22 @@ public:
 	~DrawItemSmallPanel();
 
 public:
-	void setOutline(std::vector<CPoint> outlines);
-	std::vector<CPoint> getOutline();
+	void setOutline(std::vector<CPoint> outlines);	//设置多边形点
+	std::vector<CPoint> getOutline();				//设置多边形点
 
-	virtual void OnPaint( Graphics &g );
+	virtual void OnPaint( Graphics &g );			//绘制
 
-	virtual void moveTo(CPoint point);
-	virtual void move(CPoint offset);
+	virtual void moveTo(CPoint point);				//移动到
+	virtual void move(CPoint offset);				//偏移
 
-	virtual void setRect(CRect rect);
-	virtual CRect getRect();
+	virtual void setRect(CRect rect);				//区域
+	virtual CRect getRect();						//区域
 
-	virtual Gdiplus::Region* getCloneRigon();
-	virtual bool IsVisible(CPoint point);
+	virtual Gdiplus::Region* getCloneRigon();		//区域
+	virtual bool IsVisible(CPoint point);			//区域判断
 
 private:
-	Point* getOutlineArr();
+	Point* getOutlineArrClone();					//获得点阵（需要外部释放）
 
 protected:
 	std::vector<CPoint> m_outlines;

@@ -12,6 +12,9 @@ DrawItemManagement::~DrawItemManagement(void)
 {
 }
 
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
 void DrawItemManagement::OnPaint(Graphics& g)
 {
@@ -26,9 +29,20 @@ void DrawItemManagement::OnPaint(Graphics& g)
 }
 
 
-void DrawItemManagement::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
+bool DrawItemManagement::PreTranslateMessage(MSG* pMsg)
 {
+	//按下空格
+	if (pMsg ->wParam == _T('\x020'))
+	{
+		for (int i = 0;i<m_activeDrawItemList.size();i++)
+		{
+			rotateDrawItem(m_activeDrawItemList[i]);
+		}
+		return true;
+	}
 
+	return false;
+    
 }
 
 BOOL DrawItemManagement::OnEraseBkgnd(CDC* pDC)
@@ -41,8 +55,14 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
 	//处理组件鼠标着色
 	if (1)
 	{
-		SetActiveState(DrawItemBase::StateDown);
-
+		if (IsCrashArea())
+		{
+			SetActiveState(DrawItemBase::StateError);
+		}
+		else
+		{
+			SetActiveState(DrawItemBase::StateDown);
+		}
 
 		for(int i = 0; i < m_staticDrawItemList.size(); i++)
 		{
@@ -68,14 +88,14 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
 			m_activeDrawItemList[i]->move(diff);
 		}
 
-		//处理活动组件跟静态部分碰撞问题
-		if (IsCrashArea())
-		{
-			for(int i = 0; i < m_activeDrawItemList.size(); i++)
-			{
-				m_activeDrawItemList[i]->move(rediff);
-			}
-		}
+// 		//处理活动组件跟静态部分碰撞问题
+// 		if (IsCrashArea())
+// 		{
+// 			for(int i = 0; i < m_activeDrawItemList.size(); i++)
+// 			{
+// 				m_activeDrawItemList[i]->move(rediff);
+// 			}
+// 		}
 
 		m_mouseStartPoint = point;
 	}
@@ -135,22 +155,9 @@ void DrawItemManagement::OnRButtonUp(UINT nFlags, CPoint point)
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/************************************************************************/
+/*                                                                      */
+/************************************************************************/
 
 
 void DrawItemManagement::addDrawItem(IDrawItem* drawItem)
@@ -256,3 +263,55 @@ bool DrawItemManagement::IsCrashArea()
 	return isActiveCrashStatic;
 }
 
+#include <math.h>  
+#define MY_PI 3.14159265358979323846  
+//角度转弧度  
+double DrawItemManagement::getRadFromAngle(double angle)  
+{  
+	return (angle / 180 * MY_PI);  
+}  
+//根据某点，旋转一个角度   
+void DrawItemManagement::rotateByAngle(PointF pointCenter,  
+	PointF &pointNeedRotate,  
+	double dAngleDegree)  
+{  
+	//通过移动把旋转中心放到坐标原点  
+	//旋转矩阵，公式如下（以原点旋转θ度）  
+	//(x',y') = ( x*cosθ-y*sinθ , x*sinθ+y*cosθ )  
+	PointF pointshifting = pointCenter-PointF(0,0);//旋转中心到坐标原点的距离  
+	PointF point0 = pointCenter - pointshifting;  
+	PointF point1 = pointNeedRotate - pointshifting;  
+	double dAngle2Rad = getRadFromAngle(dAngleDegree);    
+	PointF point2(point1.X*cos(dAngle2Rad) - point1.Y*sin(dAngle2Rad),  
+		point1.X*sin(dAngle2Rad) + point1.Y*cos(dAngle2Rad));  
+	pointNeedRotate = point2 + pointshifting;  
+} 
+
+
+void DrawItemManagement::rotateDrawItem(IDrawItem* item)
+{
+	if (item->getType().Compare(L"companel") == 0)
+	{
+		DrawItemSmallPanel* companel = (DrawItemSmallPanel*)item;
+		std::vector<CPoint> outlines = companel->getOutline();
+		CRect rect = companel->getRect();
+
+		//用于旋转后偏移
+		PointF offset(rect.Height(),0);
+
+		std::vector<CPoint> outResult;
+		for(int i = 0; i < outlines.size(); i++)
+		{
+			//旋转点
+			PointF tempPoint(outlines[i].x,outlines[i].y);
+			rotateByAngle(PointF(rect.left,rect.top),tempPoint,90);
+
+			//偏移点
+			tempPoint = tempPoint + offset;
+
+			//保存
+			outResult.push_back(CPoint(tempPoint.X,tempPoint.Y));
+		}
+		companel->setOutline(outResult);
+	}
+}

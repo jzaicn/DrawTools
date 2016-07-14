@@ -72,4 +72,5 @@ public:
 	void addItemDrawMap(CSkinButton* drawItem);
 	void CreateOutterFrame( CRect &rcClient );
 
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };
