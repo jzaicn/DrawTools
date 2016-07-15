@@ -87,8 +87,7 @@ BOOL CDrawToolDlg::OnInitDialog()
 	rcClient.bottom -= 120;
 	m_manager.setDrawCRect(rcClient);
 
-	RectF rcClinetF(rcClient.left,rcClient.top,rcClient.Width(),rcClient.Height());
-	CreateOutterFrame(rcClinetF);
+	CreateOutterFrame(m_manager.getDrawRectF());
 
 
 
@@ -147,11 +146,10 @@ void CDrawToolDlg::OnPaint()
 		Graphics g(dcMem.m_hDC);
 		COLORREF colBK = GetSysColor(CTLCOLOR_DLG);
 
-		g.FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), rcClient.left, rcClient.top, rcClient.Width(), rcClient.Height());
+		
+		g.FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), RectF(rcClient.left,rcClient.top,rcClient.Width(),rcClient.Height()));
 		
 		m_manager.OnPaint(g);//画图
-
-		
 
 		dc.BitBlt(0, 0, rcClient.Width(), rcClient.Height(), &dcMem, 0, 0, SRCCOPY);
 
@@ -255,18 +253,40 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
+	// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
+	// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />
+	// 	<Vector X="10.0000" Y="370.0000" R="360.0000" Sign="2" Dir="1" />
+	// 	<Vector X="1998.0000" Y="370.0000" R="0.0000" Sign="0" Dir="0" />
+	//
+	//  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
+	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
+	//测试用圆角长方形
+	RectF rect(10,10,1988,360);
+	std::vector<IDrawLine*> lines;
+
+	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
+	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
+	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
+	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
+
+	DrawItemShape* shape = new DrawItemShape(rect,lines);
+	m_manager.addDrawItem(shape);
+
+
+
+
 	//测试用凹型
-	std::vector<PointF> points;
-	points.push_back(PointF(0,0));
-	points.push_back(PointF(50,0));
-	points.push_back(PointF(50,50));
-	points.push_back(PointF(150,50));
-	points.push_back(PointF(150,0));
-	points.push_back(PointF(200,0));
-	points.push_back(PointF(200,100));
-	points.push_back(PointF(0,100));
-	DrawItemPolygon* panel = new DrawItemPolygon(points);
-	m_manager.addDrawItem(panel);
+// 	std::vector<PointF> points;
+// 	points.push_back(PointF(0,0));
+// 	points.push_back(PointF(50,0));
+// 	points.push_back(PointF(50,50));
+// 	points.push_back(PointF(150,50));
+// 	points.push_back(PointF(150,0));
+// 	points.push_back(PointF(200,0));
+// 	points.push_back(PointF(200,100));
+// 	points.push_back(PointF(0,100));
+// 	DrawItemPolygon* panel = new DrawItemPolygon(points);
+// 	m_manager.addDrawItem(panel);
 
 	//测试用三角形
 // 	std::vector<CPoint> points;
@@ -287,11 +307,6 @@ void CDrawToolDlg::OnBnClickedInputitem()
 void CDrawToolDlg::clearDrawMap()
 {
 	m_manager.clearDrawItem();
-}
-
-void CDrawToolDlg::addItemDrawMap(CSkinButton* drawItem)
-{
-
 }
 
 void CDrawToolDlg::CreateOutterFrame( RectF &rcClient )

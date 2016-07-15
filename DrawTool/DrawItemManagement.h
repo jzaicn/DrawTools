@@ -48,9 +48,9 @@ public:
 	bool checkMoveable(IDrawItem* item , PointF point);
 
 	//角度转弧度  
-	double DrawItemManagement::getRadFromAngle(double angle)  ;
+	double getRadFromAngle(double angle)  ;
 	//根据某点，旋转一个角度   
-	void DrawItemManagement::rotateByAngle(PointF pointCenter,  
+	void rotateByAngle(PointF pointCenter,  
 		PointF &pointNeedRotate,  
 		double dAngleDegree)  ;
 	void DrawItemManagement::rotateDrawItem(IDrawItem* item);

@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "DrawTools.h"
 #include <vector>
 
 /************************************************************************/
@@ -45,6 +46,11 @@ public:
 	DrawItemBase(RectF rect);
 	virtual ~DrawItemBase(void);
 
+	virtual void OnPaint( Graphics &g );	//画图
+
+	virtual void moveTo(PointF point);		//移动到
+	virtual void move(PointF offset);		//偏移
+
 	virtual void setState(int state);		//状态
 	virtual int getState();					//状态
 
@@ -57,10 +63,6 @@ public:
 	virtual void setOrder(int order);		//序号
 	virtual int getOrder();					//序号
 
-	virtual void OnPaint( Graphics &g );	//画图
-	
-	virtual void moveTo(PointF point);		//移动到
-	virtual void move(PointF offset);		//偏移
 
 	virtual void setRect( RectF rect );		//区域
 	void setRect(PointF topLeft,PointF bottomRight);	//区域
@@ -71,11 +73,6 @@ public:
 	virtual Gdiplus::Region* getCloneRigon();			//区域
 	virtual bool IsVisible(PointF point);	//区域判断
 
-	static RectF buildRectF(PointF topleft,PointF bottomRight);
-	static PointF getTopLeft(RectF rect);
-	static PointF getBottomRight(RectF rect);
-	static PointF getTopRight(RectF rect);
-	static PointF getBottomLeft(RectF rect);
 public:
 	static Color ColorNormal;				//正常颜色
 	static Color ColorHovered;				//覆盖颜色
@@ -111,13 +108,13 @@ public:
 	~DrawItemPolygon();
 
 public:
-	void setOutline(std::vector<PointF> outlines);	//设置多边形点
-	std::vector<PointF> getOutline();				//设置多边形点
-
 	virtual void OnPaint( Graphics &g );			//绘制
 
 	virtual void moveTo(PointF point);				//移动到
 	virtual void move(PointF offset);				//偏移
+
+	void setOutline(std::vector<PointF> outlines);	//设置多边形点
+	std::vector<PointF> getOutline();				//设置多边形点
 
 	virtual void setRect(RectF rect);				//区域
 	virtual RectF getRect();						//区域
@@ -126,7 +123,7 @@ public:
 	virtual bool IsVisible(PointF point);			//区域判断
 
 private:
-	Point* getOutlineArrClone();					//获得点阵（需要外部释放）
+	PointF* getOutlineArrClone();					//获得点阵（需要外部释放）
 
 protected:
 	std::vector<PointF> m_outlines;
@@ -135,35 +132,71 @@ protected:
 /************************************************************************/
 /*  绘图直线加曲线多边形                                                */
 /************************************************************************/
-#if 0
-// class DrawItemShape : public DrawItemBase
-// {
-// public:
-// 	DrawItemShape();	
-// 	DrawItemShape(CRect outterRect,std::map<int,);
-// 	DrawItemShape(CRect rect);
-// 	DrawItemShape(const std::vector<CPoint>& outlines);
-// 	~DrawItemShape();
-// 
-// public:
-// 	void setOutline(std::vector<CPoint> outlines);	//设置多边形点
-// 	std::vector<CPoint> getOutline();				//设置多边形点
-// 
-// 	virtual void OnPaint( Graphics &g );			//绘制
-// 
-// 	virtual void moveTo(CPoint point);				//移动到
-// 	virtual void move(CPoint offset);				//偏移
-// 
-// 	virtual void setRect(CRect rect);				//区域
-// 	virtual CRect getRect();						//区域
-// 
-// 	virtual Gdiplus::Region* getCloneRigon();		//区域
-// 	virtual bool IsVisible(CPoint point);			//区域判断
-// 
-// private:
-// 	Point* getOutlineArrClone();					//获得点阵（需要外部释放）
-// 
-// protected:
-// 	std::vector<CPoint> m_outlines;
-// };
+#if 1
+class IDrawLine
+{
+public:
+	virtual void loadPoints(std::vector<PointF>& points) = 0;		//从线型数据中取得集合点
+	virtual void updatePoints(std::vector<PointF>& points) = 0;	//从外部取得点更新到集合中
+	virtual void getLineToPath(GraphicsPath& path) = 0;		//用内部点集合构建到图形中
+};
+class DrawStraightLine : public IDrawLine
+{
+public:
+	DrawStraightLine(PointF first,PointF last);
+public:
+	virtual void loadPoints(std::vector<PointF>& points);
+	virtual void updatePoints(std::vector<PointF>& points);
+	virtual void getLineToPath(GraphicsPath& path);
+protected:
+	const static int m_MaxPointNum;
+private:
+	PointF m_first;
+	PointF m_last;
+};
+class DrawArcLine : public IDrawLine
+{
+public:
+	DrawArcLine(PointF first, PointF last, float radius, int sign);
+public:
+	virtual void loadPoints(std::vector<PointF>& points);
+	virtual void updatePoints(std::vector<PointF>& points);
+	virtual void getLineToPath(GraphicsPath& path);
+public:
+	const static int ArcSignLeft;
+	const static int ArcSignRight;
+protected:
+	const static int m_MaxPointNum;
+private:
+	PointF m_first;
+	PointF m_last;
+	float m_radius;
+	int m_sign;
+};
+
+
+class DrawItemShape : public DrawItemBase
+{
+public:
+	DrawItemShape(RectF outterRect,std::vector<IDrawLine*> lines);
+	~DrawItemShape();
+
+public:
+	virtual void OnPaint( Graphics &g );			//绘制
+
+	virtual void moveTo(PointF point);				//移动到
+	virtual void move(PointF offset);				//偏移
+
+	void setAllPoints(std::vector<PointF> outlines);//设置多边形点
+	std::vector<PointF> getAllPoints();				//设置多边形点
+
+	virtual void setRect(RectF rect);				//区域
+	virtual RectF getRect();						//区域
+
+	virtual Gdiplus::Region* getCloneRigon();		//区域
+	virtual bool IsVisible(PointF point);			//区域判断
+
+protected:
+	std::vector<IDrawLine*> m_lines;
+};
 #endif

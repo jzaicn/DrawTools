@@ -40,7 +40,7 @@ DrawItemBase::DrawItemBase(PointF topLeft,PointF bottomRight)
 	m_ID = "";
 	m_order = 0;
 	m_state = StateNormal;
-	m_myRect = buildRectF(topLeft,bottomRight);
+	m_myRect = DrawTools::buildRectF(topLeft,bottomRight);
 }
 
 DrawItemBase::DrawItemBase(RectF rect)
@@ -54,42 +54,6 @@ DrawItemBase::DrawItemBase(RectF rect)
 
 DrawItemBase::~DrawItemBase(void)
 {
-}
-
-void DrawItemBase::setState(int state)
-{
-	m_state = state;
-}
-int DrawItemBase::getState()
-{
-	return m_state;
-}
-
-void DrawItemBase::setType(CString type)
-{
-	m_type = type;
-}
-CString DrawItemBase::getType()
-{
-	return m_type;
-}
-
-void DrawItemBase::setID(CString id)
-{
-	m_ID = id;
-}
-CString DrawItemBase::getID()
-{
-	return m_ID;
-}
-
-void DrawItemBase::setOrder(int order)
-{
-	m_order = order;
-}
-int DrawItemBase::getOrder()
-{
-	return m_order;
 }
 
 void DrawItemBase::OnPaint( Graphics &g )
@@ -133,13 +97,49 @@ void DrawItemBase::move(PointF offset)
 	m_myRect.Offset(offset.X,offset.Y);
 }
 
+void DrawItemBase::setState(int state)
+{
+	m_state = state;
+}
+int DrawItemBase::getState()
+{
+	return m_state;
+}
+
+void DrawItemBase::setType(CString type)
+{
+	m_type = type;
+}
+CString DrawItemBase::getType()
+{
+	return m_type;
+}
+
+void DrawItemBase::setID(CString id)
+{
+	m_ID = id;
+}
+CString DrawItemBase::getID()
+{
+	return m_ID;
+}
+
+void DrawItemBase::setOrder(int order)
+{
+	m_order = order;
+}
+int DrawItemBase::getOrder()
+{
+	return m_order;
+}
+
 void DrawItemBase::setRect(RectF rect)
 {
 	m_myRect = rect;
 }
 void DrawItemBase::setRect(PointF topLeft,PointF bottomRight)
 {
-	setRect(buildRectF(topLeft,bottomRight));
+	setRect(DrawTools::buildRectF(topLeft,bottomRight));
 }
 void DrawItemBase::setRect(int x1,int y1,int x2,int y2)
 {
@@ -154,8 +154,8 @@ RectF DrawItemBase::getRect()
 std::vector<PointF> DrawItemBase::getPoints()
 {
 	std::vector<PointF> points;
-	points.push_back(getTopLeft(getRect()));
-	points.push_back(getBottomRight(getRect()));
+	points.push_back(DrawTools::getTopLeft(getRect()));
+	points.push_back(DrawTools::getBottomRight(getRect()));
 	return points;
 }
 Region* DrawItemBase::getCloneRigon()
@@ -169,31 +169,9 @@ bool DrawItemBase::IsVisible(PointF point)
 	Region region(getRect());
 	return region.IsVisible(point.X,point.Y);
 }
-RectF DrawItemBase::buildRectF(PointF topLeft,PointF bottomRight)
-{
-	return RectF(topLeft.X ,
-		topLeft.Y ,
-		bottomRight.X - topLeft.X ,
-		bottomRight.Y - topLeft.Y
-		);
-}
 
-PointF DrawItemBase::getTopLeft(RectF rect)
-{
-	return PointF(rect.GetLeft(),rect.GetTop());
-}
-PointF DrawItemBase::getBottomRight(RectF rect)
-{
-	return PointF(rect.GetRight(),rect.GetBottom());
-}
-PointF DrawItemBase::getTopRight(RectF rect)
-{
-	return PointF(rect.GetRight(),rect.GetTop());
-}
-PointF DrawItemBase::getBottomLeft(RectF rect)
-{
-	return PointF(rect.GetLeft(),rect.GetBottom());
-}
+
+
 #endif
 /************************************************************************/
 /*  直线多边形                                                            */
@@ -207,12 +185,12 @@ DrawItemPolygon::DrawItemPolygon(PointF topLeft,PointF bottomRight)
 {
 	m_type = "companel";
 	
-	RectF rect = buildRectF(topLeft,bottomRight);
+	RectF rect = DrawTools::buildRectF(topLeft,bottomRight);
 	std::vector<PointF> points;
-	points.push_back(getTopLeft(rect));
-	points.push_back(getTopRight(rect));
-	points.push_back(getBottomRight(rect));
-	points.push_back(getBottomLeft(rect));
+	points.push_back(DrawTools::getTopLeft(rect));
+	points.push_back(DrawTools::getTopRight(rect));
+	points.push_back(DrawTools::getBottomRight(rect));
+	points.push_back(DrawTools::getBottomLeft(rect));
 	setOutline(points);
 }
 DrawItemPolygon::DrawItemPolygon(RectF rect)
@@ -220,10 +198,10 @@ DrawItemPolygon::DrawItemPolygon(RectF rect)
 	m_type = "companel";
 
 	std::vector<PointF> points;
-	points.push_back(getTopLeft(rect));
-	points.push_back(getTopRight(rect));
-	points.push_back(getBottomRight(rect));
-	points.push_back(getBottomLeft(rect));
+	points.push_back(DrawTools::getTopLeft(rect));
+	points.push_back(DrawTools::getTopRight(rect));
+	points.push_back(DrawTools::getBottomRight(rect));
+	points.push_back(DrawTools::getBottomLeft(rect));
 	setOutline(points);
 }
 DrawItemPolygon::DrawItemPolygon(const std::vector<PointF>& outlines)
@@ -240,6 +218,20 @@ DrawItemPolygon::~DrawItemPolygon()
 void DrawItemPolygon::OnPaint( Graphics &g )
 {
 	DrawItemBase::OnPaint(g);
+}
+
+void DrawItemPolygon::moveTo(PointF point)
+{
+	PointF topLeft = DrawTools::getTopLeft(getRect());
+	move(PointF(point.X - topLeft.X,point.Y - topLeft.Y));
+}
+void DrawItemPolygon::move(PointF offset)
+{
+	for (unsigned int i = 0;i<m_outlines.size();i++)
+	{
+		m_outlines[i] = m_outlines[i] + offset;
+	}
+	m_myRect.Offset(offset.X,offset.Y);
 }
 
 void DrawItemPolygon::setOutline(std::vector<PointF> outlines)
@@ -272,27 +264,13 @@ void DrawItemPolygon::setOutline(std::vector<PointF> outlines)
 		m_outlines.push_back(outlines[i]);
 	}
 
-	setRect(buildRectF(topLeft,bottomRight));
+	setRect(DrawTools::buildRectF(topLeft,bottomRight));
 	
 }
 
 std::vector<PointF> DrawItemPolygon::getOutline()
 {
 	return m_outlines;
-}
-
-void DrawItemPolygon::moveTo(PointF point)
-{
-	PointF topLeft = getTopLeft(getRect());
-	move(PointF(point.X - topLeft.X,point.Y - topLeft.Y));
-}
-void DrawItemPolygon::move(PointF offset)
-{
-	for (unsigned int i = 0;i<m_outlines.size();i++)
-	{
-		m_outlines[i] = m_outlines[i] + offset;
-	}
-	m_myRect.Offset(offset.X,offset.Y);
 }
 
 void DrawItemPolygon::setRect(RectF rect)
@@ -308,22 +286,15 @@ Gdiplus::Region* DrawItemPolygon::getCloneRigon()
 {
 	if (m_outlines.size()>0)
 	{
-// 		GraphicsPath path;
-// 		Point* outlineArr = getOutlineArrClone();
-// 		path.AddPolygon(outlineArr,m_outlines.size());
-// 		Region region(&path);
-// 		delete outlineArr;
-// 		return region.Clone(); 
+
 
 		GraphicsPath path;
-		path.StartFigure();
-		//Point* outlineArr = getOutlineArrClone();
-		path.AddArc(0,0,100,100,00.0,360.0);
-		path.CloseFigure();
-		//path.AddPolygon(outlineArr,m_outlines.size());
+		PointF* outlineArr = getOutlineArrClone();
+		path.AddPolygon(outlineArr,m_outlines.size());
 		Region region(&path);
+		delete outlineArr;
 		return region.Clone(); 
-		//delete outlineArr;
+
 	}
 	else
 	{
@@ -335,22 +306,12 @@ bool DrawItemPolygon::IsVisible(PointF point)
 {
 	if (m_outlines.size()>0)
 	{
-// 		GraphicsPath path;
-// 		Point* outlineArr = getOutlineArrClone();
-// 		path.AddPolygon(outlineArr,m_outlines.size());
-// 		Region region(&path);
-// 		delete outlineArr;
-// 		return region.IsVisible(point.X,point.Y);
-
 		GraphicsPath path;
-		path.StartFigure();
-		//Point* outlineArr = getOutlineArrClone();
-		path.AddArc(0,0,100,100,00.0,360.0);
-		path.CloseFigure();
-		//path.AddPolygon(outlineArr,m_outlines.size());
+		PointF* outlineArr = getOutlineArrClone();
+		path.AddPolygon(outlineArr,m_outlines.size());
 		Region region(&path);
+		delete outlineArr;
 		return region.IsVisible(point.X,point.Y);
-		//delete outlineArr;
 
 	}
 	else
@@ -359,9 +320,9 @@ bool DrawItemPolygon::IsVisible(PointF point)
 	}
 }
 
-Point* DrawItemPolygon::getOutlineArrClone()
+PointF* DrawItemPolygon::getOutlineArrClone()
 {
-	Point* outlineArr = new Point[m_outlines.size()];
+	PointF* outlineArr = new PointF[m_outlines.size()];
 	for (int i = 0;i<m_outlines.size();i++)
 	{
 		outlineArr[i].X = m_outlines[i].X;
@@ -375,4 +336,179 @@ Point* DrawItemPolygon::getOutlineArrClone()
 /*  直线拼圆弧多边形                                                            */
 /************************************************************************/
 #if 1
+//////////////////////////////////////////////////////////////////////////
+//
+const int DrawStraightLine::m_MaxPointNum = 2;
+
+DrawStraightLine::DrawStraightLine(PointF first,PointF last)
+{
+	m_first = first;
+	m_last = last;
+}
+
+void DrawStraightLine::loadPoints(std::vector<PointF>& points)
+{
+	points.push_back(m_first);
+	points.push_back(m_last);
+}
+
+void DrawStraightLine::updatePoints(std::vector<PointF>& points)
+{
+	m_last = points.back();
+	points.pop_back();
+
+	m_first = points.back();
+	points.pop_back();
+}
+void DrawStraightLine::getLineToPath(GraphicsPath& path)
+{
+	path.AddLine(m_first,m_last);
+}
+//////////////////////////////////////////////////////////////////////////
+//
+const int DrawArcLine::m_MaxPointNum = 2;
+const int DrawArcLine::ArcSignLeft = 2;
+const int DrawArcLine::ArcSignRight = 1;
+
+DrawArcLine::DrawArcLine(PointF first, PointF last, float radius, int sign)
+{
+	m_first = first;
+	m_last = last;
+	m_radius = radius;
+	m_sign = sign;
+}
+
+void DrawArcLine::loadPoints(std::vector<PointF>& points)
+{
+	points.push_back(m_first);
+	points.push_back(m_last);
+}
+void DrawArcLine::updatePoints(std::vector<PointF>& points)
+{
+	m_last = points.back();
+	points.pop_back();
+
+	m_first = points.back();
+	points.pop_back();
+}
+void DrawArcLine::getLineToPath(GraphicsPath& path)
+{
+	RectF rect;
+	double beginAngle;
+	double endAngle;
+	DrawTools::getArc(m_first,m_last,m_radius,m_sign,
+		rect,beginAngle,endAngle);
+	path.AddArc(rect,beginAngle,endAngle);
+}
+//////////////////////////////////////////////////////////////////////////
+//
+DrawItemShape::DrawItemShape(RectF outterRect,std::vector<IDrawLine*> lines)
+{
+	m_myRect = outterRect;
+	m_lines = lines;
+}
+DrawItemShape::~DrawItemShape()
+{
+	if (!m_lines.empty())
+	{
+		for (unsigned int i = 0;i<m_lines.size();i++)
+		{
+			delete m_lines[i];
+		}
+		m_lines.clear();
+	}
+}
+
+void DrawItemShape::OnPaint( Graphics &g )
+{
+	DrawItemBase::OnPaint(g);
+}
+
+void DrawItemShape::moveTo(PointF point)
+{
+	move(point - DrawTools::getTopLeft(m_myRect));
+}
+void DrawItemShape::move(PointF offset)
+{
+	std::vector<PointF> points = getAllPoints();
+	for (unsigned int i = 0;i<points.size();i++)
+	{
+		points[i] = points[i] + offset;
+	}
+	setAllPoints(points);
+}
+
+void DrawItemShape::setAllPoints(std::vector<PointF> outlines)
+{
+	for (unsigned int i = 0;i<m_lines.size();i++)
+	{
+		m_lines[i]->updatePoints(outlines);
+	}
+	ASSERT(outlines.size() == 0);
+}
+std::vector<PointF> DrawItemShape::getAllPoints()
+{
+	std::vector<PointF> result;
+	for (unsigned int i = 0;i<m_lines.size();i++)
+	{
+		m_lines[i]->loadPoints(result);
+	}
+	return result;
+}
+
+
+void DrawItemShape::setRect(RectF rect)
+{
+	m_myRect = rect;
+}
+RectF DrawItemShape::getRect()
+{
+	return m_myRect;
+}
+
+Gdiplus::Region* DrawItemShape::getCloneRigon()
+{
+	if (m_lines.size()>0)
+	{
+		GraphicsPath path;
+		
+		path.StartFigure();
+		for (unsigned int i = 0;i<m_lines.size();i++)
+		{
+			m_lines[i]->getLineToPath(path);
+		}
+		path.CloseFigure();
+
+		Region region(&path);
+		return region.Clone(); 
+	}
+	else
+	{
+		Region region;
+		return region.Clone();
+	}
+}
+bool DrawItemShape::IsVisible(PointF point)
+{
+	if (m_lines.size()>0)
+	{
+		GraphicsPath path;
+
+		//path.StartFigure();
+		for (unsigned int i = 0;i<m_lines.size();i++)
+		{
+			m_lines[i]->getLineToPath(path);
+		}
+		//path.CloseFigure();
+
+		Region region(&path);
+		return region.IsVisible(point); 
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
 #endif

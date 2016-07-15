@@ -6,7 +6,6 @@
 
 #include "stdafx.h"
 #include <vector>
-#include "UI/SkinButton.h"
 
 
 #include "DrawItemManagement.h"
@@ -55,7 +54,6 @@ private:
 	//////////////////////////////////////////////////////////////////////////
 	//数据结构
 	RectF m_rcDragArea;
-	std::vector<CSkinButton*> m_vpDragableRect;
 	int m_nSelectedDragRect;
 	PointF m_ptDragStartPos;
 
@@ -69,7 +67,6 @@ public:
 	afx_msg void OnBnClickedInputitem();
 
 	void clearDrawMap();
-	void addItemDrawMap(CSkinButton* drawItem);
 	void CreateOutterFrame( RectF &rcClient );
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);

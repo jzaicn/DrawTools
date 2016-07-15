@@ -188,7 +188,7 @@ void DrawItemManagement::setDrawRectF(RectF drawRect)
 
 void DrawItemManagement::setDrawCRect(CRect drawRect)
 {
-	setDrawRectF(RectF(drawRect.left,drawRect.top,drawRect.Width(),drawRect.Height()));
+	setDrawRectF(DrawTools::buildRectF(drawRect));
 }
 
 RectF DrawItemManagement::getDrawRectF()
@@ -198,8 +198,7 @@ RectF DrawItemManagement::getDrawRectF()
 
 CRect DrawItemManagement::getDrawCRect()
 {
-	RectF rect = getDrawRectF();
-	return CRect(rect.X,rect.Y,rect.X + rect.Width, rect.Y + rect.Height);
+	return DrawTools::buildCRect(m_drawRect);
 }
 
 /************************************************************************/
@@ -207,7 +206,7 @@ CRect DrawItemManagement::getDrawCRect()
 /************************************************************************/
 bool DrawItemManagement::checkMoveable(IDrawItem* item , PointF point)
 {
-	return getDrawCRect().PtInRect(CPoint(point.X,point.Y));
+	return getDrawCRect().PtInRect(DrawTools::buildCPoint(point));
 }
 
 void DrawItemManagement::SetActiveState(int state)
@@ -314,7 +313,7 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 		{
 			//Ðý×ªµã
 			PointF tempPoint(outlines[i].X,outlines[i].Y);
-			rotateByAngle(DrawItemBase::getTopLeft(rect),tempPoint,90);
+			rotateByAngle(DrawTools::getTopLeft(rect),tempPoint,90);
 
 			//Æ«ÒÆµã
 			tempPoint = tempPoint + offset;
