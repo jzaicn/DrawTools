@@ -23,14 +23,14 @@ public:
 
 	virtual void OnPaint( Graphics &g ) = 0;	//画图
 
-	virtual void moveTo(CPoint point) = 0;	//移动到
-	virtual void move(CPoint offset) = 0;	//偏移
+	virtual void moveTo(PointF point) = 0;	//移动到
+	virtual void move(PointF offset) = 0;	//偏移
 
-	virtual void setRect(CRect rect) = 0;	//区域
-	virtual CRect getRect() = 0;			//区域
+	virtual void setRect(RectF rect) = 0;	//区域
+	virtual RectF getRect() = 0;			//区域
 
 	virtual Gdiplus::Region* getCloneRigon() = 0;	//区域（需要外部释放）
-	virtual bool IsVisible(CPoint point) = 0;		//区域判断
+	virtual bool IsVisible(PointF point) = 0;		//区域判断
 };
 #endif
 /************************************************************************/
@@ -41,8 +41,8 @@ class DrawItemBase : public IDrawItem
 {
 public:
 	DrawItemBase();
-	DrawItemBase(CPoint topLeft,CPoint bottomRight);
-	DrawItemBase(CRect rect);
+	DrawItemBase(PointF topLeft,PointF bottomRight);
+	DrawItemBase(RectF rect);
 	virtual ~DrawItemBase(void);
 
 	virtual void setState(int state);		//状态
@@ -59,19 +59,23 @@ public:
 
 	virtual void OnPaint( Graphics &g );	//画图
 	
-	virtual void moveTo(CPoint point);		//移动到
-	virtual void move(CPoint offset);		//偏移
+	virtual void moveTo(PointF point);		//移动到
+	virtual void move(PointF offset);		//偏移
 
-	virtual void setRect( CRect rect );		//区域
-	void setRect(CPoint topLeft,CPoint bottomRight);	//区域
+	virtual void setRect( RectF rect );		//区域
+	void setRect(PointF topLeft,PointF bottomRight);	//区域
 	void setRect(int x1,int y1,int x2,int y2);			//区域
-	virtual CRect getRect();				//区域
+	virtual RectF getRect();				//区域
 
-	std::vector<CPoint> getPoints();		//区域顶点
+	std::vector<PointF> getPoints();		//区域顶点
 	virtual Gdiplus::Region* getCloneRigon();			//区域
-	virtual bool IsVisible(CPoint point);	//区域判断
+	virtual bool IsVisible(PointF point);	//区域判断
 
-	
+	static RectF buildRectF(PointF topleft,PointF bottomRight);
+	static PointF getTopLeft(RectF rect);
+	static PointF getBottomRight(RectF rect);
+	static PointF getTopRight(RectF rect);
+	static PointF getBottomLeft(RectF rect);
 public:
 	static Color ColorNormal;				//正常颜色
 	static Color ColorHovered;				//覆盖颜色
@@ -90,7 +94,7 @@ protected:
 	CString m_ID;							//ID
 	int m_order;							//序号
 	int m_state;							//状态
-	CRect m_myRect;							//区域
+	RectF m_myRect;							//区域
 };
 #endif
 /************************************************************************/
@@ -101,31 +105,31 @@ class DrawItemPolygon : public DrawItemBase
 {
 public:
 	DrawItemPolygon();	
-	DrawItemPolygon(CPoint topLeft,CPoint bottomRight);
-	DrawItemPolygon(CRect rect);
-	DrawItemPolygon(const std::vector<CPoint>& outlines);
+	DrawItemPolygon(PointF topLeft,PointF bottomRight);
+	DrawItemPolygon(RectF rect);
+	DrawItemPolygon(const std::vector<PointF>& outlines);
 	~DrawItemPolygon();
 
 public:
-	void setOutline(std::vector<CPoint> outlines);	//设置多边形点
-	std::vector<CPoint> getOutline();				//设置多边形点
+	void setOutline(std::vector<PointF> outlines);	//设置多边形点
+	std::vector<PointF> getOutline();				//设置多边形点
 
 	virtual void OnPaint( Graphics &g );			//绘制
 
-	virtual void moveTo(CPoint point);				//移动到
-	virtual void move(CPoint offset);				//偏移
+	virtual void moveTo(PointF point);				//移动到
+	virtual void move(PointF offset);				//偏移
 
-	virtual void setRect(CRect rect);				//区域
-	virtual CRect getRect();						//区域
+	virtual void setRect(RectF rect);				//区域
+	virtual RectF getRect();						//区域
 
 	virtual Gdiplus::Region* getCloneRigon();		//区域
-	virtual bool IsVisible(CPoint point);			//区域判断
+	virtual bool IsVisible(PointF point);			//区域判断
 
 private:
 	Point* getOutlineArrClone();					//获得点阵（需要外部释放）
 
 protected:
-	std::vector<CPoint> m_outlines;
+	std::vector<PointF> m_outlines;
 };
 #endif
 /************************************************************************/

@@ -19,7 +19,7 @@ DrawItemManagement::~DrawItemManagement(void)
 void DrawItemManagement::OnPaint(Graphics& g)
 {
 	//画背景色
-	g.FillRectangle(&SolidBrush(Color::Black), m_drawRect.left, m_drawRect.top, m_drawRect.Width(), m_drawRect.Height());
+	g.FillRectangle(&SolidBrush(Color::Black),getDrawRectF());
 
 	//画每个子元素
 	for(int i = 0; i < m_allDrawItemList.size(); i++)
@@ -50,7 +50,7 @@ BOOL DrawItemManagement::OnEraseBkgnd(CDC* pDC)
 	return TRUE;
 }
 
-void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
+void DrawItemManagement::OnMouseMove(UINT nFlags, PointF point)
 {
 	//处理组件鼠标着色
 	if (1)
@@ -80,8 +80,8 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
 	//处理活动组件移动部分
 	if (1)
 	{
-		CPoint diff(point.x - m_mouseStartPoint.x, point.y - m_mouseStartPoint.y);
-		CPoint rediff(m_mouseStartPoint.x - point.x, m_mouseStartPoint.y - point.y);
+		PointF diff(point.X - m_mouseStartPoint.X, point.Y - m_mouseStartPoint.Y);
+		PointF rediff(m_mouseStartPoint.X - point.X, m_mouseStartPoint.Y - point.Y);
 
 		for(int i = 0; i < m_activeDrawItemList.size(); i++)
 		{
@@ -101,7 +101,7 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, CPoint point)
 	}
 }
 
-void DrawItemManagement::OnLButtonDown(UINT nFlags, CPoint point)
+void DrawItemManagement::OnLButtonDown(UINT nFlags, PointF point)
 {
 	//有活动点的时候，点击意味着布置元素完成
 	if (m_activeDrawItemList.size()>0)
@@ -134,7 +134,7 @@ void DrawItemManagement::OnLButtonDown(UINT nFlags, CPoint point)
 	}
 }
 
-void DrawItemManagement::OnLButtonUp(UINT nFlags, CPoint point)
+void DrawItemManagement::OnLButtonUp(UINT nFlags, PointF point)
 {
 	//有活动点的时候，点击意味着布置元素完成
 	if (m_activeDrawItemList.size()>0)
@@ -145,12 +145,12 @@ void DrawItemManagement::OnLButtonUp(UINT nFlags, CPoint point)
 	}
 }
 
-void DrawItemManagement::OnRButtonDown(UINT nFlags, CPoint point)
+void DrawItemManagement::OnRButtonDown(UINT nFlags, PointF point)
 {
 
 }
 
-void DrawItemManagement::OnRButtonUp(UINT nFlags, CPoint point)
+void DrawItemManagement::OnRButtonUp(UINT nFlags, PointF point)
 {
 
 }
@@ -181,23 +181,33 @@ void DrawItemManagement::clearDrawItem()
 	m_staticDrawItemList.clear();
 }
 
-void DrawItemManagement::setDrawRect(CRect drawRect)
+void DrawItemManagement::setDrawRectF(RectF drawRect)
 {
 	m_drawRect = drawRect;
 }
 
-CRect DrawItemManagement::getDrawRect()
+void DrawItemManagement::setDrawCRect(CRect drawRect)
+{
+	setDrawRectF(RectF(drawRect.left,drawRect.top,drawRect.Width(),drawRect.Height()));
+}
+
+RectF DrawItemManagement::getDrawRectF()
 {
 	return m_drawRect;
+}
+
+CRect DrawItemManagement::getDrawCRect()
+{
+	RectF rect = getDrawRectF();
+	return CRect(rect.X,rect.Y,rect.X + rect.Width, rect.Y + rect.Height);
 }
 
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
-bool DrawItemManagement::checkMoveable(IDrawItem* item , CPoint point)
+bool DrawItemManagement::checkMoveable(IDrawItem* item , PointF point)
 {
-
-	return m_drawRect.PtInRect(point);
+	return getDrawCRect().PtInRect(CPoint(point.X,point.Y));
 }
 
 void DrawItemManagement::SetActiveState(int state)
@@ -293,24 +303,24 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 	if (item->getType().Compare(L"companel") == 0)
 	{
 		DrawItemPolygon* companel = (DrawItemPolygon*)item;
-		std::vector<CPoint> outlines = companel->getOutline();
-		CRect rect = companel->getRect();
+		std::vector<PointF> outlines = companel->getOutline();
+		RectF rect = companel->getRect();
 
 		//用于旋转后偏移
-		PointF offset(rect.Height(),0);
+		PointF offset(rect.Height,0);
 
-		std::vector<CPoint> outResult;
+		std::vector<PointF> outResult;
 		for(int i = 0; i < outlines.size(); i++)
 		{
 			//旋转点
-			PointF tempPoint(outlines[i].x,outlines[i].y);
-			rotateByAngle(PointF(rect.left,rect.top),tempPoint,90);
+			PointF tempPoint(outlines[i].X,outlines[i].Y);
+			rotateByAngle(DrawItemBase::getTopLeft(rect),tempPoint,90);
 
 			//偏移点
 			tempPoint = tempPoint + offset;
 
 			//保存
-			outResult.push_back(CPoint(tempPoint.X,tempPoint.Y));
+			outResult.push_back(PointF(tempPoint.X,tempPoint.Y));
 		}
 		companel->setOutline(outResult);
 	}

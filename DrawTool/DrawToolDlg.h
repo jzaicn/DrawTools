@@ -54,10 +54,10 @@ public:
 private:
 	//////////////////////////////////////////////////////////////////////////
 	//数据结构
-	CRect m_rcDragArea;
+	RectF m_rcDragArea;
 	std::vector<CSkinButton*> m_vpDragableRect;
 	int m_nSelectedDragRect;
-	CPoint m_ptDragStartPos;
+	PointF m_ptDragStartPos;
 
 
 	DrawItemManagement m_manager;
@@ -70,7 +70,7 @@ public:
 
 	void clearDrawMap();
 	void addItemDrawMap(CSkinButton* drawItem);
-	void CreateOutterFrame( CRect &rcClient );
+	void CreateOutterFrame( RectF &rcClient );
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 };

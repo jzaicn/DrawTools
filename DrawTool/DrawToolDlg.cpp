@@ -85,9 +85,10 @@ BOOL CDrawToolDlg::OnInitDialog()
 	CRect rcClient;
 	GetClientRect(rcClient);
 	rcClient.bottom -= 120;
-	m_manager.setDrawRect(rcClient);
+	m_manager.setDrawCRect(rcClient);
 
-	CreateOutterFrame(rcClient);
+	RectF rcClinetF(rcClient.left,rcClient.top,rcClient.Width(),rcClient.Height());
+	CreateOutterFrame(rcClinetF);
 
 
 
@@ -134,7 +135,7 @@ void CDrawToolDlg::OnPaint()
 		CRect rcClient;
 		GetClientRect(rcClient);
 
-		CRect drawRect = m_manager.getDrawRect();
+		RectF drawRect = m_manager.getDrawRectF();
 
 		CPaintDC dc(this);
 
@@ -182,7 +183,7 @@ BOOL CDrawToolDlg::PreTranslateMessage(MSG* pMsg)
 		OutputDebugString(key);
 
 		if (m_manager.PreTranslateMessage(pMsg)){
-			InvalidateRect(m_manager.getDrawRect());
+			InvalidateRect(m_manager.getDrawCRect());
 			return TRUE;
 		}
 	}
@@ -204,36 +205,41 @@ BOOL CDrawToolDlg::OnEraseBkgnd(CDC* pDC)
 
 void CDrawToolDlg::OnMouseMove(UINT nFlags, CPoint point)
 {
-	m_manager.OnMouseMove(nFlags,point);
-	InvalidateRect(m_manager.getDrawRect());
+	PointF _pointF(point.x,point.y);
+	m_manager.OnMouseMove(nFlags,_pointF);
+	InvalidateRect(m_manager.getDrawCRect());
 	CDialogEx::OnMouseMove(nFlags, point);
 }
 
 void CDrawToolDlg::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	m_manager.OnLButtonDown(nFlags,point);
-	InvalidateRect(m_manager.getDrawRect());
+	PointF _pointF(point.x,point.y);
+	m_manager.OnLButtonDown(nFlags,_pointF);
+	InvalidateRect(m_manager.getDrawCRect());
 	CDialogEx::OnLButtonDown(nFlags, point);
 }
 
 void CDrawToolDlg::OnLButtonUp(UINT nFlags, CPoint point)
 {
-	m_manager.OnLButtonUp(nFlags,point);
-	InvalidateRect(m_manager.getDrawRect());
+	PointF _pointF(point.x,point.y);
+	m_manager.OnLButtonUp(nFlags,_pointF);
+	InvalidateRect(m_manager.getDrawCRect());
 	CDialogEx::OnLButtonUp(nFlags, point);
 }
 
 void CDrawToolDlg::OnRButtonDown(UINT nFlags, CPoint point)
 {
-	m_manager.OnRButtonDown(nFlags,point);
-	InvalidateRect(m_manager.getDrawRect());
+	PointF _pointF(point.x,point.y);
+	m_manager.OnRButtonDown(nFlags,_pointF);
+	InvalidateRect(m_manager.getDrawCRect());
 	CDialogEx::OnRButtonDown(nFlags, point);
 }
 
 void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
 {
-	m_manager.OnRButtonUp(nFlags,point);
-	InvalidateRect(m_manager.getDrawRect());
+	PointF _pointF(point.x,point.y);
+	m_manager.OnRButtonUp(nFlags,_pointF);
+	InvalidateRect(m_manager.getDrawCRect());
 	CDialogEx::OnRButtonUp(nFlags, point);
 }
 
@@ -250,15 +256,15 @@ void CDrawToolDlg::OnBnClickedReload()
 void CDrawToolDlg::OnBnClickedInputitem()
 {
 	//≤‚ ‘”√∞º–Õ
-	std::vector<CPoint> points;
-	points.push_back(CPoint(0,0));
-	points.push_back(CPoint(50,0));
-	points.push_back(CPoint(50,50));
-	points.push_back(CPoint(150,50));
-	points.push_back(CPoint(150,0));
-	points.push_back(CPoint(200,0));
-	points.push_back(CPoint(200,100));
-	points.push_back(CPoint(0,100));
+	std::vector<PointF> points;
+	points.push_back(PointF(0,0));
+	points.push_back(PointF(50,0));
+	points.push_back(PointF(50,50));
+	points.push_back(PointF(150,50));
+	points.push_back(PointF(150,0));
+	points.push_back(PointF(200,0));
+	points.push_back(PointF(200,100));
+	points.push_back(PointF(0,100));
 	DrawItemPolygon* panel = new DrawItemPolygon(points);
 	m_manager.addDrawItem(panel);
 
@@ -275,7 +281,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 	item->setRect(0,0,100,100);
 // 	m_manager.addDrawItem(item);
 
-	InvalidateRect(m_manager.getDrawRect());
+	InvalidateRect(m_manager.getDrawCRect());
 }
 
 void CDrawToolDlg::clearDrawMap()
@@ -288,7 +294,7 @@ void CDrawToolDlg::addItemDrawMap(CSkinButton* drawItem)
 
 }
 
-void CDrawToolDlg::CreateOutterFrame( CRect &rcClient )
+void CDrawToolDlg::CreateOutterFrame( RectF &rcClient )
 {
 // 	DrawItemBase* leftBorder = new DrawItemBase();
 // 	leftBorder->setRect(rcClient.left,rcClient.top,rcClient.left + 10,rcClient.bottom);
