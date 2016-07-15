@@ -173,14 +173,14 @@ bool DrawItemBase::IsVisible(CPoint point)
 }
 #endif
 /************************************************************************/
-/*  绘图小板类                                                            */
+/*  直线多边形                                                            */
 /************************************************************************/
 #if 1
-DrawItemSmallPanel::DrawItemSmallPanel()
+DrawItemPolygon::DrawItemPolygon()
 {
 	m_type = "companel";
 }
-DrawItemSmallPanel::DrawItemSmallPanel(CPoint topLeft,CPoint bottomRight)
+DrawItemPolygon::DrawItemPolygon(CPoint topLeft,CPoint bottomRight)
 {
 	m_type = "companel";
 
@@ -192,7 +192,7 @@ DrawItemSmallPanel::DrawItemSmallPanel(CPoint topLeft,CPoint bottomRight)
 	points.push_back(CPoint(rect.bottom,rect.left));
 	setOutline(points);
 }
-DrawItemSmallPanel::DrawItemSmallPanel(CRect rect)
+DrawItemPolygon::DrawItemPolygon(CRect rect)
 {
 	m_type = "companel";
 
@@ -203,23 +203,23 @@ DrawItemSmallPanel::DrawItemSmallPanel(CRect rect)
 	points.push_back(CPoint(rect.bottom,rect.left));
 	setOutline(points);
 }
-DrawItemSmallPanel::DrawItemSmallPanel(const std::vector<CPoint>& outlines)
+DrawItemPolygon::DrawItemPolygon(const std::vector<CPoint>& outlines)
 {
 	m_type = "companel";
 
 	setOutline(outlines);
 }
-DrawItemSmallPanel::~DrawItemSmallPanel()
+DrawItemPolygon::~DrawItemPolygon()
 {
 
 }
 
-void DrawItemSmallPanel::OnPaint( Graphics &g )
+void DrawItemPolygon::OnPaint( Graphics &g )
 {
 	DrawItemBase::OnPaint(g);
 }
 
-void DrawItemSmallPanel::setOutline(std::vector<CPoint> outlines)
+void DrawItemPolygon::setOutline(std::vector<CPoint> outlines)
 {
 	CPoint topLeft(MAXINT,MAXINT);
 	CPoint bottomRight(MININT,MININT);
@@ -253,17 +253,17 @@ void DrawItemSmallPanel::setOutline(std::vector<CPoint> outlines)
 	
 }
 
-std::vector<CPoint> DrawItemSmallPanel::getOutline()
+std::vector<CPoint> DrawItemPolygon::getOutline()
 {
 	return m_outlines;
 }
 
-void DrawItemSmallPanel::moveTo(CPoint point)
+void DrawItemPolygon::moveTo(CPoint point)
 {
 	CPoint topLeft = getRect().TopLeft();
 	move(CPoint(point.x - topLeft.x,point.y - topLeft.y));
 }
-void DrawItemSmallPanel::move(CPoint offset)
+void DrawItemPolygon::move(CPoint offset)
 {
 	for (unsigned int i = 0;i<m_outlines.size();i++)
 	{
@@ -272,25 +272,35 @@ void DrawItemSmallPanel::move(CPoint offset)
 	m_myRect.OffsetRect(offset);
 }
 
-void DrawItemSmallPanel::setRect(CRect rect)
+void DrawItemPolygon::setRect(CRect rect)
 {
 	m_myRect = rect;
 }
-CRect DrawItemSmallPanel::getRect()
+CRect DrawItemPolygon::getRect()
 {
 	return m_myRect;
 }
 
-Gdiplus::Region* DrawItemSmallPanel::getCloneRigon()
+Gdiplus::Region* DrawItemPolygon::getCloneRigon()
 {
 	if (m_outlines.size()>0)
 	{
+// 		GraphicsPath path;
+// 		Point* outlineArr = getOutlineArrClone();
+// 		path.AddPolygon(outlineArr,m_outlines.size());
+// 		Region region(&path);
+// 		delete outlineArr;
+// 		return region.Clone(); 
+
 		GraphicsPath path;
-		Point* outlineArr = getOutlineArrClone();
-		path.AddPolygon(outlineArr,m_outlines.size());
+		path.StartFigure();
+		//Point* outlineArr = getOutlineArrClone();
+		path.AddArc(0,0,100,100,00.0,360.0);
+		path.CloseFigure();
+		//path.AddPolygon(outlineArr,m_outlines.size());
 		Region region(&path);
-		delete outlineArr;
 		return region.Clone(); 
+		//delete outlineArr;
 	}
 	else
 	{
@@ -298,16 +308,27 @@ Gdiplus::Region* DrawItemSmallPanel::getCloneRigon()
 		return region.Clone();
 	}
 }
-bool DrawItemSmallPanel::IsVisible(CPoint point)
+bool DrawItemPolygon::IsVisible(CPoint point)
 {
 	if (m_outlines.size()>0)
 	{
+// 		GraphicsPath path;
+// 		Point* outlineArr = getOutlineArrClone();
+// 		path.AddPolygon(outlineArr,m_outlines.size());
+// 		Region region(&path);
+// 		delete outlineArr;
+// 		return region.IsVisible(point.x,point.y);
+
 		GraphicsPath path;
-		Point* outlineArr = getOutlineArrClone();
-		path.AddPolygon(outlineArr,m_outlines.size());
+		path.StartFigure();
+		//Point* outlineArr = getOutlineArrClone();
+		path.AddArc(0,0,100,100,00.0,360.0);
+		path.CloseFigure();
+		//path.AddPolygon(outlineArr,m_outlines.size());
 		Region region(&path);
-		delete outlineArr;
 		return region.IsVisible(point.x,point.y);
+		//delete outlineArr;
+
 	}
 	else
 	{
@@ -315,7 +336,7 @@ bool DrawItemSmallPanel::IsVisible(CPoint point)
 	}
 }
 
-Point* DrawItemSmallPanel::getOutlineArrClone()
+Point* DrawItemPolygon::getOutlineArrClone()
 {
 	Point* outlineArr = new Point[m_outlines.size()];
 	for (int i = 0;i<m_outlines.size();i++)
@@ -325,4 +346,10 @@ Point* DrawItemSmallPanel::getOutlineArrClone()
 	}
 	return outlineArr;
 }
+#endif
+
+/************************************************************************/
+/*  直线拼圆弧多边形                                                            */
+/************************************************************************/
+#if 1
 #endif

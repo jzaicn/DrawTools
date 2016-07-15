@@ -259,7 +259,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	points.push_back(CPoint(200,0));
 	points.push_back(CPoint(200,100));
 	points.push_back(CPoint(0,100));
-	DrawItemSmallPanel* panel = new DrawItemSmallPanel(points);
+	DrawItemPolygon* panel = new DrawItemPolygon(points);
 	m_manager.addDrawItem(panel);
 
 	//²âÊÔÓÃÈý½ÇÐÎ
@@ -290,21 +290,21 @@ void CDrawToolDlg::addItemDrawMap(CSkinButton* drawItem)
 
 void CDrawToolDlg::CreateOutterFrame( CRect &rcClient )
 {
-	DrawItemBase* leftBorder = new DrawItemBase();
-	leftBorder->setRect(rcClient.left,rcClient.top,rcClient.left + 10,rcClient.bottom);
-	m_manager.addDrawItem(leftBorder);
-
-	DrawItemBase* rightBorder = new DrawItemBase();
-	rightBorder->setRect(rcClient.right - 10 ,rcClient.top,rcClient.right,rcClient.bottom);
-	m_manager.addDrawItem(rightBorder);
-
-	DrawItemBase* topBorder = new DrawItemBase();
-	topBorder->setRect(rcClient.left,rcClient.top,rcClient.right,rcClient.top + 10);
-	m_manager.addDrawItem(topBorder);
-
-	DrawItemBase* bottomBorder = new DrawItemBase();
-	bottomBorder->setRect(rcClient.left,rcClient.bottom -10 ,rcClient.right,rcClient.bottom);
-	m_manager.addDrawItem(bottomBorder);
+// 	DrawItemBase* leftBorder = new DrawItemBase();
+// 	leftBorder->setRect(rcClient.left,rcClient.top,rcClient.left + 10,rcClient.bottom);
+// 	m_manager.addDrawItem(leftBorder);
+// 
+// 	DrawItemBase* rightBorder = new DrawItemBase();
+// 	rightBorder->setRect(rcClient.right - 10 ,rcClient.top,rcClient.right,rcClient.bottom);
+// 	m_manager.addDrawItem(rightBorder);
+// 
+// 	DrawItemBase* topBorder = new DrawItemBase();
+// 	topBorder->setRect(rcClient.left,rcClient.top,rcClient.right,rcClient.top + 10);
+// 	m_manager.addDrawItem(topBorder);
+// 
+// 	DrawItemBase* bottomBorder = new DrawItemBase();
+// 	bottomBorder->setRect(rcClient.left,rcClient.bottom -10 ,rcClient.right,rcClient.bottom);
+// 	m_manager.addDrawItem(bottomBorder);
 }
 
 

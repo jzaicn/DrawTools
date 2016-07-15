@@ -94,17 +94,17 @@ protected:
 };
 #endif
 /************************************************************************/
-/*  绘图小板类                                                            */
+/*  绘图直线多边形                                                      */
 /************************************************************************/
 #if 1
-class DrawItemSmallPanel : public DrawItemBase
+class DrawItemPolygon : public DrawItemBase
 {
 public:
-	DrawItemSmallPanel();	
-	DrawItemSmallPanel(CPoint topLeft,CPoint bottomRight);
-	DrawItemSmallPanel(CRect rect);
-	DrawItemSmallPanel(const std::vector<CPoint>& outlines);
-	~DrawItemSmallPanel();
+	DrawItemPolygon();	
+	DrawItemPolygon(CPoint topLeft,CPoint bottomRight);
+	DrawItemPolygon(CRect rect);
+	DrawItemPolygon(const std::vector<CPoint>& outlines);
+	~DrawItemPolygon();
 
 public:
 	void setOutline(std::vector<CPoint> outlines);	//设置多边形点
@@ -127,4 +127,39 @@ private:
 protected:
 	std::vector<CPoint> m_outlines;
 };
+#endif
+/************************************************************************/
+/*  绘图直线加曲线多边形                                                */
+/************************************************************************/
+#if 0
+// class DrawItemShape : public DrawItemBase
+// {
+// public:
+// 	DrawItemShape();	
+// 	DrawItemShape(CRect outterRect,std::map<int,);
+// 	DrawItemShape(CRect rect);
+// 	DrawItemShape(const std::vector<CPoint>& outlines);
+// 	~DrawItemShape();
+// 
+// public:
+// 	void setOutline(std::vector<CPoint> outlines);	//设置多边形点
+// 	std::vector<CPoint> getOutline();				//设置多边形点
+// 
+// 	virtual void OnPaint( Graphics &g );			//绘制
+// 
+// 	virtual void moveTo(CPoint point);				//移动到
+// 	virtual void move(CPoint offset);				//偏移
+// 
+// 	virtual void setRect(CRect rect);				//区域
+// 	virtual CRect getRect();						//区域
+// 
+// 	virtual Gdiplus::Region* getCloneRigon();		//区域
+// 	virtual bool IsVisible(CPoint point);			//区域判断
+// 
+// private:
+// 	Point* getOutlineArrClone();					//获得点阵（需要外部释放）
+// 
+// protected:
+// 	std::vector<CPoint> m_outlines;
+// };
 #endif

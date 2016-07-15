@@ -292,7 +292,7 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 {
 	if (item->getType().Compare(L"companel") == 0)
 	{
-		DrawItemSmallPanel* companel = (DrawItemSmallPanel*)item;
+		DrawItemPolygon* companel = (DrawItemPolygon*)item;
 		std::vector<CPoint> outlines = companel->getOutline();
 		CRect rect = companel->getRect();
 
