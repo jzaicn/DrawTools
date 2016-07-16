@@ -354,11 +354,11 @@ void DrawStraightLine::loadPoints(std::vector<PointF>& points)
 
 void DrawStraightLine::updatePoints(std::vector<PointF>& points)
 {
-	m_last = points.back();
-	points.pop_back();
+	m_first = points.front();
+	points.erase(points.begin());
 
-	m_first = points.back();
-	points.pop_back();
+	m_last = points.front();
+	points.erase(points.begin());
 }
 void DrawStraightLine::getLineToPath(GraphicsPath& path)
 {
@@ -367,8 +367,8 @@ void DrawStraightLine::getLineToPath(GraphicsPath& path)
 //////////////////////////////////////////////////////////////////////////
 //
 const int DrawArcLine::m_MaxPointNum = 2;
-const int DrawArcLine::ArcSignLeft = 2;
-const int DrawArcLine::ArcSignRight = 1;
+const int DrawArcLine::ArcSignLeft = 1;
+const int DrawArcLine::ArcSignRight = 2;
 
 DrawArcLine::DrawArcLine(PointF first, PointF last, float radius, int sign)
 {
@@ -385,11 +385,11 @@ void DrawArcLine::loadPoints(std::vector<PointF>& points)
 }
 void DrawArcLine::updatePoints(std::vector<PointF>& points)
 {
-	m_last = points.back();
-	points.pop_back();
+	m_first = points.front();
+	points.erase(points.begin());
 
-	m_first = points.back();
-	points.pop_back();
+	m_last = points.front();
+	points.erase(points.begin());
 }
 void DrawArcLine::getLineToPath(GraphicsPath& path)
 {
@@ -399,6 +399,7 @@ void DrawArcLine::getLineToPath(GraphicsPath& path)
 	DrawTools::getArc(m_first,m_last,m_radius,m_sign,
 		rect,beginAngle,endAngle);
 	path.AddArc(rect,beginAngle,endAngle);
+
 }
 //////////////////////////////////////////////////////////////////////////
 //
@@ -436,6 +437,7 @@ void DrawItemShape::move(PointF offset)
 		points[i] = points[i] + offset;
 	}
 	setAllPoints(points);
+	m_myRect.Offset(offset);
 }
 
 void DrawItemShape::setAllPoints(std::vector<PointF> outlines)

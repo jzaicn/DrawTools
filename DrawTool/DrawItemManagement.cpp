@@ -272,37 +272,12 @@ bool DrawItemManagement::IsCrashArea()
 	return isActiveCrashStatic;
 }
 
-#include <math.h>  
-#define MY_PI 3.14159265358979323846  
-//角度转弧度  
-double DrawItemManagement::getRadFromAngle(double angle)  
-{  
-	return (angle / 180 * MY_PI);  
-}  
-//根据某点，旋转一个角度   
-void DrawItemManagement::rotateByAngle(PointF pointCenter,  
-	PointF &pointNeedRotate,  
-	double dAngleDegree)  
-{  
-	//通过移动把旋转中心放到坐标原点  
-	//旋转矩阵，公式如下（以原点旋转θ度）  
-	//(x',y') = ( x*cosθ-y*sinθ , x*sinθ+y*cosθ )  
-	PointF pointshifting = pointCenter-PointF(0,0);//旋转中心到坐标原点的距离  
-	PointF point0 = pointCenter - pointshifting;  
-	PointF point1 = pointNeedRotate - pointshifting;  
-	double dAngle2Rad = getRadFromAngle(dAngleDegree);    
-	PointF point2(point1.X*cos(dAngle2Rad) - point1.Y*sin(dAngle2Rad),  
-		point1.X*sin(dAngle2Rad) + point1.Y*cos(dAngle2Rad));  
-	pointNeedRotate = point2 + pointshifting;  
-} 
-
-
 void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 {
 	if (item->getType().Compare(L"companel") == 0)
 	{
-		DrawItemPolygon* companel = (DrawItemPolygon*)item;
-		std::vector<PointF> outlines = companel->getOutline();
+		DrawItemShape* companel = (DrawItemShape*)item;
+		std::vector<PointF> outlines = companel->getAllPoints();
 		RectF rect = companel->getRect();
 
 		//用于旋转后偏移
@@ -313,7 +288,7 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 		{
 			//旋转点
 			PointF tempPoint(outlines[i].X,outlines[i].Y);
-			rotateByAngle(DrawTools::getTopLeft(rect),tempPoint,90);
+			DrawTools::rotateByAngle(DrawTools::getTopLeft(rect),tempPoint,90);
 
 			//偏移点
 			tempPoint = tempPoint + offset;
@@ -321,6 +296,7 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 			//保存
 			outResult.push_back(PointF(tempPoint.X,tempPoint.Y));
 		}
-		companel->setOutline(outResult);
+		companel->setAllPoints(outResult);
+		companel->setRect(RectF(rect.X,rect.Y,rect.Height,rect.Width));
 	}
 }

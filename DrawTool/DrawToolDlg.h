@@ -70,4 +70,5 @@ public:
 	void CreateOutterFrame( RectF &rcClient );
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnBnClickedTest();
 };

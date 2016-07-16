@@ -18,41 +18,32 @@ private:
 	std::vector<IDrawItem*> m_activeDrawItemList;	//所有激活数据
 
 public:
-	void OnPaint(Graphics& g);
-	bool PreTranslateMessage(MSG* pMsg);
-	BOOL OnEraseBkgnd(CDC* pDC);
-	void OnMouseMove(UINT nFlags, PointF point);
-
-	bool IsCrashArea();
+	void OnPaint(Graphics& g);						//响应绘图
+	bool PreTranslateMessage(MSG* pMsg);			//响应消息
+	BOOL OnEraseBkgnd(CDC* pDC);					//响应擦除背景
+	void OnMouseMove(UINT nFlags, PointF point);	//响应鼠标移动
 
 
-	void OnLButtonDown(UINT nFlags, PointF point);
-	void OnLButtonUp(UINT nFlags, PointF point);
-	void OnRButtonDown(UINT nFlags, PointF point);
-	void OnRButtonUp(UINT nFlags, PointF point);
 
-public:
-	void addDrawItem(IDrawItem* drawItem);
-	std::vector<IDrawItem*>& getDrawItemList();
-	void clearDrawItem();
-	void setDrawRectF(RectF drawRect);
-	void setDrawCRect(CRect drawRect);
-	RectF getDrawRectF();
-	CRect getDrawCRect();
+	void OnLButtonDown(UINT nFlags, PointF point);	//响应左键按下
+	void OnLButtonUp(UINT nFlags, PointF point);	//响应左键弹起
+	void OnRButtonDown(UINT nFlags, PointF point);	//响应右键按下
+	void OnRButtonUp(UINT nFlags, PointF point);	//响应右键弹起
 
 public:
+	void addDrawItem(IDrawItem* drawItem);			//添加元素
+	std::vector<IDrawItem*>& getDrawItemList();		//取回元素列表
+	void clearDrawItem();							//清空元素列表
 
+	void setDrawRectF(RectF drawRect);				//设置绘图区域
+	void setDrawCRect(CRect drawRect);				//设置绘图区域
+	RectF getDrawRectF();							//得到绘图区域
+	CRect getDrawCRect();							//得到绘图区域
 
-	void SetActiveState(int state);
-
-	bool checkMoveable(IDrawItem* item , PointF point);
-
-	//角度转弧度  
-	double getRadFromAngle(double angle)  ;
-	//根据某点，旋转一个角度   
-	void rotateByAngle(PointF pointCenter,  
-		PointF &pointNeedRotate,  
-		double dAngleDegree)  ;
-	void DrawItemManagement::rotateDrawItem(IDrawItem* item);
+public:
+	bool IsCrashArea();								//是否活动区域和静态区域碰撞
+	void SetActiveState(int state);					//统一设置活动区域元素状态
+	bool checkMoveable(IDrawItem* item , PointF point);	//检测是否能移动
+	void rotateDrawItem(IDrawItem* item);			//元素旋转
 };
 

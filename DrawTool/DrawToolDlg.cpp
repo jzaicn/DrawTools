@@ -44,6 +44,7 @@ BEGIN_MESSAGE_MAP(CDrawToolDlg, CDialogEx)
 
 	ON_BN_CLICKED(IDC_RELOAD, &CDrawToolDlg::OnBnClickedReload)
 	ON_BN_CLICKED(IDC_INPUTITEM, &CDrawToolDlg::OnBnClickedInputitem)
+	ON_BN_CLICKED(IDC_TEST, &CDrawToolDlg::OnBnClickedTest)
 END_MESSAGE_MAP()
 
 
@@ -261,15 +262,15 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	//  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
 	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
 	//测试用圆角长方形
-	RectF rect(10,10,1988,360);
+	RectF rect(10,10,390,360);
 	std::vector<IDrawLine*> lines;
-
 	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
 	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
 	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
 	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
 
 	DrawItemShape* shape = new DrawItemShape(rect,lines);
+	shape->setType(L"companel");
 	m_manager.addDrawItem(shape);
 
 
@@ -307,6 +308,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 void CDrawToolDlg::clearDrawMap()
 {
 	m_manager.clearDrawItem();
+	InvalidateRect(m_manager.getDrawCRect());
 }
 
 void CDrawToolDlg::CreateOutterFrame( RectF &rcClient )
@@ -328,4 +330,339 @@ void CDrawToolDlg::CreateOutterFrame( RectF &rcClient )
 // 	m_manager.addDrawItem(bottomBorder);
 }
 
+bool pfe(PointF& p1,PointF& p2)
+{
+	return (fabs(p1.X - p2.X)<0.00001) && (fabs(p1.Y - p2.Y)<0.00001);
+}
 
+#define TestOnce 1
+#define TestNew 1
+void CDrawToolDlg::OnBnClickedTest()
+{
+	//测试画图形的点移动是否恰当
+#if TestOnce
+	{
+		ASSERT(DrawTools::ArcSignLeft == 1);
+
+		RectF rect(10,10,390,360);
+		std::vector<IDrawLine*> lines;
+		lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
+		lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
+		lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
+		lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+
+		shape->move(PointF(0,0));
+		std::vector<PointF> points = shape->getAllPoints();
+		ASSERT(points[0].Equals(PointF(400,10)));
+
+		delete shape;
+	}
+#endif
+
+	//DrawTools点坐标转换是否得当
+#if TestOnce
+	//点角度计算
+	{
+	 	PointF center(50,50);
+	 
+	 	//正轴
+	 	PointF point1(100,50);
+	 	double angle1 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point1));
+	 	ASSERT(angle1 == 0.0);
+	 
+	 	//正半轴
+	 	PointF point2(100,0);
+	 	double angle2 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point2));
+	 	ASSERT(angle2 == 45.0);
+	 
+	 	//正半轴
+	 	PointF point3(50,00);
+	 	double angle3 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point3));
+	 	ASSERT(angle3 == 90.0);
+	 
+	 	//正半轴
+	 	PointF point4(00,00);
+	 	double angle4 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point4));
+	 	ASSERT(angle4 == 135.0);
+	 
+	 	//正轴
+	 	PointF point5(0,50);
+	 	double angle5 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point5));
+	 	ASSERT(angle5 == 180.0);
+	 
+	 	//正半轴
+	 	PointF point6(0,100);
+	 	double angle6 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point6));
+	 	ASSERT(angle6 == 225.0);
+	 
+	 	//正半轴
+	 	PointF point7(50,100);
+	 	double angle7 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point7));
+	 	ASSERT(angle7 == 270.0);
+	 
+	 	//正半轴
+	 	PointF point8(100,100);
+	 	double angle8 = DrawTools::getAngleFromRad(DrawTools::getRadFrom2Point(center,point8));
+	 	ASSERT(angle8 == 315.0);
+	 
+	}
+	//角坐标计算测试
+	{
+		PointF center(50.0,50.0);
+		double beginAngle = 0.0 ,sweepAngle = 0.0;
+
+		//正向4个象限
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(100,50),PointF(50.0,0.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 0.0);
+		ASSERT(sweepAngle == 90.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50,0.0),PointF(0.0,50.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 90.0);
+		ASSERT(sweepAngle == 90.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(0.0,50),PointF(50.0,100.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 180.0);
+		ASSERT(sweepAngle == 90.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50,100),PointF(100,50.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 270.0);
+		ASSERT(sweepAngle == 90.0);
+
+
+
+		//再追一圈4个象限
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50.0,0.0),PointF(100,50),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 90.0);
+		ASSERT(sweepAngle == 270.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(0.0,50.0),PointF(50,0.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 180.0);
+		ASSERT(sweepAngle == 270.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50.0,100.0),PointF(0.0,50),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 270.0);
+		ASSERT(sweepAngle == 270.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(100,50.0),PointF(50,100),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 0.0);
+		ASSERT(sweepAngle == 270.0);
+	}
+
+	//最短追及
+	{
+		PointF center(50.0,50.0);
+		double beginAngle = 0.0 ,sweepAngle = 0.0;
+
+		//正向4个象限
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(100,50),PointF(50.0,0.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 0.0);
+		ASSERT(sweepAngle == 90.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50,0.0),PointF(0.0,50.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 90.0);
+		ASSERT(sweepAngle == 90.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(0.0,50),PointF(50.0,100.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 180.0);
+		ASSERT(sweepAngle == 90.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50,100),PointF(100,50.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 270.0);
+		ASSERT(sweepAngle == 90.0);
+
+
+
+		//再追一圈4个象限
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50.0,0.0),PointF(100,50),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 90.0);
+		ASSERT(sweepAngle == 270.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(0.0,50.0),PointF(50,0.0),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 180.0);
+		ASSERT(sweepAngle == 270.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(50.0,100.0),PointF(0.0,50),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 270.0);
+		ASSERT(sweepAngle == 270.0);
+
+		DrawTools::getAngularCoordinate_DegreeCatch(center,PointF(100,50.0),PointF(50,100),50,beginAngle,sweepAngle);
+		ASSERT(beginAngle == 0.0);
+		ASSERT(sweepAngle == 270.0);
+	}
+	//正式角坐标到显示用角坐标转换
+	{
+		ASSERT(DrawTools::getAngularCoordinate_Mirror(60.0) == 300.0);
+		ASSERT(DrawTools::getAngularCoordinate_Mirror(270.0) == 90.0);
+
+		double begin1 = 90.0;
+		double sweep1 = 90;
+		DrawTools::getDrawArcAngularCoordinate(begin1,sweep1);
+		ASSERT(begin1 == 180);
+		ASSERT(sweep1 == 90);
+	}
+#endif
+
+	//画圆弧
+#if TestOnce
+	//画圆弧 * 4 = 一个圆
+	{
+		RectF rect(0,0,100,100);
+		std::vector<IDrawLine*> lines;
+		lines.push_back(new DrawArcLine(PointF(100.0000,50.0000),PointF(50.0000,0.00),50,1));
+		lines.push_back(new DrawArcLine(PointF(50.0000,00.0000),PointF(00.0000,50.0),50,1));
+		lines.push_back(new DrawArcLine(PointF(00.0000,50.0000),PointF(50.0000,100),50,1));
+		lines.push_back(new DrawArcLine(PointF(50.0000,100.0000),PointF(100.0000,50.0),50,1));
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+		m_manager.addDrawItem(shape);
+
+		m_manager.clearDrawItem();
+	}
+	//画圆弧
+	{
+		RectF rect(0,0,100,100);
+		std::vector<IDrawLine*> lines;
+		lines.push_back(new DrawArcLine(PointF(100.0000,00.0000),PointF(0.0000,100),100,1));
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+		m_manager.addDrawItem(shape);
+
+		DrawItemShape* item = (DrawItemShape*)m_manager.getDrawItemList()[0];
+		std::vector<PointF> points = item->getAllPoints();
+
+		ASSERT(points[0].X == 100);
+		ASSERT(points[0].Y == 0.0);
+		ASSERT(points[1].X == 0.0);
+		ASSERT(points[1].Y == 100);
+		//m_manager.clearDrawItem();
+	}
+	//画三角形
+	{	
+		RectF rect(0,0,100,100);
+		std::vector<IDrawLine*> lines;
+		lines.push_back(new DrawStraightLine(PointF(100,0.0000),PointF(0,100)));
+		lines.push_back(new DrawStraightLine(PointF(0,100.0000),PointF(100.0000,100)));
+		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,00)));
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+		m_manager.addDrawItem(shape);
+		m_manager.clearDrawItem();
+	}
+	//画斜边是圆的直角三角形
+	{
+		RectF rect(0,0,100,100);
+		std::vector<IDrawLine*> lines;
+		lines.push_back(new DrawArcLine(PointF(100.0000,00.0000),PointF(0.0000,100),110,1));
+		lines.push_back(new DrawStraightLine(PointF(0,100.0000),PointF(100.0000,100)));
+		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,00)));
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+		m_manager.addDrawItem(shape);
+		m_manager.clearDrawItem();
+	}
+#endif
+
+	//测试坐标点旋转
+#if TestOnce
+	{
+		//构造三角形
+		RectF rect(0,0,100,100);
+		std::vector<IDrawLine*> lines;
+		lines.push_back(new DrawStraightLine(PointF(100.0,0.0000),PointF(0.0,100.0)));
+		lines.push_back(new DrawStraightLine(PointF(0.0,100.0000),PointF(100.0000,100.0)));
+		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,0.0)));
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+		shape->setType(L"companel");
+		m_manager.addDrawItem(shape);
+
+		//得到所有点
+		std::vector<PointF> origin1 = shape->getAllPoints();
+
+		//旋转图形4次（回到原位置）
+		m_manager.rotateDrawItem(shape);
+		m_manager.rotateDrawItem(shape);
+		m_manager.rotateDrawItem(shape);
+		m_manager.rotateDrawItem(shape);
+
+		//获得所有新的点，比较旋转后所有点是否还在原位置
+		std::vector<PointF> result1 = shape->getAllPoints();
+		ASSERT(origin1.size() == result1.size());
+		for (unsigned int i = 0;i<result1.size() ; i++)
+		{
+			bool a = result1[i].Equals(origin1[i]);
+
+			//CString mm;
+			//mm.Format(L"%d (%f, %f) (%f, %f)\n",a,result1[i].X,result1[i].Y,origin1[i].X,origin1[i].Y);
+			//OutputDebugString(mm);
+
+
+			ASSERT(fabs(result1[i].X - origin1[i].X) <0.0000001);
+			ASSERT(fabs(result1[i].Y - origin1[i].Y) <0.0000001);
+			//ASSERT(result1[i].Equals(origin1[i]));
+		}
+
+		//获取外包围边框，由于当前图形是正方形的内接直角三角形，
+		//所以在每次旋转后判断第一个点都是顶点。
+		RectF originRect1 = shape->getRect();
+
+
+		ASSERT(pfe(DrawTools::getTopRight(originRect1),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getBottomRight(originRect1),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getBottomLeft(originRect1),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getTopLeft(originRect1),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getTopRight(originRect1),shape->getAllPoints()[0]));
+
+
+		shape->move(PointF(200,100));
+
+		std::vector<PointF> origin2 = shape->getAllPoints();
+
+		m_manager.rotateDrawItem(shape);
+		m_manager.rotateDrawItem(shape);
+		m_manager.rotateDrawItem(shape);
+		m_manager.rotateDrawItem(shape);
+
+		std::vector<PointF> result2 = shape->getAllPoints();
+		ASSERT(origin2.size() == result2.size());
+		for (unsigned int i = 0;i<result2.size() ; i++)
+		{
+			//CString mm;
+			//mm.Format(L"(%f, %f) (%f, %f)\n",result2[i].X,result2[i].Y,origin2[i].X,origin2[i].Y);
+			//OutputDebugString(mm);
+
+			ASSERT(result2[i].Equals(origin2[i]));
+		}
+
+		RectF originRect2 = shape->getRect();
+
+
+		ASSERT(pfe(DrawTools::getTopRight(originRect2),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getBottomRight(originRect2),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getBottomLeft(originRect2),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getTopLeft(originRect2),shape->getAllPoints()[0]));
+		m_manager.rotateDrawItem(shape);
+		ASSERT(pfe(DrawTools::getTopRight(originRect2),shape->getAllPoints()[0]));
+	}
+
+#endif
+
+#if TestNew
+
+
+
+
+
+
+
+
+
+
+
+
+
+#endif
+}
