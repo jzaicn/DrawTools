@@ -81,7 +81,6 @@ BOOL CDrawToolDlg::OnInitDialog()
 
 	//ShowWindow(SW_MAXIMIZE);
 
-	// TODO: 在此添加额外的初始化代码
 
 	CRect rcClient;
 	GetClientRect(rcClient);
@@ -666,3 +665,14 @@ void CDrawToolDlg::OnBnClickedTest()
 
 #endif
 }
+
+/************************************************************************/
+/* TODO LIST                                                            */
+/************************************************************************/
+//TODO: 方中圆
+//TODO: 板上的图案（孔槽）
+//TODO: 板件外轮廓
+//TODO: 放大缩小显示
+//TODO: 界面大板栏，界面小板栏
+//TODO: 加载数据保存数据
+//TODO: 错误信息管理，日志信息管理
