@@ -120,6 +120,9 @@ public:
 	virtual RectF getRect();						//区域
 
 	virtual Gdiplus::Region* getCloneRigon();		//区域
+
+	void buildPath( GraphicsPath &path );			//区域
+
 	virtual bool IsVisible(PointF point);			//区域判断
 
 private:
@@ -187,13 +190,16 @@ public:
 	virtual void moveTo(PointF point);				//移动到
 	virtual void move(PointF offset);				//偏移
 
-	void setAllPoints(std::vector<PointF> outlines);//设置多边形点
-	std::vector<PointF> getAllPoints();				//设置多边形点
+	virtual void setAllPoints(std::vector<PointF> outlines);	//设置多边形点
+	virtual std::vector<PointF> getAllPoints();					//设置多边形点
 
 	virtual void setRect(RectF rect);				//区域
 	virtual RectF getRect();						//区域
 
 	virtual Gdiplus::Region* getCloneRigon();		//区域
+
+	void buildPath( GraphicsPath &path );
+
 	virtual bool IsVisible(PointF point);			//区域判断
 
 protected:

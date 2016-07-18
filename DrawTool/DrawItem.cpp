@@ -15,6 +15,7 @@ Color DrawItemBase::ColorDisable = Color(211, 216, 224);
 Color DrawItemBase::ColorDown = Color(255, 255 ,255);
 Color DrawItemBase::ColorError = Color(230, 12,3);
 
+
 //////////////////////////////////////////////////////////////////////////
 // 基础状态定义
 const int DrawItemBase::StateNormal = 0;
@@ -174,7 +175,7 @@ bool DrawItemBase::IsVisible(PointF point)
 
 #endif
 /************************************************************************/
-/*  直线多边形                                                            */
+/*  直线多边形                                                          */
 /************************************************************************/
 #if 1
 DrawItemPolygon::DrawItemPolygon()
@@ -289,10 +290,9 @@ Gdiplus::Region* DrawItemPolygon::getCloneRigon()
 
 
 		GraphicsPath path;
-		PointF* outlineArr = getOutlineArrClone();
-		path.AddPolygon(outlineArr,m_outlines.size());
+		buildPath(path);
+
 		Region region(&path);
-		delete outlineArr;
 		return region.Clone(); 
 
 	}
@@ -307,12 +307,9 @@ bool DrawItemPolygon::IsVisible(PointF point)
 	if (m_outlines.size()>0)
 	{
 		GraphicsPath path;
-		PointF* outlineArr = getOutlineArrClone();
-		path.AddPolygon(outlineArr,m_outlines.size());
+		buildPath(path);
 		Region region(&path);
-		delete outlineArr;
 		return region.IsVisible(point.X,point.Y);
-
 	}
 	else
 	{
@@ -330,10 +327,18 @@ PointF* DrawItemPolygon::getOutlineArrClone()
 	}
 	return outlineArr;
 }
+
+void DrawItemPolygon::buildPath( GraphicsPath &path )
+{
+	PointF* outlineArr = getOutlineArrClone();
+	path.AddPolygon(outlineArr,m_outlines.size());
+	delete outlineArr;
+}
+
 #endif
 
 /************************************************************************/
-/*  直线拼圆弧多边形                                                            */
+/*  直线拼圆弧多边形                                                    */
 /************************************************************************/
 #if 1
 //////////////////////////////////////////////////////////////////////////
@@ -473,13 +478,8 @@ Gdiplus::Region* DrawItemShape::getCloneRigon()
 	if (m_lines.size()>0)
 	{
 		GraphicsPath path;
-		
-		path.StartFigure();
-		for (unsigned int i = 0;i<m_lines.size();i++)
-		{
-			m_lines[i]->getLineToPath(path);
-		}
-		path.CloseFigure();
+		buildPath(path);
+
 
 		Region region(&path);
 		return region.Clone(); 
@@ -496,12 +496,7 @@ bool DrawItemShape::IsVisible(PointF point)
 	{
 		GraphicsPath path;
 
-		//path.StartFigure();
-		for (unsigned int i = 0;i<m_lines.size();i++)
-		{
-			m_lines[i]->getLineToPath(path);
-		}
-		//path.CloseFigure();
+		buildPath(path);
 
 		Region region(&path);
 		return region.IsVisible(point); 
@@ -510,6 +505,16 @@ bool DrawItemShape::IsVisible(PointF point)
 	{
 		return false;
 	}
+}
+
+void DrawItemShape::buildPath( GraphicsPath &path )
+{
+	path.StartFigure();
+	for (unsigned int i = 0;i<m_lines.size();i++)
+	{
+		m_lines[i]->getLineToPath(path);
+	}
+	path.CloseFigure();
 }
 
 

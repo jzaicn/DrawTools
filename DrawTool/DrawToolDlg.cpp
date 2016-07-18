@@ -6,6 +6,7 @@
 #include "DrawToolDlg.h"
 #include "afxdialogex.h"
 #include "DrawItem.h"
+//#include "SmallPanelDrawItem.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -253,24 +254,44 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
-	// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
-	// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />
-	// 	<Vector X="10.0000" Y="370.0000" R="360.0000" Sign="2" Dir="1" />
-	// 	<Vector X="1998.0000" Y="370.0000" R="0.0000" Sign="0" Dir="0" />
-	//
-	//  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
-	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
-	//测试用圆角长方形
-	RectF rect(10,10,390,360);
-	std::vector<IDrawLine*> lines;
-	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
-	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
-	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
-	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
+	//// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
+	//// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />
+	//// 	<Vector X="10.0000" Y="370.0000" R="360.0000" Sign="2" Dir="1" />
+	//// 	<Vector X="1998.0000" Y="370.0000" R="0.0000" Sign="0" Dir="0" />
+	////
+	////  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
+	////  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
+	////测试用圆角长方形
+	//RectF rect(10,10,390,360);
+	//std::vector<IDrawLine*> lines;
+	//lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
+	//lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
+	//lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
+	//lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
 
-	DrawItemShape* shape = new DrawItemShape(rect,lines);
-	shape->setType(L"companel");
-	m_manager.addDrawItem(shape);
+	//SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
+	//shape->setOutterLine(lines);
+	//m_manager.addDrawItem(shape);
+
+
+ 	// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
+ 	// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />
+ 	// 	<Vector X="10.0000" Y="370.0000" R="360.0000" Sign="2" Dir="1" />
+ 	// 	<Vector X="1998.0000" Y="370.0000" R="0.0000" Sign="0" Dir="0" />
+ 	//
+ 	//  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
+ 	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
+ 	//测试用圆角长方形
+ 	RectF rect(10,10,390,360);
+ 	std::vector<IDrawLine*> lines;
+ 	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
+ 	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
+ 	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
+ 	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
+ 
+ 	DrawItemShape* shape = new DrawItemShape(rect,lines);
+ 	shape->setType(L"companel");
+ 	m_manager.addDrawItem(shape);
 
 
 
@@ -645,12 +666,55 @@ void CDrawToolDlg::OnBnClickedTest()
 		ASSERT(pfe(DrawTools::getTopLeft(originRect2),shape->getAllPoints()[0]));
 		m_manager.rotateDrawItem(shape);
 		ASSERT(pfe(DrawTools::getTopRight(originRect2),shape->getAllPoints()[0]));
+
+		m_manager.clearDrawItem();
 	}
 
 #endif
 
 #if TestNew
+	//方中方
+	{
+		RectF rect(0,0,100,100);
+		std::vector<IDrawLine*> lines;
 
+		//外边框
+		lines.push_back(new DrawStraightLine(PointF(100.0,0.0000),PointF(0.0,00.0)));
+		lines.push_back(new DrawStraightLine(PointF(00.0,0.0000),PointF(0.0,100.0)));
+		lines.push_back(new DrawStraightLine(PointF(0.0,100.0000),PointF(100.0000,100.0)));
+		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,0.0)));
+
+		//内小方1
+		lines.push_back(new DrawStraightLine(PointF(40,10),PointF(10,10)));
+		lines.push_back(new DrawStraightLine(PointF(10,10),PointF(10,90)));
+		lines.push_back(new DrawStraightLine(PointF(10,90),PointF(40,90)));
+		lines.push_back(new DrawStraightLine(PointF(40,90),PointF(40,10)));
+
+// 		//内小方2
+// 		lines.push_back(new DrawStraightLine(PointF(50,90),PointF(80,90)));
+// 		lines.push_back(new DrawStraightLine(PointF(80,90),PointF(80,10)));
+// 		lines.push_back(new DrawStraightLine(PointF(80,10),PointF(50,10)));
+// 		lines.push_back(new DrawStraightLine(PointF(50,10),PointF(50,90)));
+
+
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+		shape->setType(L"companel");
+		m_manager.addDrawItem(shape);
+
+		std::vector<IDrawLine*> lines2;
+
+		//内小方
+		RectF rect2(15,15,10,10);
+		lines2.push_back(new DrawStraightLine(PointF(15,15),PointF(15,10)));
+		lines2.push_back(new DrawStraightLine(PointF(15,10),PointF(10,10)));
+		lines2.push_back(new DrawStraightLine(PointF(10,10),PointF(10,15)));
+		lines2.push_back(new DrawStraightLine(PointF(10,15),PointF(15,15)));
+
+		DrawItemShape* shape2 = new DrawItemShape(rect2,lines2);
+		shape2->setType(L"companel");
+		m_manager.addDrawItem(shape2);
+
+	}
 
 
 
@@ -664,6 +728,7 @@ void CDrawToolDlg::OnBnClickedTest()
 
 
 #endif
+	InvalidateRect(m_manager.getDrawCRect());
 }
 
 /************************************************************************/
