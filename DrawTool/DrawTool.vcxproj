@@ -104,7 +104,6 @@
     <ClInclude Include="DrawTool.h" />
     <ClInclude Include="DrawToolDlg.h" />
     <ClInclude Include="DrawTools.h" />
-    <ClInclude Include="L4Cpp.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SmallPanelDrawItem.h" />
     <ClInclude Include="stdafx.h" />
@@ -116,7 +115,6 @@
     <ClCompile Include="DrawTool.cpp" />
     <ClCompile Include="DrawToolDlg.cpp" />
     <ClCompile Include="DrawTools.cpp" />
-    <ClCompile Include="L4Cpp.cpp" />
     <ClCompile Include="SmallPanelDrawItem.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

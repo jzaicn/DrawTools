@@ -73,6 +73,8 @@ public:
 	virtual Gdiplus::Region* getCloneRigon();			//区域
 	virtual bool IsVisible(PointF point);	//区域判断
 
+	
+
 public:
 	static Color ColorNormal;				//正常颜色
 	static Color ColorHovered;				//覆盖颜色

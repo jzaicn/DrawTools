@@ -1,7 +1,6 @@
 #include "StdAfx.h"
 #include "DrawTools.h"
 
-
 /************************************************************************/
 /* 转换部分                                                                     */
 /************************************************************************/
@@ -49,7 +48,7 @@ CPoint DrawTools::buildCPoint(PointF point)
 	return CPoint(point.X,point.Y);
 }
 /************************************************************************/
-/*   计算算法                                                                   */
+/*   计算算法                                                           */
 /************************************************************************/
 #include <math.h>  
 #define MY_PI 3.14159265358979323846  
@@ -241,5 +240,10 @@ double DrawTools::getAngularCoordinate_Mirror(double beginAngle)
 //正式角坐标到画弧用角坐标转换
 void DrawTools::getDrawArcAngularCoordinate(double& beginAngle, double& sweepAngle)
 {
-	beginAngle = getAngularCoordinate_Mirror(beginAngle + sweepAngle);
+	//如果只考虑正弧度应该如下使用
+	//beginAngle = getAngularCoordinate_Mirror(beginAngle + sweepAngle);
+
+	//现在切割顺序是逆时针，所以通过角度sweep设成负数
+	beginAngle = getAngularCoordinate_Mirror(beginAngle);
+	sweepAngle = -sweepAngle;
 }

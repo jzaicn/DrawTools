@@ -8,39 +8,33 @@ private:
 	~SmallPanelDrawItem(void);
 
 public:
-	static SmallPanelDrawItem* SmallPanelFactory(
-		RectF rect)
-	{
-		SmallPanelDrawItem* smallPanel = new SmallPanelDrawItem();
-		smallPanel->setType(L"SmallPanel");
-		return smallPanel;
-	}
+	static SmallPanelDrawItem* SmallPanelFactory(RectF rect);
 
 public:
-	virtual void OnPaint( Graphics &g );
+	virtual void OnPaint( Graphics &g );		//»­Í¼
+	void OnPaintBorder( Graphics &g );			//»­±ß¿ò
+	void OnPaintOtherShape( Graphics &g );		//»­ÒìÐÎ
+	void OnPaintVertical( Graphics &g );		//»­¿×
+	void OnPaintSaw( Graphics &g );				//»­²Û
 
-	virtual void moveTo( PointF point );
-
+	virtual void moveTo( PointF point );		
 	virtual void move( PointF offset );
 
 	virtual void setRect( RectF rect );
-
 	virtual RectF getRect();
 
 	virtual Gdiplus::Region* getCloneRigon();
-
 	virtual bool IsVisible( PointF point );
 
 public:
 	void setOutterLine(std::vector<IDrawLine*> outterline);
 
 	void addInnerLine(std::vector<IDrawLine*> outterline);
-
 	void setInnerLine(std::vector<std::vector<IDrawLine*>> outterline);
+	std::vector<std::vector<IDrawLine*>> getInnerLine();
 
-	std::vector<std::vector<IDrawLine>> getInnerLine();
-
-	void OnPaintBorder( Graphics &g );
+	virtual void setAllPoints( std::vector<PointF> outlines );
+	virtual std::vector<PointF> getAllPoints();
 
 private:
 	std::vector<std::vector<IDrawLine*>> m_innerlines;
@@ -48,5 +42,8 @@ private:
 
 private:
 	static Color ColorBorder;
+	static Color ColorShapeBorder;
+	static Color ColorVertical;
+	static Color ColorSaw;
 };
 

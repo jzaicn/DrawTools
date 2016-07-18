@@ -48,9 +48,6 @@
     <ClInclude Include="DrawItemManagement.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="L4Cpp.h">
-      <Filter>外部库封装</Filter>
-    </ClInclude>
     <ClInclude Include="DrawTools.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -73,9 +70,6 @@
     </ClCompile>
     <ClCompile Include="DrawItemManagement.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="L4Cpp.cpp">
-      <Filter>外部库封装</Filter>
     </ClCompile>
     <ClCompile Include="DrawTools.cpp">
       <Filter>源文件</Filter>
