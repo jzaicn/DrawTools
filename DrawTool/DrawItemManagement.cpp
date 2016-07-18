@@ -19,7 +19,7 @@ DrawItemManagement::~DrawItemManagement(void)
 void DrawItemManagement::OnPaint(Graphics& g)
 {
 	//画背景色
-	g.FillRectangle(&SolidBrush(Color::White),getDrawRectF());
+	g.FillRectangle(&SolidBrush(Color::Black),getDrawRectF());
 
 	//画每个子元素
 	for(int i = 0; i < m_allDrawItemList.size(); i++)

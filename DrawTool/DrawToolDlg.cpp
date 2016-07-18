@@ -6,7 +6,7 @@
 #include "DrawToolDlg.h"
 #include "afxdialogex.h"
 #include "DrawItem.h"
-//#include "SmallPanelDrawItem.h"
+#include "SmallPanelDrawItem.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
