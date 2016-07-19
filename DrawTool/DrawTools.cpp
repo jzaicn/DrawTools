@@ -2,6 +2,21 @@
 #include "DrawTools.h"
 
 /************************************************************************/
+/* 常用常量定义                                                         */
+/************************************************************************/
+Color DrawTools::ColorNormal		 = Color(228, 238, 249);
+Color DrawTools::ColorHovered		 = Color(242, 247, 252);
+Color DrawTools::ColorDisable		 = Color(211, 216, 224);
+Color DrawTools::ColorDown			 = Color(255, 255 ,255);
+Color DrawTools::ColorError			 = Color(230, 12,3);
+
+Color DrawTools::ColorBorder		 = Color::Black;
+Color DrawTools::ColorShapeBorder	 = Color::Yellow;
+Color DrawTools::ColorVertical		 = Color::Blue;
+Color DrawTools::ColorSaw			 = Color::Blue;
+
+
+/************************************************************************/
 /* 转换部分                                                                     */
 /************************************************************************/
 CRect DrawTools::buildCRect(RectF rect)

@@ -337,7 +337,7 @@ void DrawItemPolygon::buildPath( GraphicsPath &path )
 #endif
 
 /************************************************************************/
-/*                                                                      */
+/* 画线段类                                                               */
 /************************************************************************/
 #if 1
 //////////////////////////////////////////////////////////////////////////
@@ -349,13 +349,11 @@ DrawStraightLine::DrawStraightLine(PointF first,PointF last)
 	m_first = first;
 	m_last = last;
 }
-
 void DrawStraightLine::loadPoints(std::vector<PointF>& points)
 {
 	points.push_back(m_first);
 	points.push_back(m_last);
 }
-
 void DrawStraightLine::updatePoints(std::vector<PointF>& points)
 {
 	m_first = points.front();
@@ -371,8 +369,6 @@ void DrawStraightLine::getLineToPath(GraphicsPath& path)
 //////////////////////////////////////////////////////////////////////////
 //
 const int DrawArcLine::m_MaxPointNum = 2;
-const int DrawArcLine::ArcSignLeft = 1;
-const int DrawArcLine::ArcSignRight = 2;
 
 DrawArcLine::DrawArcLine(PointF first, PointF last, float radius, int sign)
 {
@@ -406,6 +402,7 @@ void DrawArcLine::getLineToPath(GraphicsPath& path)
 
 }
 #endif
+
 /************************************************************************/
 /*  直线拼圆弧多边形                                                    */
 /************************************************************************/

@@ -524,8 +524,8 @@ void CDrawToolDlg::OnBnClickedTest()
 		double begin1 = 90.0;
 		double sweep1 = 90;
 		DrawTools::getDrawArcAngularCoordinate(begin1,sweep1);
-		ASSERT(begin1 == 180);
-		ASSERT(sweep1 == 90);
+		ASSERT(begin1 == 270);
+		ASSERT(sweep1 == -90);
 	}
 #endif
 

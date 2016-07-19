@@ -8,7 +8,23 @@ private:
 
 public:
 	/************************************************************************/
-	/* 类型转换                                                                     */
+	/* 常用常量定义                                                         */
+	/************************************************************************/
+	static Color ColorNormal;				//正常颜色
+	static Color ColorHovered;				//覆盖颜色
+	static Color ColorDisable;				//失效颜色
+	static Color ColorDown;					//下按颜色
+	static Color ColorError;				//错误颜色	
+
+	static Color ColorBorder;				//边框填充颜色
+	static Color ColorShapeBorder;			//异形边框填充颜色
+	static Color ColorVertical;				//孔填充颜色
+	static Color ColorSaw;					//槽填充颜色
+
+
+public:
+	/************************************************************************/
+	/* 类型转换                                                             */
 	/************************************************************************/
 	static CRect buildCRect(RectF rect);
 
@@ -23,9 +39,10 @@ public:
 	static PointF buildPointF(CPoint point);
 	static CPoint buildCPoint(PointF point);
 
+
 public:
 	/************************************************************************/
-	/* 计算算法                                                                     */
+	/* 计算算法                                                             */
 	/************************************************************************/
 
 

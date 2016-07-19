@@ -141,9 +141,9 @@ protected:
 class IDrawLine
 {
 public:
-	virtual void loadPoints(std::vector<PointF>& points) = 0;		//从线型数据中取得集合点
+	virtual void loadPoints(std::vector<PointF>& points) = 0;	//从线型数据中取得集合点
 	virtual void updatePoints(std::vector<PointF>& points) = 0;	//从外部取得点更新到集合中
-	virtual void getLineToPath(GraphicsPath& path) = 0;		//用内部点集合构建到图形中
+	virtual void getLineToPath(GraphicsPath& path) = 0;			//用内部点集合构建到图形中
 };
 class DrawStraightLine : public IDrawLine
 {
@@ -167,9 +167,6 @@ public:
 	virtual void loadPoints(std::vector<PointF>& points);
 	virtual void updatePoints(std::vector<PointF>& points);
 	virtual void getLineToPath(GraphicsPath& path);
-public:
-	const static int ArcSignLeft;
-	const static int ArcSignRight;
 protected:
 	const static int m_MaxPointNum;
 private:
