@@ -254,7 +254,7 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
-#if 0	//圆角长方形 + 槽
+#if 1	//圆角长方形 + 槽
 	/*
 	<ComPanel Barcode="160425-1005" Name="底板">
 	<ComInfomation>
@@ -516,7 +516,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_0(248,483,180,15,15,14));
+	infos.push_back(new DrawVertical(248,483,180,15,15,14));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔2">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="483" />
@@ -526,7 +526,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_2(248,483,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,483,0,33,8,9));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="451" />
@@ -536,7 +536,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_2(248,451,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,451,0,33,8,9));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="99" />
@@ -546,7 +546,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_2(248,99,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,99,0,33,8,9));
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="67" />
@@ -556,7 +556,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_0(248,67,180,15,15,14));
+	infos.push_back(new DrawVertical(248,67,180,15,15,14));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔2">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="67" />
@@ -566,7 +566,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_2(248,67,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,67,0,33,8,9));
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="48" />
 // 		<Param Name="pos_y" Value="33" />
@@ -576,7 +576,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_0(48,33,180,15,15,14));
+	infos.push_back(new DrawVertical(48,33,180,15,15,14));
 // 	<VERTICAL Layer="SIDE49.000000" Name="开孔2">
 // 		<Param Name="pos_x" Value="48" />
 // 		<Param Name="pos_y" Value="33" />
@@ -586,7 +586,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_4(48,33,90,33,8,9));
+	infos.push_back(new DrawSideVertical(4,48,33,90,33,8,9));
 // 	<VERTICAL Layer="SIDE49.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="144" />
 // 		<Param Name="pos_y" Value="33" />
@@ -596,7 +596,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_4(144,33,90,33,8,9));
+	infos.push_back(new DrawSideVertical(4,144,33,90,33,8,9));
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="240" />
 // 		<Param Name="pos_y" Value="33" />
@@ -606,7 +606,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical_0(240,33,180,15,15,14));
+	infos.push_back(new DrawVertical(240,33,180,15,15,14));
 // 		<VERTICAL Layer="SIDE49.000000" Name="开孔2">
 // 			<Param Name="pos_x" Value="240" />
 // 			<Param Name="pos_y" Value="33" />
@@ -616,7 +616,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 			<Param Name="depth" Value="9" />
 // 			<Param Name="dwgFile" Value="SIDE.dwg" />
 // 		</VERTICAL>
-	infos.push_back(new DrawVertical_4(240,33,90,33,8,9));
+	infos.push_back(new DrawSideVertical(4,240,33,90,33,8,9));
 //		</PanelFace>
 	shape->setVertical(infos);
 
@@ -689,13 +689,13 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	m_manager.addDrawItem(panel);
 #endif //测试用凹型
 
-#if 1 //测试用三角形
+#if 0 //测试用三角形
 	//测试用三角形
-	std::vector<CPoint> points;
-	points.push_back(CPoint(0,0));
-	points.push_back(CPoint(100,100));
-	points.push_back(CPoint(200,50));
-	DrawItemSmallPanel* panel = new DrawItemSmallPanel(points);
+	std::vector<PointF> points;
+	points.push_back(PointF(0,0));
+	points.push_back(PointF(100,100));
+	points.push_back(PointF(200,50));
+	DrawItemPolygon* panel = new DrawItemPolygon(points);
 	m_manager.addDrawItem(panel);
 #endif //测试用三角形
 

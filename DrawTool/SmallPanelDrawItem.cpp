@@ -14,6 +14,13 @@ DrawInfoBase::DrawInfoBase(float pos_x,float pos_y,float angle,float size_x,floa
 	m_size_x = size_x;
 	m_size_y = size_y;
 	m_depth = depth;
+
+	RectF rect;
+	rect.X = m_pos_x - (m_size_x/2);
+	rect.Y = m_pos_y - (m_size_y/2);
+	rect.Width = m_size_x;
+	rect.Height = m_size_y;
+	m_rect = rect;
 }
 
 void DrawInfoBase::loadPoints( std::vector<PointF>& points )
@@ -31,81 +38,126 @@ void DrawInfoBase::updatePoints( std::vector<PointF>& points )
 
 void DrawInfoBase::drawLineToGraphic( Graphics &g )
 {
-	RectF rect;
-	rect.X = m_pos_x - (m_size_x/2);
-	rect.Y = m_pos_y - (m_size_y/2);
-	rect.Width = m_size_x;
-	rect.Height = m_size_y;
-
-	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
-	g.FillRectangle(&SolidBrush(DrawTools::ColorVertical),rect);
+	g.DrawRectangle(&Pen(DrawTools::ColorVertical),m_rect);
 }
 
 ////////////////////////////////////////////////////////////////////////////
-void DrawVertical_0::drawLineToGraphic( Graphics &g )
+DrawVertical::DrawVertical( float pos_x,float pos_y,float angle,float size_x,float size_y,float depth ) :DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+void DrawVertical::drawLineToGraphic( Graphics &g )
 {
 	RectF rect;
 	rect.X = m_pos_x - (m_size_x/2);
 	rect.Y = m_pos_y - (m_size_y/2);
 	rect.Width = m_size_x;
 	rect.Height = m_size_y;
-	g.DrawEllipse(&Pen(DrawTools::ColorVertical),rect);
-	g.FillEllipse(&SolidBrush(DrawTools::ColorVertical),rect);
+	m_rect = rect;
+
+	g.DrawEllipse(&Pen(DrawTools::ColorVertical),m_rect);
+	g.FillEllipse(&SolidBrush(DrawTools::ColorVertical),m_rect);
 }
+
 //////////////////////////////////////////////////////////////////////////
-void DrawVertical_1::drawLineToGraphic( Graphics &g )
+DrawSideVertical::DrawSideVertical(int side, float pos_x,float pos_y,float angle,float size_x,float size_y,float depth ) :DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth)
 {
-	RectF rect;
-	rect.X = m_pos_x - m_size_x;
-	rect.Y = m_pos_y - (m_size_y/2);
-	rect.Width = m_size_x;
-	rect.Height = m_size_y;
-
-	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+	switch (side)
+	{
+	case 1:	//左面
+		{
+			RectF rect;
+			rect.X = m_pos_x - m_size_x;
+			rect.Y = m_pos_y - (m_size_y/2);
+			rect.Width = m_size_x;
+			rect.Height = m_size_y;
+			m_rect = rect;
+		}
+		break;
+	case 2:	//右面
+		{
+			RectF rect;
+			rect.X = m_pos_x;
+			rect.Y = m_pos_y - (m_size_y/2);
+			rect.Width = m_size_x;
+			rect.Height = m_size_y;
+			m_rect = rect;
+		}
+		break;
+	case 3:	//下面
+		{
+			RectF rect;
+			rect.X = m_pos_x - (m_size_y/2);
+			rect.Y = m_pos_y;
+			rect.Width = m_size_y;
+			rect.Height = m_size_x;
+		}
+		break;
+	case 4:	//上面
+		{
+			RectF rect;
+			rect.X = m_pos_x - (m_size_y/2);
+			rect.Y = m_pos_y - m_size_x;
+			rect.Width = m_size_y;
+			rect.Height = m_size_x;
+			m_rect = rect;
+		}
+		break;
+	default: //中心点矩形
+		{
+			RectF rect;
+			rect.X = m_pos_x - (m_size_x/2);
+			rect.Y = m_pos_y - (m_size_y/2);
+			rect.Width = m_size_x;
+			rect.Height = m_size_y;
+			m_rect = rect;
+		}
+	}
+	m_infos = InfosByRect(m_rect);
+}
+void DrawSideVertical::loadPoints( std::vector<PointF>& points )
+{
+	for (unsigned int i = 0; i < m_infos.size() ; i++)
+	{
+		m_infos[i]->loadPoints(points);
+	}
 }
 
-void DrawVertical_2::drawLineToGraphic( Graphics &g )
+void DrawSideVertical::updatePoints( std::vector<PointF>& points )
 {
-	RectF rect;
-	rect.X = m_pos_x;
-	rect.Y = m_pos_y - (m_size_y/2);
-	rect.Width = m_size_x;
-	rect.Height = m_size_y;
-
-	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+	for (unsigned int i = 0; i < m_infos.size() ; i++)
+	{
+		m_infos[i]->updatePoints(points);
+	}
 }
-void DrawVertical_3::drawLineToGraphic( Graphics &g )
+
+void DrawSideVertical::drawLineToGraphic( Graphics &g )
 {
-	RectF rect;
-	rect.X = m_pos_x - (m_size_y/2);
-	rect.Y = m_pos_y;
-	rect.Width = m_size_y;
-	rect.Height = m_size_x;
-
-	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+	GraphicsPath path;
+	path.StartFigure();
+	for (unsigned int i = 0; i < m_infos.size() ; i++)
+	{
+		m_infos[i]->getLineToPath(path);
+	}
+	path.CloseFigure();
+	g.DrawPath(&Pen(DrawTools::ColorVertical),&path);
 }
-void DrawVertical_4::drawLineToGraphic( Graphics &g )
+
+std::vector<IDrawLine*> DrawSideVertical::InfosByRect( RectF rect )
 {
-	RectF rect;
-	rect.X = m_pos_x - (m_size_y/2);
-	rect.Y = m_pos_y - m_size_x;
-	rect.Width = m_size_y;
-	rect.Height = m_size_x;
-
-	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+	std::vector<IDrawLine* > infos;
+	infos.push_back(new DrawStraightLine(DrawTools::getTopLeft(rect),DrawTools::getBottomLeft(rect)));
+	infos.push_back(new DrawStraightLine(DrawTools::getBottomLeft(rect),DrawTools::getBottomRight(rect)));
+	infos.push_back(new DrawStraightLine(DrawTools::getBottomRight(rect),DrawTools::getTopRight(rect)));
+	infos.push_back(new DrawStraightLine(DrawTools::getTopRight(rect),DrawTools::getTopLeft(rect)));
+	return infos;
 }
+
+
+
 ////////////////////////////////////////////////////////////////////////////
 
 void DrawSaw::drawLineToGraphic( Graphics &g )
 {
-	RectF rect;
-	rect.X = m_pos_x - (m_size_x/2);
-	rect.Y = m_pos_y - (m_size_y/2);
-	rect.Width = m_size_x;
-	rect.Height = m_size_y;
-
-	g.DrawRectangle(&Pen(DrawTools::ColorSaw),rect);
-	g.FillRectangle(&SolidBrush(DrawTools::ColorSaw),rect);
+	g.DrawRectangle(&Pen(DrawTools::ColorSaw),m_rect);
+	g.FillRectangle(&SolidBrush(DrawTools::ColorSaw),m_rect);
 }
 
 #endif

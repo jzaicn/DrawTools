@@ -398,6 +398,7 @@ void DrawArcLine::getLineToPath(GraphicsPath& path)
 #if 1
 DrawItemShape::DrawItemShape(RectF outterRect,std::vector<IDrawLine*> lines)
 {
+	m_type = L"DrawItemShape";
 	m_myRect = outterRect;
 	m_lines = lines;
 }

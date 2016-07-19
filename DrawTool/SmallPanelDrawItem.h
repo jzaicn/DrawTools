@@ -29,57 +29,34 @@ protected:
 	float m_size_x;
 	float m_size_y;
 	float m_depth;
+	RectF m_rect;
 };
 //////////////////////////////////////////////////////////////////////////
 //
-class DrawVertical_0 : public DrawInfoBase
+class DrawVertical : public DrawInfoBase
 {
 public:
-	DrawVertical_0(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	DrawVertical(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth);
+		
 	virtual void drawLineToGraphic( Graphics &g );
 
 };
-class DrawVertical_1 : public DrawInfoBase
+//////////////////////////////////////////////////////////////////////////
+//
+class DrawSideVertical : public DrawInfoBase
 {
 public:
-	DrawVertical_1(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
-	virtual void drawLineToGraphic( Graphics &g );
-
-};
-class DrawVertical_2 : public DrawInfoBase
-{
+	DrawSideVertical(int side,float pos_x,float pos_y,float angle,float size_x,float size_y,float depth);
 public:
-	DrawVertical_2(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
-	virtual void drawLineToGraphic( Graphics &g );
-
+	virtual void drawLineToGraphic( Graphics &g );				//画图
+	virtual void loadPoints( std::vector<PointF>& points );		//获得坐标信息
+	virtual void updatePoints( std::vector<PointF>& points );	//更新坐标信息
+protected:
+	std::vector<IDrawLine*> InfosByRect(RectF rect);			//通过构造矩形创建孔的画图信息
+private:
+	std::vector<IDrawLine*> m_infos;							//通过IDrawLine成员来管理旋转等问题
 };
-class DrawVertical_3 : public DrawInfoBase
-{
-public:
-	DrawVertical_3(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
-	virtual void drawLineToGraphic( Graphics &g );
 
-};
-class DrawVertical_4 : public DrawInfoBase
-{
-public:
-	DrawVertical_4(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
-	virtual void drawLineToGraphic( Graphics &g );
-
-};
-class DrawVertical_5 : public DrawInfoBase
-{
-public:
-	DrawVertical_5(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
-	virtual void drawLineToGraphic( Graphics &g );
-
-};
 //////////////////////////////////////////////////////////////////////////
 //
 class DrawSaw : public DrawInfoBase
