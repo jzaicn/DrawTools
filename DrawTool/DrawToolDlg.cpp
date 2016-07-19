@@ -254,6 +254,7 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
+#if 0	//圆角长方形 + 槽
 	// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
 	// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />
 	// 	<Vector X="10.0000" Y="370.0000" R="360.0000" Sign="2" Dir="1" />
@@ -263,18 +264,302 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
 	//测试用圆角长方形
 	RectF rect(5,5,400,370);
+	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
+
 	std::vector<IDrawLine*> lines;
 	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
 	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
 	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
 	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
-
-	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
 	shape->setOutterLine(lines);
+
+	std::vector<IDrawInfo*> infos;
+	infos.push_back(new DrawSaw(370.0,20,0,18,18,1));
+	shape->setVertical(infos);
+
+	m_manager.addDrawItem(shape);
+#endif	//圆角长方形 + 槽
+
+#if 0	//测试侧面孔显示
+
+	/*
+	<OutLine>
+		<Vector X="0" Y="0" R="0" Sign="0" Dir="0" Cut="0" OutDir="0" type="0" A="" />
+		<Vector X="0" Y="-531" R="0" Sign="0" Dir="0" Cut="0" OutDir="0" type="0" A="" />
+		<Vector X="131" Y="-531" R="150" Sign="1" Dir="1" Cut="0" OutDir="0" type="0" A="" />
+		<Vector X="281" Y="-381" R="150" Sign="2" Dir="1" Cut="0" OutDir="0" type="0" A="" />
+		<Vector X="281" Y="0" R="0" Sign="0" Dir="0" Cut="0" OutDir="0" type="0" A="" />
+	</OutLine>
+	<PanelFace Index="5" Barcode="20160713153251B002">
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+			<Param Name="pos_x" Value="248" />
+			<Param Name="pos_y" Value="483" />
+			<Param Name="angle" Value="180" />
+			<Param Name="size_x" Value="15" />
+			<Param Name="size_y" Value="15" />
+			<Param Name="depth" Value="14" />
+			<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="SIDE19.000000" Name="开孔2">
+		<Param Name="pos_x" Value="248" />
+		<Param Name="pos_y" Value="483" />
+		<Param Name="angle" Value="0" />
+		<Param Name="size_x" Value="33" />
+		<Param Name="size_y" Value="8" />
+		<Param Name="depth" Value="9" />
+		<Param Name="dwgFile" Value="SIDE.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="SIDE19.000000" Name="开孔1">
+		<Param Name="pos_x" Value="248" />
+		<Param Name="pos_y" Value="451" />
+		<Param Name="angle" Value="0" />
+		<Param Name="size_x" Value="33" />
+		<Param Name="size_y" Value="8" />
+		<Param Name="depth" Value="9" />
+		<Param Name="dwgFile" Value="SIDE.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="SIDE19.000000" Name="开孔1">
+		<Param Name="pos_x" Value="248" />
+		<Param Name="pos_y" Value="99" />
+		<Param Name="angle" Value="0" />
+		<Param Name="size_x" Value="33" />
+		<Param Name="size_y" Value="8" />
+		<Param Name="depth" Value="9" />
+		<Param Name="dwgFile" Value="SIDE.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+		<Param Name="pos_x" Value="248" />
+		<Param Name="pos_y" Value="67" />
+		<Param Name="angle" Value="180" />
+		<Param Name="size_x" Value="15" />
+		<Param Name="size_y" Value="15" />
+		<Param Name="depth" Value="14" />
+		<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="SIDE19.000000" Name="开孔2">
+		<Param Name="pos_x" Value="248" />
+		<Param Name="pos_y" Value="67" />
+		<Param Name="angle" Value="0" />
+		<Param Name="size_x" Value="33" />
+		<Param Name="size_y" Value="8" />
+		<Param Name="depth" Value="9" />
+		<Param Name="dwgFile" Value="SIDE.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+		<Param Name="pos_x" Value="48" />
+		<Param Name="pos_y" Value="33" />
+		<Param Name="angle" Value="180" />
+		<Param Name="size_x" Value="15" />
+		<Param Name="size_y" Value="15" />
+		<Param Name="depth" Value="14" />
+		<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="SIDE39.000000" Name="开孔2">
+		<Param Name="pos_x" Value="48" />
+		<Param Name="pos_y" Value="33" />
+		<Param Name="angle" Value="90" />
+		<Param Name="size_x" Value="33" />
+		<Param Name="size_y" Value="8" />
+		<Param Name="depth" Value="9" />
+		<Param Name="dwgFile" Value="SIDE.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="SIDE39.000000" Name="开孔1">
+		<Param Name="pos_x" Value="144" />
+		<Param Name="pos_y" Value="33" />
+		<Param Name="angle" Value="90" />
+		<Param Name="size_x" Value="33" />
+		<Param Name="size_y" Value="8" />
+		<Param Name="depth" Value="9" />
+		<Param Name="dwgFile" Value="SIDE.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+		<Param Name="pos_x" Value="240" />
+		<Param Name="pos_y" Value="33" />
+		<Param Name="angle" Value="180" />
+		<Param Name="size_x" Value="15" />
+		<Param Name="size_y" Value="15" />
+		<Param Name="depth" Value="14" />
+		<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="SIDE39.000000" Name="开孔2">
+		<Param Name="pos_x" Value="240" />
+		<Param Name="pos_y" Value="33" />
+		<Param Name="angle" Value="90" />
+		<Param Name="size_x" Value="33" />
+		<Param Name="size_y" Value="8" />
+		<Param Name="depth" Value="9" />
+		<Param Name="dwgFile" Value="SIDE.dwg" />
+		</VERTICAL>
+	</PanelFace>
+	*/
+
+	//
+	//  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
+	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
+	//测试用长方形,带侧面孔，正面孔
+	RectF rect(0,0,281,531);
+	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
+	
+	std::vector<IDrawLine*> lines;
+	lines.push_back(new DrawStraightLine(PointF(0,0),PointF(0,381)));
+	lines.push_back(new DrawArcLine(PointF(0,381),PointF(150,531),150,1));
+	lines.push_back(new DrawStraightLine(PointF(150,531),PointF(281,531)));
+	lines.push_back(new DrawStraightLine(PointF(281,531),PointF(281,0)));
+	lines.push_back(new DrawStraightLine(PointF(281,0),PointF(0,0)));
+
+	shape->setOutterLine(lines);
+
+	//异形的时候，SIDE1 和 SIDE2翻转 ， SIDE3 和 SIDE4翻转
+	//更改方法：一旦检测到是异形板，将PanelFace子节点中的Layer="SIDE1 改成 Layer="SIDE2
+	//其他照旧
+
+	std::vector<IDrawInfo*> infos;
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+// 		<Param Name="pos_x" Value="248" />
+// 		<Param Name="pos_y" Value="483" />
+// 		<Param Name="angle" Value="180" />
+// 		<Param Name="size_x" Value="15" />
+// 		<Param Name="size_y" Value="15" />
+// 		<Param Name="depth" Value="14" />
+// 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_0(248,483,180,15,15,14));
+// 	<VERTICAL Layer="SIDE29.000000" Name="开孔2">
+// 		<Param Name="pos_x" Value="248" />
+// 		<Param Name="pos_y" Value="483" />
+// 		<Param Name="angle" Value="0" />
+// 		<Param Name="size_x" Value="33" />
+// 		<Param Name="size_y" Value="8" />
+// 		<Param Name="depth" Value="9" />
+// 		<Param Name="dwgFile" Value="SIDE.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_2(248,483,0,33,8,9));
+// 	<VERTICAL Layer="SIDE29.000000" Name="开孔1">
+// 		<Param Name="pos_x" Value="248" />
+// 		<Param Name="pos_y" Value="451" />
+// 		<Param Name="angle" Value="0" />
+// 		<Param Name="size_x" Value="33" />
+// 		<Param Name="size_y" Value="8" />
+// 		<Param Name="depth" Value="9" />
+// 		<Param Name="dwgFile" Value="SIDE.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_2(248,451,0,33,8,9));
+// 	<VERTICAL Layer="SIDE29.000000" Name="开孔1">
+// 		<Param Name="pos_x" Value="248" />
+// 		<Param Name="pos_y" Value="99" />
+// 		<Param Name="angle" Value="0" />
+// 		<Param Name="size_x" Value="33" />
+// 		<Param Name="size_y" Value="8" />
+// 		<Param Name="depth" Value="9" />
+// 		<Param Name="dwgFile" Value="SIDE.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_2(248,99,0,33,8,9));
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+// 		<Param Name="pos_x" Value="248" />
+// 		<Param Name="pos_y" Value="67" />
+// 		<Param Name="angle" Value="180" />
+// 		<Param Name="size_x" Value="15" />
+// 		<Param Name="size_y" Value="15" />
+// 		<Param Name="depth" Value="14" />
+// 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_0(248,67,180,15,15,14));
+// 	<VERTICAL Layer="SIDE29.000000" Name="开孔2">
+// 		<Param Name="pos_x" Value="248" />
+// 		<Param Name="pos_y" Value="67" />
+// 		<Param Name="angle" Value="0" />
+// 		<Param Name="size_x" Value="33" />
+// 		<Param Name="size_y" Value="8" />
+// 		<Param Name="depth" Value="9" />
+// 		<Param Name="dwgFile" Value="SIDE.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_2(248,67,0,33,8,9));
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+// 		<Param Name="pos_x" Value="48" />
+// 		<Param Name="pos_y" Value="33" />
+// 		<Param Name="angle" Value="180" />
+// 		<Param Name="size_x" Value="15" />
+// 		<Param Name="size_y" Value="15" />
+// 		<Param Name="depth" Value="14" />
+// 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_0(48,33,180,15,15,14));
+// 	<VERTICAL Layer="SIDE49.000000" Name="开孔2">
+// 		<Param Name="pos_x" Value="48" />
+// 		<Param Name="pos_y" Value="33" />
+// 		<Param Name="angle" Value="90" />
+// 		<Param Name="size_x" Value="33" />
+// 		<Param Name="size_y" Value="8" />
+// 		<Param Name="depth" Value="9" />
+// 		<Param Name="dwgFile" Value="SIDE.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_4(48,33,90,33,8,9));
+// 	<VERTICAL Layer="SIDE49.000000" Name="开孔1">
+// 		<Param Name="pos_x" Value="144" />
+// 		<Param Name="pos_y" Value="33" />
+// 		<Param Name="angle" Value="90" />
+// 		<Param Name="size_x" Value="33" />
+// 		<Param Name="size_y" Value="8" />
+// 		<Param Name="depth" Value="9" />
+// 		<Param Name="dwgFile" Value="SIDE.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_4(144,33,90,33,8,9));
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+// 		<Param Name="pos_x" Value="240" />
+// 		<Param Name="pos_y" Value="33" />
+// 		<Param Name="angle" Value="180" />
+// 		<Param Name="size_x" Value="15" />
+// 		<Param Name="size_y" Value="15" />
+// 		<Param Name="depth" Value="14" />
+// 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
+// 	</VERTICAL>
+	infos.push_back(new DrawVertical_0(240,33,180,15,15,14));
+// 		<VERTICAL Layer="SIDE49.000000" Name="开孔2">
+// 			<Param Name="pos_x" Value="240" />
+// 			<Param Name="pos_y" Value="33" />
+// 			<Param Name="angle" Value="90" />
+// 			<Param Name="size_x" Value="33" />
+// 			<Param Name="size_y" Value="8" />
+// 			<Param Name="depth" Value="9" />
+// 			<Param Name="dwgFile" Value="SIDE.dwg" />
+// 		</VERTICAL>
+	infos.push_back(new DrawVertical_4(240,33,90,33,8,9));
+//		</PanelFace>
+	shape->setVertical(infos);
+
 	m_manager.addDrawItem(shape);
 
+#endif	//测试侧面孔显示
+
+#if 0	//圆角长方形 + 槽
+	// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
+	// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />
+	// 	<Vector X="10.0000" Y="370.0000" R="360.0000" Sign="2" Dir="1" />
+	// 	<Vector X="1998.0000" Y="370.0000" R="0.0000" Sign="0" Dir="0" />
+	//
+	//  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
+	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
+	//测试用圆角长方形
+	RectF rect(5,5,400,370);
+	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
+
+	std::vector<IDrawLine*> lines;
+	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
+	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
+	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
+	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
+	shape->setOutterLine(lines);
+
+	std::vector<IDrawInfo*> infos;
+	infos.push_back(new DrawSaw(370.0,20,0,18,18,1));
+	shape->setVertical(infos);
+
+	m_manager.addDrawItem(shape);
+#endif	//圆角长方形 + 槽
+
+
 	
-#if 0 //圆弧三角
+#if 0	//圆弧三角
 //画一个圆角三角形
  		// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
  		// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />

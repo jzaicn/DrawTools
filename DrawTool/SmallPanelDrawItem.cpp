@@ -25,6 +25,8 @@ void DrawInfoBase::updatePoints( std::vector<PointF>& points )
 {
 	PointF point = points.front();
 	points.erase(points.begin());
+	m_pos_x = point.X;
+	m_pos_y = point.Y;
 }
 
 void DrawInfoBase::drawLineToGraphic( Graphics &g )
@@ -34,35 +36,85 @@ void DrawInfoBase::drawLineToGraphic( Graphics &g )
 	rect.Y = m_pos_y - (m_size_y/2);
 	rect.Width = m_size_x;
 	rect.Height = m_size_y;
-	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+
+	//g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+	//g.FillRectangle(&SolidBrush(DrawTools::ColorVertical),rect);
 }
-//
+
 ////////////////////////////////////////////////////////////////////////////
 //
-//void DrawSaw::loadPoints( std::vector<PointF>& points )
-//{
-//	throw std::exception("The method or operation is not implemented.");
-//}
-//
-//void DrawSaw::updatePoints( std::vector<PointF>& points )
-//{
-//	throw std::exception("The method or operation is not implemented.");
-//}
-//
-//void DrawSaw::drawLineToGraphic( Graphics &g )
-//{
-//	throw std::exception("The method or operation is not implemented.");
-//}
+void DrawVertical_0::drawLineToGraphic( Graphics &g )
+{
+	RectF rect;
+	rect.X = m_pos_x - (m_size_x/2);
+	rect.Y = m_pos_y - (m_size_y/2);
+	rect.Width = m_size_x;
+	rect.Height = m_size_y;
+	g.DrawEllipse(&Pen(DrawTools::ColorVertical),rect);
+	g.FillEllipse(&SolidBrush(DrawTools::ColorVertical),rect);
+}
+//////////////////////////////////////////////////////////////////////////
+
+void DrawVertical_1::drawLineToGraphic( Graphics &g )
+{
+	RectF rect;
+	rect.X = m_pos_x - m_size_x;
+	rect.Y = m_pos_y - (m_size_y/2);
+	rect.Width = m_size_x;
+	rect.Height = m_size_y;
+
+	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+}
+
+void DrawVertical_2::drawLineToGraphic( Graphics &g )
+{
+	RectF rect;
+	rect.X = m_pos_x;
+	rect.Y = m_pos_y - (m_size_y/2);
+	rect.Width = m_size_x;
+	rect.Height = m_size_y;
+
+	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+}
+void DrawVertical_3::drawLineToGraphic( Graphics &g )
+{
+	RectF rect;
+	rect.X = m_pos_x - (m_size_y/2);
+	rect.Y = m_pos_y;
+	rect.Width = m_size_y;
+	rect.Height = m_size_x;
+
+	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+}
+void DrawVertical_4::drawLineToGraphic( Graphics &g )
+{
+	RectF rect;
+	rect.X = m_pos_x - (m_size_y/2);
+	rect.Y = m_pos_y - m_size_x;
+	rect.Width = m_size_y;
+	rect.Height = m_size_x;
+
+	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+}
+////////////////////////////////////////////////////////////////////////////
+
+void DrawSaw::drawLineToGraphic( Graphics &g )
+{
+	RectF rect;
+	rect.X = m_pos_x - (m_size_x/2);
+	rect.Y = m_pos_y - (m_size_y/2);
+	rect.Width = m_size_x;
+	rect.Height = m_size_y;
+
+	g.DrawRectangle(&Pen(DrawTools::ColorSaw),rect);
+	g.FillRectangle(&SolidBrush(DrawTools::ColorSaw),rect);
+}
 
 #endif
 /************************************************************************/
 /*  板件初始化                                                           */
 /************************************************************************/
-Color SmallPanelDrawItem::ColorBorder = Color::Black;
-Color SmallPanelDrawItem::ColorShapeBorder = Color::Yellow;
-Color SmallPanelDrawItem::ColorVertical = Color::Blue;
-Color SmallPanelDrawItem::ColorSaw = Color::Blue;
-
+#if 1
 SmallPanelDrawItem::SmallPanelDrawItem(void):
  DrawItemShape(RectF(0,0,0,0),std::vector<IDrawLine*>())
 {
@@ -81,10 +133,11 @@ SmallPanelDrawItem* SmallPanelDrawItem::SmallPanelFactory(RectF rect)
 	return smallPanel;
 }
 
+#endif
 /************************************************************************/
 /* 板件绘制                                                             */
 /************************************************************************/
-
+#if 1
 
 void SmallPanelDrawItem::OnPaint( Graphics &g )
 {
@@ -100,7 +153,7 @@ void SmallPanelDrawItem::OnPaint( Graphics &g )
 void SmallPanelDrawItem::OnPaintBorder( Graphics &g )
 {
 	RectF rect = getRect();
-	g.DrawRectangle(&Pen(ColorBorder),rect);
+	g.DrawRectangle(&Pen(DrawTools::ColorBorder),rect);
 }
 
 void SmallPanelDrawItem::OnPaintOtherShape( Graphics &g )
@@ -108,27 +161,29 @@ void SmallPanelDrawItem::OnPaintOtherShape( Graphics &g )
 	GraphicsPath path;
 	buildPath(path);
 	Region region(&path);
-	g.FillRegion(&SolidBrush(ColorShapeBorder), &region);
-	g.DrawPath(&Pen(ColorVertical),&path);
+	g.FillRegion(&SolidBrush(DrawTools::ColorShapeBorder), &region);
+	g.DrawPath(&Pen(DrawTools::ColorVertical),&path);
 }
 
 void SmallPanelDrawItem::OnPaintVertical( Graphics &g )
 {
-	RectF rect = getRect();
-	g.DrawRectangle(&Pen(ColorBorder),rect);
+	for (unsigned int i = 0;i<m_infos.size();i++)
+	{
+		m_infos[i]->drawLineToGraphic(g);
+	}
 }
 
 void SmallPanelDrawItem::OnPaintSaw( Graphics &g )
 {
 	RectF rect = getRect();
-	g.DrawRectangle(&Pen(ColorBorder),rect);
+	g.DrawRectangle(&Pen(DrawTools::ColorBorder),rect);
 }
 
-
+#endif
 /************************************************************************/
 /* 移动信息                                                             */
 /************************************************************************/
-
+#if 1
 void SmallPanelDrawItem::moveTo( PointF point )
 {
 	DrawItemBase::moveTo(point);
@@ -164,11 +219,11 @@ bool SmallPanelDrawItem::IsVisible( PointF point )
 {
 	return DrawItemBase::IsVisible(point);
 }
-
-
+#endif
 /************************************************************************/
 /* 点坐标转换                                                            */
 /************************************************************************/
+#if 1
 void SmallPanelDrawItem::setOutterLine(std::vector<IDrawLine*> outterline)
 {
 	m_lines = outterline;
@@ -187,12 +242,32 @@ std::vector<std::vector<IDrawLine*>> SmallPanelDrawItem::getInnerLine()
 	return std::vector<std::vector<IDrawLine*>>();
 }
 
-void SmallPanelDrawItem::setAllPoints( std::vector<PointF> outlines )
+void SmallPanelDrawItem::setVertical( std::vector<IDrawInfo*> infos )
 {
-	DrawItemShape::setAllPoints(outlines);
+	m_infos = infos;
+}
+
+void SmallPanelDrawItem::setAllPoints( std::vector<PointF>& points )
+{
+	DrawItemShape::setAllPoints(points);
+
+	for (unsigned int i = 0;i < m_infos.size();i++)
+	{
+		m_infos[i]->updatePoints(points);
+	}
 }
 std::vector<PointF> SmallPanelDrawItem::getAllPoints()
 {
-	return DrawItemShape::getAllPoints();
+	std::vector<PointF> points = DrawItemShape::getAllPoints();
+
+	for (unsigned int i = 0;i < m_infos.size();i++)
+	{
+		m_infos[i]->loadPoints(points);
+	}
+
+	return points;
 }
+
+
+#endif
 

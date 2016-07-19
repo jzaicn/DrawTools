@@ -22,7 +22,7 @@ public:
 	virtual void updatePoints( std::vector<PointF>& points );
 	virtual void drawLineToGraphic( Graphics &g );
 
-private:
+protected:
 	float m_pos_x;
 	float m_pos_y;
 	float m_angle;
@@ -30,28 +30,65 @@ private:
 	float m_size_y;
 	float m_depth;
 };
-// class DrawVertical : public IDrawInfo
-// {
-// public:
-// 	DrawVertical(PointF pos,)
-// 
-// 		virtual void loadPoints( std::vector<PointF>& points );
-// 	virtual void updatePoints( std::vector<PointF>& points );
-// 	virtual void drawLineToGraphic( Graphics &g );
-// 
-// };
-// //////////////////////////////////////////////////////////////////////////
-// class DrawSaw : public IDrawInfo
-// {
-// 
-// 
-// 	virtual void loadPoints( std::vector<PointF>& points );
-// 
-// 	virtual void updatePoints( std::vector<PointF>& points );
-// 
-// 	virtual void drawLineToGraphic( Graphics &g );
-// 
-// };
+//////////////////////////////////////////////////////////////////////////
+//
+class DrawVertical_0 : public DrawInfoBase
+{
+public:
+	DrawVertical_0(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	virtual void drawLineToGraphic( Graphics &g );
+
+};
+class DrawVertical_1 : public DrawInfoBase
+{
+public:
+	DrawVertical_1(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	virtual void drawLineToGraphic( Graphics &g );
+
+};
+class DrawVertical_2 : public DrawInfoBase
+{
+public:
+	DrawVertical_2(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	virtual void drawLineToGraphic( Graphics &g );
+
+};
+class DrawVertical_3 : public DrawInfoBase
+{
+public:
+	DrawVertical_3(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	virtual void drawLineToGraphic( Graphics &g );
+
+};
+class DrawVertical_4 : public DrawInfoBase
+{
+public:
+	DrawVertical_4(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	virtual void drawLineToGraphic( Graphics &g );
+
+};
+class DrawVertical_5 : public DrawInfoBase
+{
+public:
+	DrawVertical_5(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	virtual void drawLineToGraphic( Graphics &g );
+
+};
+//////////////////////////////////////////////////////////////////////////
+//
+class DrawSaw : public DrawInfoBase
+{
+public:
+	DrawSaw(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+		:DrawInfoBase(pos_x,pos_y,angle,size_x,size_y,depth){}
+	virtual void drawLineToGraphic( Graphics &g );
+};
 
 /************************************************************************/
 /*                                                                      */
@@ -88,15 +125,13 @@ public:
 	void setInnerLine(std::vector<std::vector<IDrawLine*>> outterline);	//内边线
 	std::vector<std::vector<IDrawLine*>> getInnerLine();				//内边线
 
-	virtual void setAllPoints( std::vector<PointF> outlines );			//点坐标
+	void setVertical(std::vector<IDrawInfo*> infos);					//
+
+	virtual void setAllPoints( std::vector<PointF>& points );			//点坐标
 	virtual std::vector<PointF> getAllPoints();							//点坐标
 
-
 private:
-	static Color ColorBorder;
-	static Color ColorShapeBorder;
-	static Color ColorVertical;
-	static Color ColorSaw;
+	std::vector<IDrawInfo*> m_infos;
 };
 /************************************************************************/
 /*                                                                      */

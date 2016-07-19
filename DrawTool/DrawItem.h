@@ -73,15 +73,7 @@ public:
 	virtual Gdiplus::Region* getCloneRigon();			//区域
 	virtual bool IsVisible(PointF point);	//区域判断
 
-	
-
 public:
-	static Color ColorNormal;				//正常颜色
-	static Color ColorHovered;				//覆盖颜色
-	static Color ColorDisable;				//失效颜色
-	static Color ColorDown;					//下按颜色
-	static Color ColorError;				//错误颜色
-	
 	const static int StateNormal;			//正常状态
 	const static int StateHovered;			//覆盖状态
 	const static int StateDisable;			//失效状态
@@ -189,7 +181,7 @@ public:
 	virtual void moveTo(PointF point);				//移动到
 	virtual void move(PointF offset);				//偏移
 
-	virtual void setAllPoints(std::vector<PointF> outlines);	//设置多边形点
+	virtual void setAllPoints(std::vector<PointF>& outlines);	//设置多边形点
 	virtual std::vector<PointF> getAllPoints();					//设置多边形点
 
 	virtual void setRect(RectF rect);				//区域

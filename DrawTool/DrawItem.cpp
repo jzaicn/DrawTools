@@ -7,15 +7,6 @@
 /************************************************************************/
 #if 1
 //////////////////////////////////////////////////////////////////////////
-// 基础颜色定义
-Color DrawItemBase::ColorNormal = Color(228, 238, 249);
-Color DrawItemBase::ColorHovered = Color(242, 247, 252);
-Color DrawItemBase::ColorDisable = Color(211, 216, 224);
-Color DrawItemBase::ColorDown = Color(255, 255 ,255);
-Color DrawItemBase::ColorError = Color(230, 12,3);
-
-
-//////////////////////////////////////////////////////////////////////////
 // 基础状态定义
 const int DrawItemBase::StateNormal = 0;
 const int DrawItemBase::StateHovered = 1;
@@ -61,28 +52,28 @@ void DrawItemBase::OnPaint( Graphics &g )
 	Region* region = getCloneRigon();
 	if (StateNormal == m_state)
 	{
-		g.FillRegion(&SolidBrush(ColorNormal), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region);
 	}
 	else if (StateHovered == m_state)
 	{
-		g.FillRegion(&SolidBrush(ColorHovered), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region);
 	}
 	else if (StateDisable == m_state)
 	{
-		g.FillRegion(&SolidBrush(ColorDisable), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region);
 	}
 	else if (StateDown == m_state)
 	{
-		g.FillRegion(&SolidBrush(ColorDown), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorDown), region);
 	}
 	else if (StateError == m_state)
 	{
-		g.FillRegion(&SolidBrush(ColorError), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorError), region);
 	}
 	else
 	{
 		//TODO: 记录日志报错
-		g.FillRegion(&SolidBrush(ColorNormal), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region);
 	}
 	delete region;
 }
@@ -286,8 +277,6 @@ Gdiplus::Region* DrawItemPolygon::getCloneRigon()
 {
 	if (m_outlines.size()>0)
 	{
-
-
 		GraphicsPath path;
 		buildPath(path);
 
@@ -444,13 +433,12 @@ void DrawItemShape::move(PointF offset)
 	m_myRect.Offset(offset);
 }
 
-void DrawItemShape::setAllPoints(std::vector<PointF> outlines)
+void DrawItemShape::setAllPoints(std::vector<PointF>& outlines)
 {
 	for (unsigned int i = 0;i<m_lines.size();i++)
 	{
 		m_lines[i]->updatePoints(outlines);
 	}
-	ASSERT(outlines.size() == 0);
 }
 std::vector<PointF> DrawItemShape::getAllPoints()
 {
