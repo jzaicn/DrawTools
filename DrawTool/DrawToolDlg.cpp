@@ -255,26 +255,119 @@ void CDrawToolDlg::OnBnClickedReload()
 void CDrawToolDlg::OnBnClickedInputitem()
 {
 #if 0	//圆角长方形 + 槽
-	// 	<Vector X="1998.0000" Y="10.0000" R="0.0000" Sign="0" Dir="0" />
-	// 	<Vector X="370.0000" Y="10.0000" R="360.0000" Sign="1" Dir="1" />
-	// 	<Vector X="10.0000" Y="370.0000" R="360.0000" Sign="2" Dir="1" />
-	// 	<Vector X="1998.0000" Y="370.0000" R="0.0000" Sign="0" Dir="0" />
-	//
-	//  lines.push_back(new DrawStraightLine(PointF(,),PointF(,)));
-	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
+	/*
+	<ComPanel Barcode="160425-1005" Name="底板">
+	<ComInfomation>
+		<Info Name="助记号" Value="" />
+		<Info Name="订单号" Value="160425" />
+		<Info Name="柜号" Value="1" />
+		<Info Name="条码编号" Value="160425-1005" />
+		<Info Name="产品名称" Value="A1型衣柜" />
+		<Info Name="成品名称" Value="底板" />
+		<Info Name="材质名称" Value="颗粒板/R5681" />
+		<Info Name="开料长度" Value="449" />
+		<Info Name="开料宽度" Value="498" />
+		<Info Name="开料厚度" Value="18" />
+		<Info Name="需切数量" Value="1" />
+		<Info Name="纹路方向" Value="横纹" />
+		<Info Name="封边量" Value="1.5 0.5 0.5 0.5" />
+		<Info Name="成品长度" Value="450" />
+		<Info Name="成品宽度" Value="500" />
+		<Info Name="成品厚度" Value="18" />
+		<Info Name="异型" Value="ID:1;gapWidth:310;gapDepth:128;" />
+		<Info Name="旋转" Value="0" />
+		<Info Name="正面槽" Value="" />
+		<Info Name="是否开槽" Value="" />
+		<Info Name="反面槽" Value="" />
+		<Info Name="正面孔" Value="" />
+		<Info Name="是否打孔" Value="" />
+		<Info Name="反面孔" Value="" />
+		<Info Name="客户信息" Value="" />
+		<Info Name="加盟店" Value="广西南宁店" />
+		<Info Name="拉槽标识" Value="槽24" />
+		<Info Name="排钻标识" Value="钻" />
+		<Info Name="钻孔" Value="双" />
+		<Info Name="订单类型" Value="" />
+		<Info Name="反面条码" Value="160425-2005" />
+		<Info Name="异型ID" Value="异01" />
+		<Info Name="客户地址" Value="" />
+		<Info Name="钻槽标识" Value="A槽24#B钻" />
+	</ComInfomation>
+	<OutLine>
+		<Vector X="10.0000" Y="646.0000" R="0.0000" Sign="0" Dir="0" />
+		<Vector X="10.0000" Y="1016.0000" R="0.0000" Sign="0" Dir="0" />
+		<Vector X="459.0000" Y="1016.0000" R="0.0000" Sign="0" Dir="0" />
+		<Vector X="459.0000" Y="518.0000" R="0.0000" Sign="0" Dir="0" />
+		<Vector X="320.0000" Y="518.0000" R="0.0000" Sign="0" Dir="0" />
+		<Vector X="320.0000" Y="646.0000" R="0.0000" Sign="0" Dir="0" />
+	</OutLine>
+	<PanelFace Index="0" Barcode="160425-1005">
+		<SAW Layer="ROUTER6.00T6.00" Name="底板开槽">
+			<Param Name="pos_x" Value="379.5" />
+			<Param Name="pos_y" Value="18.5" />
+			<Param Name="angle" Value="0" />
+			<Param Name="size_x" Value="140" />
+			<Param Name="size_y" Value="10" />
+			<Param Name="depth" Value="6" />
+			<Param Name="dwgFile" Value="ROUTER_T6.00.dwg" />
+		</SAW>
+	</PanelFace>
+	<PanelFace Index="5" Barcode="160425-2005">
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+			<Param Name="pos_x" Value="416.5" />
+			<Param Name="pos_y" Value="175.5" />
+			<Param Name="angle" Value="180" />
+			<Param Name="size_x" Value="15" />
+			<Param Name="size_y" Value="15" />
+			<Param Name="depth" Value="14" />
+			<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+			<Param Name="pos_x" Value="416.5" />
+			<Param Name="pos_y" Value="431.5" />
+			<Param Name="angle" Value="180" />
+			<Param Name="size_x" Value="15" />
+			<Param Name="size_y" Value="15" />
+			<Param Name="depth" Value="14" />
+			<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+			<Param Name="pos_x" Value="32.5" />
+			<Param Name="pos_y" Value="47.5" />
+			<Param Name="angle" Value="180" />
+			<Param Name="size_x" Value="15" />
+			<Param Name="size_y" Value="15" />
+			<Param Name="depth" Value="14" />
+			<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+		<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
+			<Param Name="pos_x" Value="32.5" />
+			<Param Name="pos_y" Value="431.5" />
+			<Param Name="angle" Value="180" />
+			<Param Name="size_x" Value="15" />
+			<Param Name="size_y" Value="15" />
+			<Param Name="depth" Value="14" />
+			<Param Name="dwgFile" Value="VERTICAL.dwg" />
+		</VERTICAL>
+	</PanelFace>
+	</ComPanel>
+	*/
 	//测试用圆角长方形
-	RectF rect(5,5,400,370);
+	RectF rect(0,0,449,498);
 	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
 
 	std::vector<IDrawLine*> lines;
-	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
-	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
-	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
-	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
+	lines.push_back(new DrawStraightLine(PointF(0.0000 ,128.0000 ),PointF(0.0000,498.0000)));
+	lines.push_back(new DrawStraightLine(PointF(0.0000 ,498.0000),PointF(449.0000,498.0000)));
+	lines.push_back(new DrawStraightLine(PointF(449.0000,498.0000),PointF(449.0000,0.0000)));
+	lines.push_back(new DrawStraightLine(PointF(449.0000,0.0000 ),PointF(310.0000,0.0000)));
+	lines.push_back(new DrawStraightLine(PointF(310.0000,0.0000 ),PointF(310.0000,128.0000)));
+	lines.push_back(new DrawStraightLine(PointF(310.0000,128.0000 ),PointF(0.0000,128.0000)));
+	lines.push_back(new DrawStraightLine(PointF(310.0000,128.0000 ),PointF(0.0000,128.0000)));
 	shape->setOutterLine(lines);
 
 	std::vector<IDrawInfo*> infos;
-	infos.push_back(new DrawSaw(370.0,20,0,18,18,1));
+	infos.push_back(new DrawSaw(379.5,18.5,0,140,10,6));
 	shape->setVertical(infos);
 
 	m_manager.addDrawItem(shape);
@@ -596,14 +689,14 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	m_manager.addDrawItem(panel);
 #endif //测试用凹型
 
-#if 0 //测试用三角形
+#if 1 //测试用三角形
 	//测试用三角形
-// 	std::vector<CPoint> points;
-// 	points.push_back(CPoint(0,0));
-// 	points.push_back(CPoint(100,100));
-// 	points.push_back(CPoint(200,50));
-// 	DrawItemSmallPanel* panel = new DrawItemSmallPanel(points);
-// 	m_manager.addDrawItem(panel);
+	std::vector<CPoint> points;
+	points.push_back(CPoint(0,0));
+	points.push_back(CPoint(100,100));
+	points.push_back(CPoint(200,50));
+	DrawItemSmallPanel* panel = new DrawItemSmallPanel(points);
+	m_manager.addDrawItem(panel);
 #endif //测试用三角形
 
 #if 0 //正方形

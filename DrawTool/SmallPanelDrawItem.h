@@ -106,8 +106,7 @@ public:
 	virtual void OnPaint( Graphics &g );		//»­Í¼
 	void OnPaintBorder( Graphics &g );			//»­±ß¿ò
 	void OnPaintOtherShape( Graphics &g );		//»­ÒìÐÎ
-	void OnPaintVertical( Graphics &g );		//»­¿×
-	void OnPaintSaw( Graphics &g );				//»­²Û
+	void OnPaintInfo( Graphics &g );			//»­¿×²Û
 
 	virtual void moveTo( PointF point );		//ÒÆ¶¯µ½
 	virtual void move( PointF offset );			//ÒÆ¶¯

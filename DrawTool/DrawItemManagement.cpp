@@ -274,7 +274,7 @@ bool DrawItemManagement::IsCrashArea()
 
 void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 {
-	if (item->getType().Compare(L"companel") == 0)
+	//if (item->getType().Compare(L"companel") == 0)
 	{
 		DrawItemShape* companel = (DrawItemShape*)item;
 		std::vector<PointF> outlines = companel->getAllPoints();

@@ -37,12 +37,11 @@ void DrawInfoBase::drawLineToGraphic( Graphics &g )
 	rect.Width = m_size_x;
 	rect.Height = m_size_y;
 
-	//g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
-	//g.FillRectangle(&SolidBrush(DrawTools::ColorVertical),rect);
+	g.DrawRectangle(&Pen(DrawTools::ColorVertical),rect);
+	g.FillRectangle(&SolidBrush(DrawTools::ColorVertical),rect);
 }
 
 ////////////////////////////////////////////////////////////////////////////
-//
 void DrawVertical_0::drawLineToGraphic( Graphics &g )
 {
 	RectF rect;
@@ -54,7 +53,6 @@ void DrawVertical_0::drawLineToGraphic( Graphics &g )
 	g.FillEllipse(&SolidBrush(DrawTools::ColorVertical),rect);
 }
 //////////////////////////////////////////////////////////////////////////
-
 void DrawVertical_1::drawLineToGraphic( Graphics &g )
 {
 	RectF rect;
@@ -144,10 +142,7 @@ void SmallPanelDrawItem::OnPaint( Graphics &g )
 	DrawItemBase::OnPaint(g);	//»­ÇøÓò
 	OnPaintBorder(g);			//»­±ßÔµ
 	OnPaintOtherShape(g);		//»­ÒìÐÎÊý¾Ý
-	//TODO: ¿×
-	OnPaintVertical(g);
-	//TODO: ²Û
-	OnPaintSaw(g);
+	OnPaintInfo(g);				//¿×¡¢²Û
 }
 
 void SmallPanelDrawItem::OnPaintBorder( Graphics &g )
@@ -165,18 +160,12 @@ void SmallPanelDrawItem::OnPaintOtherShape( Graphics &g )
 	g.DrawPath(&Pen(DrawTools::ColorVertical),&path);
 }
 
-void SmallPanelDrawItem::OnPaintVertical( Graphics &g )
+void SmallPanelDrawItem::OnPaintInfo( Graphics &g )
 {
 	for (unsigned int i = 0;i<m_infos.size();i++)
 	{
 		m_infos[i]->drawLineToGraphic(g);
 	}
-}
-
-void SmallPanelDrawItem::OnPaintSaw( Graphics &g )
-{
-	RectF rect = getRect();
-	g.DrawRectangle(&Pen(DrawTools::ColorBorder),rect);
 }
 
 #endif
