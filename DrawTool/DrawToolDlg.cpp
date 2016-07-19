@@ -254,7 +254,7 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
-#if 1	//圆角长方形 + 槽
+#if 0	//圆角长方形 + 槽
 	/*
 	<ComPanel Barcode="160425-1005" Name="底板">
 	<ComInfomation>
@@ -373,7 +373,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	m_manager.addDrawItem(shape);
 #endif	//圆角长方形 + 槽
 
-#if 0	//测试侧面孔显示
+#if 1	//测试侧面孔显示
 
 	/*
 	<OutLine>

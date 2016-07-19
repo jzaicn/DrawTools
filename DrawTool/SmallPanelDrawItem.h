@@ -17,10 +17,14 @@ class DrawInfoBase : public IDrawInfo
 {
 public:
 	DrawInfoBase(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth);
+	virtual ~DrawInfoBase();
 
 	virtual void loadPoints( std::vector<PointF>& points );
 	virtual void updatePoints( std::vector<PointF>& points );
 	virtual void drawLineToGraphic( Graphics &g );
+
+protected:
+	static std::vector<IDrawLine*> InfosByRect( RectF rect );
 
 protected:
 	float m_pos_x;
@@ -30,6 +34,8 @@ protected:
 	float m_size_y;
 	float m_depth;
 	RectF m_rect;
+	
+	std::vector<IDrawLine*> m_infos;							//通过IDrawLine成员来管理旋转等问题
 };
 //////////////////////////////////////////////////////////////////////////
 //
@@ -49,12 +55,8 @@ public:
 	DrawSideVertical(int side,float pos_x,float pos_y,float angle,float size_x,float size_y,float depth);
 public:
 	virtual void drawLineToGraphic( Graphics &g );				//画图
-	virtual void loadPoints( std::vector<PointF>& points );		//获得坐标信息
-	virtual void updatePoints( std::vector<PointF>& points );	//更新坐标信息
 protected:
 	std::vector<IDrawLine*> InfosByRect(RectF rect);			//通过构造矩形创建孔的画图信息
-private:
-	std::vector<IDrawLine*> m_infos;							//通过IDrawLine成员来管理旋转等问题
 };
 
 //////////////////////////////////////////////////////////////////////////
