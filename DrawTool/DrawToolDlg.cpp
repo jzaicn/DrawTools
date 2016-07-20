@@ -1110,15 +1110,6 @@ void CDrawToolDlg::OnBnClickedTest()
 
 
 
-
-
-
-
-
-
-
-
-
 #endif
 	InvalidateRect(m_manager.getDrawCRect());
 }
