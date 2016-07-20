@@ -71,4 +71,5 @@ public:
 
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnBnClickedTest();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
 };

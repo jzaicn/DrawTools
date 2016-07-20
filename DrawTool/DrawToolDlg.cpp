@@ -46,6 +46,7 @@ BEGIN_MESSAGE_MAP(CDrawToolDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_RELOAD, &CDrawToolDlg::OnBnClickedReload)
 	ON_BN_CLICKED(IDC_INPUTITEM, &CDrawToolDlg::OnBnClickedInputitem)
 	ON_BN_CLICKED(IDC_TEST, &CDrawToolDlg::OnBnClickedTest)
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 
@@ -189,7 +190,15 @@ BOOL CDrawToolDlg::PreTranslateMessage(MSG* pMsg)
 	return CDialogEx::PreTranslateMessage(pMsg);
 }
 
+void CDrawToolDlg::OnSize(UINT nType, int cx, int cy)
+{
+	CDialogEx::OnSize(nType, cx, cy);
 
+	CRect rcClient;
+	GetClientRect(rcClient);
+	rcClient.bottom -= 120;
+	m_manager.setDrawCRect(rcClient);
+}
 //按下按键
 void CDrawToolDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 {
@@ -374,7 +383,6 @@ void CDrawToolDlg::OnBnClickedInputitem()
 #endif	//圆角长方形 + 槽
 
 #if 1	//测试侧面孔显示
-
 	/*
 	<OutLine>
 		<Vector X="0" Y="0" R="0" Sign="0" Dir="0" Cut="0" OutDir="0" type="0" A="" />
@@ -1125,3 +1133,5 @@ void CDrawToolDlg::OnBnClickedTest()
 //TODO: 界面大板栏，界面小板栏
 //TODO: 加载数据保存数据
 //TODO: 错误信息管理，日志信息管理
+
+
