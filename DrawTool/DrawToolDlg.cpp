@@ -382,7 +382,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	m_manager.addDrawItem(shape);
 #endif	//圆角长方形 + 槽
 
-#if 1	//测试侧面孔显示
+#if 0	//测试侧面孔显示
 	/*
 	<OutLine>
 		<Vector X="0" Y="0" R="0" Sign="0" Dir="0" Cut="0" OutDir="0" type="0" A="" />

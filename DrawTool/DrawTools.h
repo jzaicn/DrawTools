@@ -1,5 +1,13 @@
 #pragma once
 
+#include "stdafx.h"
+#include <vector>
+#include <list>
+#include <algorithm>
+#define "DrawLine.h"
+#include "DrawItem.h"
+
+
 class DrawTools
 {
 private:
@@ -39,6 +47,7 @@ public:
 	static PointF buildPointF(CPoint point);
 	static CPoint buildCPoint(PointF point);
 
+	static std::list<IDrawLine*> buildDrawStraightLine( RectF rect );
 
 public:
 	/************************************************************************/

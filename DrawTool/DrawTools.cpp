@@ -62,6 +62,15 @@ CPoint DrawTools::buildCPoint(PointF point)
 {
 	return CPoint(point.X,point.Y);
 }
+std::vector<IDrawLine*> DrawTools::buildDrawStraightLine( RectF rect )
+{
+	std::vector<IDrawLine* > infos;
+	infos.push_back(new DrawStraightLine(DrawTools::getTopLeft(rect),DrawTools::getBottomLeft(rect)));
+	infos.push_back(new DrawStraightLine(DrawTools::getBottomLeft(rect),DrawTools::getBottomRight(rect)));
+	infos.push_back(new DrawStraightLine(DrawTools::getBottomRight(rect),DrawTools::getTopRight(rect)));
+	infos.push_back(new DrawStraightLine(DrawTools::getTopRight(rect),DrawTools::getTopLeft(rect)));
+	return infos;
+}
 /************************************************************************/
 /*   º∆À„À„∑®                                                           */
 /************************************************************************/

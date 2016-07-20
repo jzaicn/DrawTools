@@ -97,7 +97,7 @@ RectF DrawItemBase::getRect()
 
 Region DrawItemBase::getRegion()
 {
-	return Region region(getRect());
+	return Region(getRect());
 }
 
 
@@ -122,7 +122,7 @@ void DrawItemBase::writePoints(std::list<PointF>& points)
 
 	PointF topLeft(numeric_limits<float>::max(),numeric_limits<float>::max());
 	PointF bottomRight(numeric_limits<float>::min(),numeric_limits<float>::min());
-	for_each(tempArr.begin(),tempArr.end(),
+	std::for_each(tempArr.begin(),tempArr.end(),
 		[&](PointF p)
 	{
 		topLeft.X = min(topLeft.X,p.X);
@@ -137,42 +137,49 @@ void DrawItemBase::writePoints(std::list<PointF>& points)
 
 void DrawItemBase::moveTo(PointF point)
 {
-	m_myRect.Offset(point.X - m_myRect.GetLeft(),point.Y - m_myRect.GetTop());
+	PointF temp = point - DrawTools::getTopLeft(getRect());
+	move(point);
 }
 void DrawItemBase::move(PointF offset)
 {
-	m_myRect.Offset(offset.X,offset.Y);
+	std::list<PointF> points;
+	readPoints(points);
+	for(auto itter = points.begin();itter < points.end() ; itter++ )
+	{
+		(*itter) = (*itter) + offset;
+	}
+	writePoints(points);
 }
 
 
 void DrawItemBase::OnPaint( Graphics &g )
 {
-	Region* region = getCloneRigon();
+	Region region = getRegion();
 	if (StateNormal == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), &region);
 	}
 	else if (StateHovered == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorHovered), &region);
 	}
 	else if (StateDisable == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorDisable), &region);
 	}
 	else if (StateDown == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorDown), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorDown), &region);
 	}
 	else if (StateError == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorError), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorError), &region);
 	}
 	else
 	{
 		//TODO: 记录日志报错
 		OutputDebugString("DrawItemBase::OnPaint() maybe error state\n");
-		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), &region);
 	}
 	delete region;
 }
@@ -194,9 +201,9 @@ const int DrawItemBase::StateError = 4;
 #if 1
 //////////////////////////////////////////////////////////////////////////
 // 构造
-DrawItemShape::DrawItemShape(RectF outterRect,std::vector<IDrawLine*> lines)
+DrawItemShape::DrawItemShape(RectF rect,std::vector<IDrawLine*> lines)
 {
-	m_myRect = outterRect;
+	m_myRect = rect;
 	m_lines = lines;
 }
 DrawItemShape::~DrawItemShape()
@@ -204,8 +211,9 @@ DrawItemShape::~DrawItemShape()
 	if (!m_lines.empty())
 	{
 		for (unsigned int i = 0;i<m_lines.size();i++)
+			for(auto itter = m_lines.begin();itter < m_lines.end() ; itter++ )
 		{
-			delete m_lines[i];
+			delete (*itter);
 		}
 		m_lines.clear();
 	}
@@ -224,7 +232,7 @@ Region DrawItemShape::getRegion()
 			m_lines[i]->getPath(path);
 		}
 		path.CloseFigure();
-		return region(&path);
+		return Region(&path);
 	}
 	else
 	{
@@ -238,6 +246,7 @@ void DrawItemShape::readPoints(std::list<PointF>& points)
 	{
 		m_lines[i]->loadPoints(points);
 	}
+	DrawItemBase::readPoints(points);
 	return result;
 }
 void DrawItemShape::writePoints(std::list<PointF>& points)
@@ -246,6 +255,7 @@ void DrawItemShape::writePoints(std::list<PointF>& points)
 	{
 		m_lines[i]->updatePoints(points);
 	}
+	DrawItemBase::writePoints(points);
 }
 
 void DrawItemShape::moveTo(PointF point)
@@ -254,12 +264,12 @@ void DrawItemShape::moveTo(PointF point)
 }
 void DrawItemShape::move(PointF offset)
 {
-	std::vector<PointF> points = getAllPoints();
+	std::vector<PointF> points = readPoints();
 	for (unsigned int i = 0;i<points.size();i++)
 	{
 		points[i] = points[i] + offset;
 	}
-	setAllPoints(points);
+	writePoints(points);
 	m_myRect.Offset(offset);
 }
 
@@ -268,4 +278,36 @@ void DrawItemShape::OnPaint( Graphics &g )
 	DrawItemBase::OnPaint(g);
 }
 
+#endif
+
+/************************************************************************/
+/*  绘图形状 DrawItemCircle                                             */
+/************************************************************************/
+#if 1
+DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius )
+	:DrawItemShape(rect,std::list<IDrawItem*>())
+{
+	RectF rectCircle = RectF(pos_x - radius,pos_y - radius,radius*2.0,radius*2.0);
+	//获得圆弧上下左右各点
+	PointF top( (rectCircle.GetRight() + rectCircle.GetLeft())/2 , rectCircle.GetTop() );
+	PointF left( rectCircle.GetLeft() , (rectCircle.GetBottom() + rectCircle.GetTop())/2 );
+	PointF bottom((rectCircle.GetRight() + rectCircle.GetLeft())/2,rectCircle.GetBottom());
+	PointF right(rectCircle.GetRight(),(rectCircle.GetBottom() + rectCircle.GetTop())/2);
+
+	m_infos.clear();
+	m_infos.push_back(new DrawArcLine(top,left,size_x/2,DrawTools::ArcSignLeft));
+	m_infos.push_back(new DrawArcLine(left,bottom,size_x/2,DrawTools::ArcSignLeft));
+	m_infos.push_back(new DrawArcLine(bottom,right,size_x/2,DrawTools::ArcSignLeft));
+	m_infos.push_back(new DrawArcLine(right,top,size_x/2,DrawTools::ArcSignLeft));
+}
+#endif
+/************************************************************************/
+/*  绘图形状 DrawItemRectangle                                          */
+/************************************************************************/
+#if 1
+DrawItemRectangle::DrawItemRectangle( RectF rect,std::vector<IDrawLine*> lines )
+	:DrawItemShape(rect,lines)
+{
+
+}
 #endif

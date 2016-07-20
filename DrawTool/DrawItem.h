@@ -1,7 +1,9 @@
 #pragma once
 #include "stdafx.h"
-#include "DrawTools.h"
 #include <vector>
+#include <list>
+#include "DrawLine.h"
+#include "DrawTools.h"
 
 /************************************************************************/
 /*  绘图接口 IDrawItem                                                  */
@@ -54,7 +56,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 实现接口
 	virtual void setState(int state);	//状态
-	virtual int getState() = 0;				//状态
+	virtual int getState();				//状态
 
 	virtual void setType(CString type);	//类型
 	virtual CString getType();			//类型
@@ -106,7 +108,7 @@ class DrawItemShape : public DrawItemBase
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
-	DrawItemShape(RectF outterRect,std::vector<IDrawLine*> lines);
+	DrawItemShape(RectF rect,std::vector<IDrawLine*> lines);
 	virtual ~DrawItemShape();
 
 public:
@@ -126,5 +128,41 @@ protected:
 	//////////////////////////////////////////////////////////////////////////
 	// 数据
 	std::vector<IDrawLine*> m_lines;
+};
+#endif
+/************************************************************************/
+/*  绘图形状 DrawItemCircle                                             */
+/************************************************************************/
+#if 1
+// DrawItemCircle* CreateVirtical(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+// {
+// 	DrawItemCircle* virtical = new DrawItemCircle(pos_x,pos_y,size_x/2.0);
+// }
+// DrawItemRectangle* CreateSide(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
+// {
+// 	RectF rect;
+// 	DrawItemRectangle* side = new DrawItemRectangle(rect,DrawTools::buildDrawStraightLine(rect));
+// }
+
+class DrawItemCircle : public DrawItemShape
+{
+public:
+	//////////////////////////////////////////////////////////////////////////
+	// 构造
+	DrawItemCircle(RectF rect,float pos_x,float pos_y,float radius);
+	virtual ~DrawItemShape();
+};
+#endif
+/************************************************************************/
+/*  绘图形状 DrawItemRectangle                                          */
+/************************************************************************/
+#if 1
+class DrawItemRectangle : public DrawItemShape
+{
+public:
+	//////////////////////////////////////////////////////////////////////////
+	// 构造
+	DrawItemRectangle(RectF rect,std::vector<IDrawLine*> lines);
+	virtual ~DrawItemShape();
 };
 #endif

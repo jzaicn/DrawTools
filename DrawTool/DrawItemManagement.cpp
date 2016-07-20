@@ -1,13 +1,12 @@
 #include "StdAfx.h"
 #include "afxwin.h"
-#include "DrawItemManagement.h"
+#include "DrawTools.h"
 #include <algorithm>
+#include "DrawItemManagement.h"
 
 DrawItemManagement::DrawItemManagement(void)
 {
 }
-
-
 DrawItemManagement::~DrawItemManagement(void)
 {
 }
