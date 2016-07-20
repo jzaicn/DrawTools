@@ -13,9 +13,9 @@ public:
 private:
 	RectF m_drawRect;								//工具的区域定义
 	PointF m_mouseStartPoint;						//鼠标的起始点
-	std::vector<IDrawItem*> m_allDrawItemList;		//所有的画图元素
-	std::vector<IDrawItem*> m_staticDrawItemList;	//所有静止
-	std::vector<IDrawItem*> m_activeDrawItemList;	//所有激活数据
+	std::list<IDrawItem*> m_allDrawItemList;		//所有的画图元素
+	std::list<IDrawItem*> m_staticDrawItemList;	//所有静止
+	std::list<IDrawItem*> m_activeDrawItemList;	//所有激活数据
 
 public:
 	void OnPaint(Graphics& g);						//响应绘图
@@ -32,7 +32,7 @@ public:
 
 public:
 	void addDrawItem(IDrawItem* drawItem);			//添加元素
-	std::vector<IDrawItem*>& getDrawItemList();		//取回元素列表
+	std::list<IDrawItem*>& getDrawItemList();		//取回元素列表
 	void clearDrawItem();							//清空元素列表
 
 	void setDrawRectF(RectF drawRect);				//设置绘图区域

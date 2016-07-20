@@ -21,9 +21,9 @@ void DrawItemManagement::OnPaint(Graphics& g)
 	g.FillRectangle(&SolidBrush(Color::Black),getDrawRectF());
 
 	//画每个子元素
-	for(int i = 0; i < m_allDrawItemList.size(); i++)
+	for(auto itter = m_allDrawItemList.begin();itter != m_allDrawItemList.end() ; itter++ )
 	{
-		m_allDrawItemList[i]->OnPaint(g);
+		(*itter)->OnPaint(g);
 	}
 }
 
@@ -33,9 +33,9 @@ bool DrawItemManagement::PreTranslateMessage(MSG* pMsg)
 	//按下空格
 	if (pMsg ->wParam == _T('\x020'))
 	{
-		for (int i = 0;i<m_activeDrawItemList.size();i++)
+		for(auto itter = m_activeDrawItemList.begin();itter != m_activeDrawItemList.end() ; itter++ )
 		{
-			rotateDrawItem(m_activeDrawItemList[i]);
+			rotateDrawItem((*itter));
 		}
 		return true;
 	}
@@ -63,15 +63,15 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, PointF point)
 			SetActiveState(DrawItemBase::StateDown);
 		}
 
-		for(int i = 0; i < m_staticDrawItemList.size(); i++)
+		for(auto itter = m_staticDrawItemList.begin();itter != m_staticDrawItemList.end() ; itter++ )
 		{
-			if (m_staticDrawItemList[i]->IsVisible(point))
+			if ((*itter)->getRegion().IsVisible(point))
 			{
-				m_staticDrawItemList[i]->setState(DrawItemBase::StateHovered);
+				(*itter)->setState(DrawItemBase::StateHovered);
 			}
 			else
 			{
-				m_staticDrawItemList[i]->setState(DrawItemBase::StateNormal);
+				(*itter)->setState(DrawItemBase::StateNormal);
 			}
 		}
 	}
@@ -82,17 +82,17 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, PointF point)
 		PointF diff(point.X - m_mouseStartPoint.X, point.Y - m_mouseStartPoint.Y);
 		PointF rediff(m_mouseStartPoint.X - point.X, m_mouseStartPoint.Y - point.Y);
 
-		for(int i = 0; i < m_activeDrawItemList.size(); i++)
+		for(auto itter = m_activeDrawItemList.begin();itter != m_activeDrawItemList.end() ; itter++ )
 		{
-			m_activeDrawItemList[i]->move(diff);
+			(*itter)->move(diff);
 		}
 
 		//处理活动组件跟静态部分碰撞问题
 		if (IsCrashArea())
 		{
-			for(int i = 0; i < m_activeDrawItemList.size(); i++)
+			for(auto itter = m_activeDrawItemList.begin();itter != m_activeDrawItemList.end() ; itter++ )
 			{
-				m_activeDrawItemList[i]->move(rediff);
+				(*itter)->move(rediff);
 			}
 		}
 
@@ -116,17 +116,17 @@ void DrawItemManagement::OnLButtonDown(UINT nFlags, PointF point)
 		m_activeDrawItemList.clear();
 		m_staticDrawItemList.clear();
 
-		for(int i = 0; i < m_allDrawItemList.size(); i++)
+		for(auto itter = m_allDrawItemList.begin();itter != m_allDrawItemList.end() ; itter++ )
 		{
-			if(!isPicked && m_allDrawItemList[i]->IsVisible(point))
+			if(!isPicked && (*itter)->getRegion().IsVisible(point))
 			{
 				isPicked = true;
-				m_allDrawItemList[i]->setState(DrawItemBase::StateDown);
-				m_activeDrawItemList.push_back(m_allDrawItemList[i]);
+				(*itter) ->setState(DrawItemBase::StateDown);
+				m_activeDrawItemList.push_back((*itter) );
 			}
 			else
 			{
-				m_staticDrawItemList.push_back(m_allDrawItemList[i]);
+				m_staticDrawItemList.push_back((*itter) );
 			}
 		}
 		m_mouseStartPoint = point;
@@ -164,16 +164,16 @@ void DrawItemManagement::addDrawItem(IDrawItem* drawItem)
 	m_allDrawItemList.push_back(drawItem);
 }
 
-std::vector<IDrawItem*>& DrawItemManagement::getDrawItemList()
+std::list<IDrawItem*>& DrawItemManagement::getDrawItemList()
 {
 	return m_allDrawItemList;
 }
 
 void DrawItemManagement::clearDrawItem()
 {
-	for (int i = 0;i<m_allDrawItemList.size();i++)
+	for(auto itter = m_allDrawItemList.begin();itter != m_allDrawItemList.end() ; itter++ )
 	{
-		delete m_allDrawItemList[i];
+		delete (*itter);
 	}
 	m_allDrawItemList.clear();
 	m_activeDrawItemList.clear();
@@ -210,9 +210,9 @@ bool DrawItemManagement::checkMoveable(IDrawItem* item , PointF point)
 
 void DrawItemManagement::SetActiveState(int state)
 {
-	for(int i = 0; i < m_activeDrawItemList.size(); i++)
+	for(auto itter = m_activeDrawItemList.begin();itter != m_activeDrawItemList.end() ; itter++ )
 	{
-		m_activeDrawItemList[i]->setState(state);	
+		(*itter)->setState(state);	
 	}
 }
 
@@ -225,9 +225,9 @@ bool DrawItemManagement::IsCrashArea()
 		Graphics g((Image*)&img);
 		//原来的墙
 		HRGN staticRegion = CreateRectRgn( 0,0,0,0 ); 
-		for(int i = 0; i < m_staticDrawItemList.size(); i++)
+		for(auto itter = m_staticDrawItemList.begin();itter != m_staticDrawItemList.end() ; itter++ )
 		{
-			Gdiplus::Region* region = m_staticDrawItemList[i]->getCloneRigon();
+			Gdiplus::Region* region = (*itter)->getRegion();
 			HRGN regionHgrn = region->GetHRGN(&g);
 			int combineResult = CombineRgn( staticRegion,staticRegion,regionHgrn,RGN_OR ); 
 			DeleteObject(regionHgrn);
@@ -238,9 +238,9 @@ bool DrawItemManagement::IsCrashArea()
 
 		//判断活动物品是否和原来有重合
 		HRGN activeRegion = CreateRectRgn( 0,0,0,0 ); 
-		for(int i = 0; i < m_activeDrawItemList.size(); i++)
+		for(auto itter = m_activeDrawItemList.begin();itter != m_activeDrawItemList.end() ; itter++ )
 		{
-			Gdiplus::Region* region = m_activeDrawItemList[i]->getCloneRigon();
+			Gdiplus::Region* region = (*itter)->getRegion();
 			HRGN regionHgrn = region->GetHRGN(&g);
 			int combineResult = CombineRgn( activeRegion,activeRegion,regionHgrn,RGN_OR ); 
 			DeleteObject(regionHgrn);
@@ -276,17 +276,18 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 	if (item->getType().Compare(L"DrawItemShape") == 0 || item->getType().Compare(L"SmallPanel") == 0)
 	{
 		DrawItemShape* companel = (DrawItemShape*)item;
-		std::vector<PointF> outlines = companel->getAllPoints();
+		std::list<PointF> outlines;
+		companel->readPoints(outlines);
 		RectF rect = companel->getRect();
 
 		//用于旋转后偏移
 		PointF offset(rect.Height,0);
 
-		std::vector<PointF> outResult;
-		for(int i = 0; i < outlines.size(); i++)
+		std::list<PointF> outResult;
+		for(auto itter = outlines.begin();itter != outlines.end() ; itter++ )
 		{
 			//旋转点
-			PointF tempPoint(outlines[i].X,outlines[i].Y);
+			PointF tempPoint((*itter).X,(*itter).Y);
 			DrawTools::rotateByAngle(DrawTools::getTopLeft(rect),tempPoint,90);
 
 			//偏移点
@@ -295,7 +296,7 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 			//保存
 			outResult.push_back(PointF(tempPoint.X,tempPoint.Y));
 		}
-		companel->setAllPoints(outResult);
+		companel->writePoints(outResult);
 		companel->setRect(RectF(rect.X,rect.Y,rect.Height,rect.Width));
 	}
 }

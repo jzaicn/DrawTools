@@ -365,7 +365,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	RectF rect(0,0,449,498);
 	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
 
-	std::vector<IDrawLine*> lines;
+	std::list<IDrawLine*> lines;
 	lines.push_back(new DrawStraightLine(PointF(0.0000 ,128.0000 ),PointF(0.0000,498.0000)));
 	lines.push_back(new DrawStraightLine(PointF(0.0000 ,498.0000),PointF(449.0000,498.0000)));
 	lines.push_back(new DrawStraightLine(PointF(449.0000,498.0000),PointF(449.0000,0.0000)));
@@ -375,7 +375,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	lines.push_back(new DrawStraightLine(PointF(310.0000,128.0000 ),PointF(0.0000,128.0000)));
 	shape->setOutterLine(lines);
 
-	std::vector<IDrawInfo*> infos;
+	std::list<IDrawInfo*> infos;
 	infos.push_back(new DrawSaw(379.5,18.5,0,140,10,6));
 	shape->setVertical(infos);
 
@@ -501,7 +501,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	RectF rect(0,0,281,531);
 	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
 	
-	std::vector<IDrawLine*> lines;
+	std::list<IDrawLine*> lines;
 	lines.push_back(new DrawStraightLine(PointF(0,0),PointF(0,381)));
 	lines.push_back(new DrawArcLine(PointF(0,381),PointF(150,531),150,1));
 	lines.push_back(new DrawStraightLine(PointF(150,531),PointF(281,531)));
@@ -514,7 +514,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	//更改方法：一旦检测到是异形板，将PanelFace子节点中的Layer="SIDE1 改成 Layer="SIDE2
 	//其他照旧
 
-	std::vector<IDrawInfo*> infos;
+	std::list<IDrawInfo*> infos;
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="483" />
@@ -644,14 +644,14 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	RectF rect(5,5,400,370);
 	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
 
-	std::vector<IDrawLine*> lines;
+	std::list<IDrawLine*> lines;
 	lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
 	lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
 	lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
 	lines.push_back(new DrawStraightLine(PointF(400,370.0000),PointF(400,10.0000)));
 	shape->setOutterLine(lines);
 
-	std::vector<IDrawInfo*> infos;
+	std::list<IDrawInfo*> infos;
 	infos.push_back(new DrawSaw(370.0,20,0,18,18,1));
 	shape->setVertical(infos);
 
@@ -671,7 +671,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
  		//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
  		//
  		RectF rect(10,10,390,360);
- 		std::vector<IDrawLine*> lines;
+ 		std::list<IDrawLine*> lines;
  		lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
  		lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
  		lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
@@ -684,7 +684,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	
 #if 0 //测试用凹型
 	//测试用凹型
-	std::vector<PointF> points;
+	std::list<PointF> points;
 	points.push_back(PointF(0,0));
 	points.push_back(PointF(50,0));
 	points.push_back(PointF(50,50));
@@ -699,7 +699,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 
 #if 0 //测试用三角形
 	//测试用三角形
-	std::vector<PointF> points;
+	std::list<PointF> points;
 	points.push_back(PointF(0,0));
 	points.push_back(PointF(100,100));
 	points.push_back(PointF(200,50));
@@ -747,8 +747,8 @@ bool pfe(PointF& p1,PointF& p2)
 	return (fabs(p1.X - p2.X)<0.00001) && (fabs(p1.Y - p2.Y)<0.00001);
 }
 
-#define TestOnce 1
-#define TestNew 1
+#define TestOnce 0
+#define TestNew 0
 void CDrawToolDlg::OnBnClickedTest()
 {
 	//测试画图形的点移动是否恰当
@@ -757,7 +757,7 @@ void CDrawToolDlg::OnBnClickedTest()
 		ASSERT(DrawTools::ArcSignLeft == 1);
 
 		RectF rect(10,10,390,360);
-		std::vector<IDrawLine*> lines;
+		std::list<IDrawLine*> lines;
 		lines.push_back(new DrawStraightLine(PointF(400,10.0000),PointF(370.0000,10.0000)));
 		lines.push_back(new DrawArcLine(PointF(370.0000,10.0000),PointF(10.0000,370.0000),360.00000,1));
 		lines.push_back(new DrawStraightLine(PointF(10.0000,370.0000),PointF(400.0000,370.0000)));
@@ -765,8 +765,8 @@ void CDrawToolDlg::OnBnClickedTest()
 		DrawItemShape* shape = new DrawItemShape(rect,lines);
 
 		shape->move(PointF(0,0));
-		std::vector<PointF> points = shape->getAllPoints();
-		ASSERT(points[0].Equals(PointF(400,10)));
+		std::list<PointF> points = shape->getAllPoints();
+		ASSERT(points.front().Equals(PointF(400,10)));
 
 		delete shape;
 	}
@@ -920,7 +920,7 @@ void CDrawToolDlg::OnBnClickedTest()
 	//画圆弧 * 4 = 一个圆
 	{
 		RectF rect(0,0,100,100);
-		std::vector<IDrawLine*> lines;
+		std::list<IDrawLine*> lines;
 		lines.push_back(new DrawArcLine(PointF(100.0000,50.0000),PointF(50.0000,0.00),50,1));
 		lines.push_back(new DrawArcLine(PointF(50.0000,00.0000),PointF(00.0000,50.0),50,1));
 		lines.push_back(new DrawArcLine(PointF(00.0000,50.0000),PointF(50.0000,100),50,1));
@@ -933,24 +933,25 @@ void CDrawToolDlg::OnBnClickedTest()
 	//画圆弧
 	{
 		RectF rect(0,0,100,100);
-		std::vector<IDrawLine*> lines;
+		std::list<IDrawLine*> lines;
 		lines.push_back(new DrawArcLine(PointF(100.0000,00.0000),PointF(0.0000,100),100,1));
 		DrawItemShape* shape = new DrawItemShape(rect,lines);
 		m_manager.addDrawItem(shape);
 
-		DrawItemShape* item = (DrawItemShape*)m_manager.getDrawItemList()[0];
-		std::vector<PointF> points = item->getAllPoints();
+		DrawItemShape* item = (DrawItemShape*)m_manager.getDrawItemList().front();
+		std::list<PointF> points = item->getAllPoints();
 
-		ASSERT(points[0].X == 100);
-		ASSERT(points[0].Y == 0.0);
-		ASSERT(points[1].X == 0.0);
-		ASSERT(points[1].Y == 100);
+		ASSERT(points.front().X == 100);
+		ASSERT(points.front().Y == 0.0);
+		points.pop_front();
+		ASSERT(points.front().X == 0.0);
+		ASSERT(points.front().Y == 100);
 		//m_manager.clearDrawItem();
 	}
 	//画三角形
 	{	
 		RectF rect(0,0,100,100);
-		std::vector<IDrawLine*> lines;
+		std::list<IDrawLine*> lines;
 		lines.push_back(new DrawStraightLine(PointF(100,0.0000),PointF(0,100)));
 		lines.push_back(new DrawStraightLine(PointF(0,100.0000),PointF(100.0000,100)));
 		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,00)));
@@ -961,7 +962,7 @@ void CDrawToolDlg::OnBnClickedTest()
 	//画斜边是圆的直角三角形
 	{
 		RectF rect(0,0,100,100);
-		std::vector<IDrawLine*> lines;
+		std::list<IDrawLine*> lines;
 		lines.push_back(new DrawArcLine(PointF(100.0000,00.0000),PointF(0.0000,100),110,1));
 		lines.push_back(new DrawStraightLine(PointF(0,100.0000),PointF(100.0000,100)));
 		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,00)));
@@ -976,7 +977,7 @@ void CDrawToolDlg::OnBnClickedTest()
 	{
 		//构造三角形
 		RectF rect(0,0,100,100);
-		std::vector<IDrawLine*> lines;
+		std::list<IDrawLine*> lines;
 		lines.push_back(new DrawStraightLine(PointF(100.0,0.0000),PointF(0.0,100.0)));
 		lines.push_back(new DrawStraightLine(PointF(0.0,100.0000),PointF(100.0000,100.0)));
 		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,0.0)));
@@ -985,7 +986,7 @@ void CDrawToolDlg::OnBnClickedTest()
 		m_manager.addDrawItem(shape);
 
 		//得到所有点
-		std::vector<PointF> origin1 = shape->getAllPoints();
+		std::list<PointF> origin1 = shape->getAllPoints();
 
 		//旋转图形4次（回到原位置）
 		m_manager.rotateDrawItem(shape);
@@ -994,20 +995,22 @@ void CDrawToolDlg::OnBnClickedTest()
 		m_manager.rotateDrawItem(shape);
 
 		//获得所有新的点，比较旋转后所有点是否还在原位置
-		std::vector<PointF> result1 = shape->getAllPoints();
+		std::list<PointF> result1 = shape->getAllPoints();
 		ASSERT(origin1.size() == result1.size());
+		auto itterOrigin = origin1.begin();
+		for(auto itterMLine = m_lines.begin();itterMLine < result1.end() ; itterMLine++,itterOrigin++ )
 		for (unsigned int i = 0;i<result1.size() ; i++)
 		{
-			bool a = result1[i].Equals(origin1[i]);
+			bool a = (*itterMLine).Equals((*itterOrigin));
 
 			//CString mm;
-			//mm.Format(L"%d (%f, %f) (%f, %f)\n",a,result1[i].X,result1[i].Y,origin1[i].X,origin1[i].Y);
+			//mm.Format(L"%d (%f, %f) (%f, %f)\n",a,(*itterMLine).X,(*itterMLine).Y,(*itterOrigin).X,(*itterOrigin).Y);
 			//OutputDebugString(mm);
 
 
-			ASSERT(fabs(result1[i].X - origin1[i].X) <0.0000001);
-			ASSERT(fabs(result1[i].Y - origin1[i].Y) <0.0000001);
-			//ASSERT(result1[i].Equals(origin1[i]));
+			ASSERT(fabs((*itterMLine).X - (*itterOrigin).X) <0.0000001);
+			ASSERT(fabs((*itterMLine).Y - (*itterOrigin).Y) <0.0000001);
+			//ASSERT((*itterMLine).Equals((*itterOrigin)));
 		}
 
 		//获取外包围边框，由于当前图形是正方形的内接直角三角形，
@@ -1028,15 +1031,16 @@ void CDrawToolDlg::OnBnClickedTest()
 
 		shape->move(PointF(200,100));
 
-		std::vector<PointF> origin2 = shape->getAllPoints();
+		std::list<PointF> origin2 = shape->getAllPoints();
 
 		m_manager.rotateDrawItem(shape);
 		m_manager.rotateDrawItem(shape);
 		m_manager.rotateDrawItem(shape);
 		m_manager.rotateDrawItem(shape);
 
-		std::vector<PointF> result2 = shape->getAllPoints();
+		std::list<PointF> result2 = shape->getAllPoints();
 		ASSERT(origin2.size() == result2.size());
+		for(auto itterMLine = m_lines.begin();itterMLine < m_lines.end() ; itterMLine++ )
 		for (unsigned int i = 0;i<result2.size() ; i++)
 		{
 			//CString mm;
@@ -1068,7 +1072,7 @@ void CDrawToolDlg::OnBnClickedTest()
 	//方中方
 	{
 		RectF rect(0,0,100,100);
-		std::vector<IDrawLine*> lines;
+		std::list<IDrawLine*> lines;
 
 		//外边框
 		lines.push_back(new DrawStraightLine(PointF(100.0,0.0000),PointF(0.0,00.0)));
@@ -1093,7 +1097,7 @@ void CDrawToolDlg::OnBnClickedTest()
 		shape->setType(L"companel");
 		m_manager.addDrawItem(shape);
 
-		std::vector<IDrawLine*> lines2;
+		std::list<IDrawLine*> lines2;
 
 		//内小方
 		RectF rect2(15,15,10,10);

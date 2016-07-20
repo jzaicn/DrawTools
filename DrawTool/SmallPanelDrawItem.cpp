@@ -33,7 +33,7 @@
 // 	m_infos.clear();
 // }
 // 
-// void DrawInfoBase::loadPoints( std::vector<PointF>& points )
+// void DrawInfoBase::loadPoints( std::list<PointF>& points )
 // {
 // 	for (unsigned int i = 0; i < m_infos.size() ; i++)
 // 	{
@@ -41,7 +41,7 @@
 // 	}
 // }
 // 
-// void DrawInfoBase::updatePoints( std::vector<PointF>& points )
+// void DrawInfoBase::updatePoints( std::list<PointF>& points )
 // {
 // 	for (unsigned int i = 0; i < m_infos.size() ; i++)
 // 	{
@@ -61,9 +61,9 @@
 // 	g.DrawPath(&Pen(DrawTools::ColorVertical),&path);
 // }
 // 
-// std::vector<IDrawLine*> DrawInfoBase::InfosByRect( RectF rect )
+// std::list<IDrawLine*> DrawInfoBase::InfosByRect( RectF rect )
 // {
-// 	std::vector<IDrawLine* > infos;
+// 	std::list<IDrawLine* > infos;
 // 	infos.push_back(new DrawStraightLine(DrawTools::getTopLeft(rect),DrawTools::getBottomLeft(rect)));
 // 	infos.push_back(new DrawStraightLine(DrawTools::getBottomLeft(rect),DrawTools::getBottomRight(rect)));
 // 	infos.push_back(new DrawStraightLine(DrawTools::getBottomRight(rect),DrawTools::getTopRight(rect)));
@@ -171,9 +171,9 @@
 // 	path.CloseFigure();
 // 	g.DrawPath(&Pen(DrawTools::ColorVertical),&path);
 // }
-// std::vector<IDrawLine*> DrawSideVertical::InfosByRect( RectF rect )
+// std::list<IDrawLine*> DrawSideVertical::InfosByRect( RectF rect )
 // {
-// 	std::vector<IDrawLine* > infos;
+// 	std::list<IDrawLine* > infos;
 // 	infos.push_back(new DrawStraightLine(DrawTools::getTopLeft(rect),DrawTools::getBottomLeft(rect)));
 // 	infos.push_back(new DrawStraightLine(DrawTools::getBottomLeft(rect),DrawTools::getBottomRight(rect)));
 // 	infos.push_back(new DrawStraightLine(DrawTools::getBottomRight(rect),DrawTools::getTopRight(rect)));
@@ -202,7 +202,7 @@
 // /************************************************************************/
 // #if 1
 // SmallPanelDrawItem::SmallPanelDrawItem(void):
-//  DrawItemShape(RectF(0,0,0,0),std::vector<IDrawLine*>())
+//  DrawItemShape(RectF(0,0,0,0),std::list<IDrawLine*>())
 // {
 // }
 // 
@@ -268,7 +268,7 @@
 // 
 // void SmallPanelDrawItem::move( PointF offset )
 // {
-// 	std::vector<PointF> points = getAllPoints();
+// 	std::list<PointF> points = getAllPoints();
 // 	for (unsigned int i = 0;i<points.size();i++)
 // 	{
 // 		points[i] = points[i] + offset;
@@ -301,30 +301,30 @@
 // /* µã×ø±ê×ª»»                                                            */
 // /************************************************************************/
 // #if 1
-// void SmallPanelDrawItem::setOutterLine(std::vector<IDrawLine*> outterline)
+// void SmallPanelDrawItem::setOutterLine(std::list<IDrawLine*> outterline)
 // {
 // 	m_lines = outterline;
 // }
 // 
-// void SmallPanelDrawItem::addInnerLine(std::vector<IDrawLine*> outterline)
+// void SmallPanelDrawItem::addInnerLine(std::list<IDrawLine*> outterline)
 // {
 // 
 // }
-// void SmallPanelDrawItem::setInnerLine(std::vector<std::vector<IDrawLine*>> outterline)
+// void SmallPanelDrawItem::setInnerLine(std::list<std::list<IDrawLine*>> outterline)
 // {
 // 
 // }
-// std::vector<std::vector<IDrawLine*>> SmallPanelDrawItem::getInnerLine()
+// std::list<std::list<IDrawLine*>> SmallPanelDrawItem::getInnerLine()
 // {
-// 	return std::vector<std::vector<IDrawLine*>>();
+// 	return std::list<std::list<IDrawLine*>>();
 // }
 // 
-// void SmallPanelDrawItem::setVertical( std::vector<IDrawInfo*> infos )
+// void SmallPanelDrawItem::setVertical( std::list<IDrawInfo*> infos )
 // {
 // 	m_infos = infos;
 // }
 // 
-// void SmallPanelDrawItem::setAllPoints( std::vector<PointF>& points )
+// void SmallPanelDrawItem::setAllPoints( std::list<PointF>& points )
 // {
 // 	DrawItemShape::setAllPoints(points);
 // 
@@ -333,9 +333,9 @@
 // 		m_infos[i]->updatePoints(points);
 // 	}
 // }
-// std::vector<PointF> SmallPanelDrawItem::getAllPoints()
+// std::list<PointF> SmallPanelDrawItem::getAllPoints()
 // {
-// 	std::vector<PointF> points = DrawItemShape::getAllPoints();
+// 	std::list<PointF> points = DrawItemShape::getAllPoints();
 // 
 // 	for (unsigned int i = 0;i < m_infos.size();i++)
 // 	{

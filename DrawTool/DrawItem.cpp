@@ -101,7 +101,7 @@ Region DrawItemBase::getRegion()
 }
 
 
-void DrawItemBase::readPoints(std::vector<PointF>& points)
+void DrawItemBase::readPoints(std::list<PointF>& points)
 {
 	points.push_back(DrawTools::getTopLeft(getRect()));
 	points.push_back(DrawTools::getBottomLeft(getRect()));
@@ -110,7 +110,7 @@ void DrawItemBase::readPoints(std::vector<PointF>& points)
 }
 void DrawItemBase::writePoints(std::list<PointF>& points)
 {
-	std::vector<PointF> tempArr;
+	std::list<PointF> tempArr;
 	tempArr.push_back(points.front());
 	points.pop_front();
 	tempArr.push_back(points.front());
@@ -144,7 +144,7 @@ void DrawItemBase::move(PointF offset)
 {
 	std::list<PointF> points;
 	readPoints(points);
-	for(auto itter = points.begin();itter < points.end() ; itter++ )
+	for(auto itter = points.begin();itter != points.end() ; itter++ )
 	{
 		(*itter) = (*itter) + offset;
 	}
@@ -178,10 +178,9 @@ void DrawItemBase::OnPaint( Graphics &g )
 	else
 	{
 		//TODO: 记录日志报错
-		OutputDebugString("DrawItemBase::OnPaint() maybe error state\n");
+		OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
 		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), &region);
 	}
-	delete region;
 }
 
 
@@ -201,7 +200,7 @@ const int DrawItemBase::StateError = 4;
 #if 1
 //////////////////////////////////////////////////////////////////////////
 // 构造
-DrawItemShape::DrawItemShape(RectF rect,std::vector<IDrawLine*> lines)
+DrawItemShape::DrawItemShape(RectF rect,std::list<IDrawLine*> lines)
 {
 	m_myRect = rect;
 	m_lines = lines;
@@ -210,8 +209,7 @@ DrawItemShape::~DrawItemShape()
 {
 	if (!m_lines.empty())
 	{
-		for (unsigned int i = 0;i<m_lines.size();i++)
-			for(auto itter = m_lines.begin();itter < m_lines.end() ; itter++ )
+		for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
 		{
 			delete (*itter);
 		}
@@ -227,9 +225,9 @@ Region DrawItemShape::getRegion()
 	{
 		GraphicsPath path;
 		path.StartFigure();
-		for (unsigned int i = 0;i<m_lines.size();i++)
+		for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
 		{
-			m_lines[i]->getPath(path);
+			(*itter)->getPath(path);
 		}
 		path.CloseFigure();
 		return Region(&path);
@@ -242,18 +240,18 @@ Region DrawItemShape::getRegion()
 
 void DrawItemShape::readPoints(std::list<PointF>& points)
 {
-	for (unsigned int i = 0;i<m_lines.size();i++)
+	for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
 	{
-		m_lines[i]->loadPoints(points);
+		(*itter)->loadPoints(points);
 	}
 	DrawItemBase::readPoints(points);
 	return result;
 }
 void DrawItemShape::writePoints(std::list<PointF>& points)
 {
-	for (unsigned int i = 0;i<m_lines.size();i++)
+	for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
 	{
-		m_lines[i]->updatePoints(points);
+		(*itter)->updatePoints(points);
 	}
 	DrawItemBase::writePoints(points);
 }
@@ -264,10 +262,11 @@ void DrawItemShape::moveTo(PointF point)
 }
 void DrawItemShape::move(PointF offset)
 {
-	std::vector<PointF> points = readPoints();
-	for (unsigned int i = 0;i<points.size();i++)
+	std::list<PointF> points;
+	readPoints(points);
+	for(auto itter = points.begin();itter != points.end() ; itter++ )
 	{
-		points[i] = points[i] + offset;
+		(*itter) = (*itter) + offset;
 	}
 	writePoints(points);
 	m_myRect.Offset(offset);
@@ -285,7 +284,7 @@ void DrawItemShape::OnPaint( Graphics &g )
 /************************************************************************/
 #if 1
 DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius )
-	:DrawItemShape(rect,std::list<IDrawItem*>())
+	:DrawItemShape(rect,std::list<IDrawLine*>())
 {
 	RectF rectCircle = RectF(pos_x - radius,pos_y - radius,radius*2.0,radius*2.0);
 	//获得圆弧上下左右各点
@@ -294,18 +293,18 @@ DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius 
 	PointF bottom((rectCircle.GetRight() + rectCircle.GetLeft())/2,rectCircle.GetBottom());
 	PointF right(rectCircle.GetRight(),(rectCircle.GetBottom() + rectCircle.GetTop())/2);
 
-	m_infos.clear();
-	m_infos.push_back(new DrawArcLine(top,left,size_x/2,DrawTools::ArcSignLeft));
-	m_infos.push_back(new DrawArcLine(left,bottom,size_x/2,DrawTools::ArcSignLeft));
-	m_infos.push_back(new DrawArcLine(bottom,right,size_x/2,DrawTools::ArcSignLeft));
-	m_infos.push_back(new DrawArcLine(right,top,size_x/2,DrawTools::ArcSignLeft));
+	m_lines.clear();
+	m_lines.push_back(new DrawArcLine(top,left,size_x/2,DrawTools::ArcSignLeft));
+	m_lines.push_back(new DrawArcLine(left,bottom,size_x/2,DrawTools::ArcSignLeft));
+	m_lines.push_back(new DrawArcLine(bottom,right,size_x/2,DrawTools::ArcSignLeft));
+	m_lines.push_back(new DrawArcLine(right,top,size_x/2,DrawTools::ArcSignLeft));
 }
 #endif
 /************************************************************************/
 /*  绘图形状 DrawItemRectangle                                          */
 /************************************************************************/
 #if 1
-DrawItemRectangle::DrawItemRectangle( RectF rect,std::vector<IDrawLine*> lines )
+DrawItemRectangle::DrawItemRectangle( RectF rect,std::list<IDrawLine*> lines )
 	:DrawItemShape(rect,lines)
 {
 

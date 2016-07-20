@@ -8,8 +8,8 @@
 // class IDrawInfo
 // {
 // public:
-// 	virtual void loadPoints(std::vector<PointF>& points) = 0;	//从线型数据中取得集合点
-// 	virtual void updatePoints(std::vector<PointF>& points) = 0;	//从外部取得点更新到集合中
+// 	virtual void loadPoints(std::list<PointF>& points) = 0;	//从线型数据中取得集合点
+// 	virtual void updatePoints(std::list<PointF>& points) = 0;	//从外部取得点更新到集合中
 // 	virtual void drawLineToGraphic(Graphics &g) = 0;			//用内部点集合画到图形中
 // };
 // //////////////////////////////////////////////////////////////////////////
@@ -19,12 +19,12 @@
 // 	DrawInfoBase(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth);
 // 	virtual ~DrawInfoBase();
 // 
-// 	virtual void loadPoints( std::vector<PointF>& points );
-// 	virtual void updatePoints( std::vector<PointF>& points );
+// 	virtual void loadPoints( std::list<PointF>& points );
+// 	virtual void updatePoints( std::list<PointF>& points );
 // 	virtual void drawLineToGraphic( Graphics &g );
 // 
 // protected:
-// 	static std::vector<IDrawLine*> InfosByRect( RectF rect );
+// 	static std::list<IDrawLine*> InfosByRect( RectF rect );
 // 
 // protected:
 // 	float m_pos_x;
@@ -35,7 +35,7 @@
 // 	float m_depth;
 // 	RectF m_rect;
 // 	
-// 	std::vector<IDrawLine*> m_infos;							//通过IDrawLine成员来管理旋转等问题
+// 	std::list<IDrawLine*> m_infos;							//通过IDrawLine成员来管理旋转等问题
 // };
 // //////////////////////////////////////////////////////////////////////////
 // //
@@ -56,7 +56,7 @@
 // public:
 // 	virtual void drawLineToGraphic( Graphics &g );				//画图
 // protected:
-// 	std::vector<IDrawLine*> InfosByRect(RectF rect);			//通过构造矩形创建孔的画图信息
+// 	std::list<IDrawLine*> InfosByRect(RectF rect);			//通过构造矩形创建孔的画图信息
 // };
 // 
 // //////////////////////////////////////////////////////////////////////////
@@ -97,19 +97,19 @@
 // 	virtual bool IsVisible( PointF point );		//区域
 // 
 // public:
-// 	void setOutterLine(std::vector<IDrawLine*> outterline);		//异形
+// 	void setOutterLine(std::list<IDrawLine*> outterline);		//异形
 // 
-// 	void addInnerLine(std::vector<IDrawLine*> outterline);				//内边线
-// 	void setInnerLine(std::vector<std::vector<IDrawLine*>> outterline);	//内边线
-// 	std::vector<std::vector<IDrawLine*>> getInnerLine();				//内边线
+// 	void addInnerLine(std::list<IDrawLine*> outterline);				//内边线
+// 	void setInnerLine(std::list<std::list<IDrawLine*>> outterline);	//内边线
+// 	std::list<std::list<IDrawLine*>> getInnerLine();				//内边线
 // 
-// 	void setVertical(std::vector<IDrawInfo*> infos);					//
+// 	void setVertical(std::list<IDrawInfo*> infos);					//
 // 
-// 	virtual void setAllPoints( std::vector<PointF>& points );			//点坐标
-// 	virtual std::vector<PointF> getAllPoints();							//点坐标
+// 	virtual void setAllPoints( std::list<PointF>& points );			//点坐标
+// 	virtual std::list<PointF> getAllPoints();							//点坐标
 // 
 // private:
-// 	std::vector<IDrawInfo*> m_infos;
+// 	std::list<IDrawInfo*> m_infos;
 // };
 // /************************************************************************/
 // /*                                                                      */

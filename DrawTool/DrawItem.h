@@ -68,12 +68,14 @@ public:
 	virtual int getOrder();				//序号
 
 	virtual void setRect(RectF rect);	//区域
+	void setRect(PointF topLeft,PointF bottomRight);
+	void setRect(int x1,int y1,int x2,int y2);
 	virtual RectF getRect();			//区域
 
 	virtual Region getRegion();			//区域
 
-	virtual void readPoints(std::list<PointF>& points);	//点集合
-	virtual void writePoints(std::list<PointF>& points;	//点集合
+	virtual void readPoints(std::list<PointF>& points);		//点集合
+	virtual void writePoints(std::list<PointF>& points);	//点集合
 
 	virtual void moveTo(PointF point);	//移动到
 	virtual void move(PointF offset);	//偏移
@@ -108,7 +110,7 @@ class DrawItemShape : public DrawItemBase
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
-	DrawItemShape(RectF rect,std::vector<IDrawLine*> lines);
+	DrawItemShape(RectF rect,std::list<IDrawLine*> lines);
 	virtual ~DrawItemShape();
 
 public:
@@ -116,8 +118,8 @@ public:
 	// 接口实现
 	virtual Region getRegion();				//区域
 
-	virtual void readPoints(std::list<PointF>& points);	//点集合
-	virtual void writePoints(std::list<PointF>& points;	//点集合
+	virtual void readPoints(std::list<PointF>& points);		//点集合
+	virtual void writePoints(std::list<PointF>& points);	//点集合
 
 	virtual void moveTo(PointF point);		//移动到
 	virtual void move(PointF offset);		//偏移
@@ -127,7 +129,7 @@ public:
 protected:
 	//////////////////////////////////////////////////////////////////////////
 	// 数据
-	std::vector<IDrawLine*> m_lines;
+	std::list<IDrawLine*> m_lines;
 };
 #endif
 /************************************************************************/
@@ -150,7 +152,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
 	DrawItemCircle(RectF rect,float pos_x,float pos_y,float radius);
-	virtual ~DrawItemShape();
+	virtual ~DrawItemCircle();
 };
 #endif
 /************************************************************************/
@@ -162,7 +164,7 @@ class DrawItemRectangle : public DrawItemShape
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
-	DrawItemRectangle(RectF rect,std::vector<IDrawLine*> lines);
-	virtual ~DrawItemShape();
+	DrawItemRectangle(RectF rect,std::list<IDrawLine*> lines);
+	virtual ~DrawItemRectangle();
 };
 #endif
