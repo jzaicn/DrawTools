@@ -145,6 +145,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// ππ‘Ï
 	DrawItemCircle(RectF rect,float pos_x,float pos_y,float radius);
+	void initCircle(RectF rect,float pos_x,float pos_y,float radius);
 	virtual ~DrawItemCircle(){};
 };
 #endif

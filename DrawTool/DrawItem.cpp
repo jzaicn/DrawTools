@@ -332,6 +332,11 @@ void DrawItemShape::OnPaint( Graphics &g )
 DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius )
 	:DrawItemShape(rect,std::list<IDrawLine*>())
 {
+	initCircle(rect,pos_x,pos_y,radius);
+}
+void DrawItemCircle::initCircle(RectF rect,float pos_x,float pos_y,float radius)
+{
+	setRect(rect);
 	RectF rectCircle = RectF(pos_x - radius,pos_y - radius,radius*2.0,radius*2.0);
 	//获得圆弧上下左右各点
 	PointF top( (rectCircle.GetRight() + rectCircle.GetLeft())/2 , rectCircle.GetTop() );

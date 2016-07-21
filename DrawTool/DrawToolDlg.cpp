@@ -1206,7 +1206,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawVertical(248,483,180,15,15,14));
+	infos.push_back(new DrawVertical(248,483,180,15,15,14));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔2">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="483" />
@@ -1216,7 +1216,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawSideVertical(2,248,483,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,483,0,33,8,9));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="451" />
@@ -1226,7 +1226,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawSideVertical(2,248,451,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,451,0,33,8,9));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="99" />
@@ -1236,7 +1236,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawSideVertical(2,248,99,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,99,0,33,8,9));
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="67" />
@@ -1246,7 +1246,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawVertical(248,67,180,15,15,14));
+	infos.push_back(new DrawVertical(248,67,180,15,15,14));
 // 	<VERTICAL Layer="SIDE29.000000" Name="开孔2">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="67" />
@@ -1256,7 +1256,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawSideVertical(2,248,67,0,33,8,9));
+	infos.push_back(new DrawSideVertical(2,248,67,0,33,8,9));
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="48" />
 // 		<Param Name="pos_y" Value="33" />
@@ -1266,7 +1266,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawVertical(48,33,180,15,15,14));
+	infos.push_back(new DrawVertical(48,33,180,15,15,14));
 // 	<VERTICAL Layer="SIDE49.000000" Name="开孔2">
 // 		<Param Name="pos_x" Value="48" />
 // 		<Param Name="pos_y" Value="33" />
@@ -1276,7 +1276,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawSideVertical(4,48,33,90,33,8,9));
+	infos.push_back(new DrawSideVertical(4,48,33,90,33,8,9));
 // 	<VERTICAL Layer="SIDE49.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="144" />
 // 		<Param Name="pos_y" Value="33" />
@@ -1286,7 +1286,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="9" />
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawSideVertical(4,144,33,90,33,8,9));
+	infos.push_back(new DrawSideVertical(4,144,33,90,33,8,9));
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="240" />
 // 		<Param Name="pos_y" Value="33" />
@@ -1296,7 +1296,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	//infos.push_back(new DrawVertical(240,33,180,15,15,14));
+	infos.push_back(new DrawVertical(240,33,180,15,15,14));
 // 		<VERTICAL Layer="SIDE49.000000" Name="开孔2">
 // 			<Param Name="pos_x" Value="240" />
 // 			<Param Name="pos_y" Value="33" />

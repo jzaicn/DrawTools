@@ -9,7 +9,6 @@
 DrawVertical::DrawVertical( float pos_x,float pos_y,float angle,float size_x,float size_y,float depth )
 	:DrawItemCircle(RectF(pos_x - (size_x/2),pos_y - (size_y/2),size_x,size_y),pos_x,pos_y,size_x/2)
 {
-	
 	m_isFillPath = true;
 	m_isDrawPath = true;
 }
