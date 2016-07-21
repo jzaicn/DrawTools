@@ -86,6 +86,15 @@ RectF DrawItemBase::getRect()
 	return m_myRect;
 }
 
+void DrawItemBase::setDrawPath(bool isDrawPath)
+{
+	m_isDrawPath = isDrawPath;
+}
+void DrawItemBase::setFillPath(bool isFillPath)
+{
+	m_isFillPath = isFillPath;
+}
+
 std::shared_ptr<Region> DrawItemBase::getRegion()
 {
 	return std::shared_ptr<Region>(new Region(getRect()));
@@ -144,31 +153,38 @@ void DrawItemBase::move(PointF offset)
 void DrawItemBase::OnPaint( Graphics &g )
 {
 	std::shared_ptr<Region> region = getRegion();
-	if (StateNormal == m_state)
+	if (m_isFillPath)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+		if (StateNormal == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+		}
+		else if (StateHovered == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
+		}
+		else if (StateDisable == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
+		}
+		else if (StateDown == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
+		}
+		else if (StateError == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
+		}
+		else
+		{
+			//TODO: 记录日志报错
+			OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
+			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+		}
 	}
-	else if (StateHovered == m_state)
+	if (m_isDrawPath)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
-	}
-	else if (StateDisable == m_state)
-	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
-	}
-	else if (StateDown == m_state)
-	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
-	}
-	else if (StateError == m_state)
-	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
-	}
-	else
-	{
-		//TODO: 记录日志报错
-		OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
-		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+		g.DrawPath(region.get());
 	}
 }
 
@@ -295,6 +311,6 @@ DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius 
 DrawItemRectangle::DrawItemRectangle( RectF rect,std::list<IDrawLine*> lines )
 	:DrawItemShape(rect,lines)
 {
-
+	
 }
 #endif

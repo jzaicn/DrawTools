@@ -70,6 +70,9 @@ public:
 	virtual void setRect(RectF rect);	//ÇøÓò
 	virtual RectF getRect();			//ÇøÓò
 
+	virtual void setDrawPath(bool isDrawPath);				//»­ÂÖÀª
+	virtual void setFillPath(bool isFillPath);				//Ìî³ä
+
 	virtual std::shared_ptr<Region> getRegion();			//ÇøÓò
 
 	virtual void readPoints(std::list<PointF>& points);		//µã¼¯ºÏ
@@ -88,6 +91,8 @@ protected:
 	int m_order;							//ÐòºÅ
 	int m_state;							//×´Ì¬
 	RectF m_myRect;							//ÇøÓò
+	bool m_isDrawPath;						//»­ÂÖÀª
+	bool m_isFillPath;						//Ìî³ä
 
 public:
 	//////////////////////////////////////////////////////////////////////////
@@ -134,15 +139,6 @@ protected:
 /*  »æÍ¼ÐÎ×´ DrawItemCircle                                             */
 /************************************************************************/
 #if 1
-// DrawItemCircle* CreateVirtical(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-// {
-// 	DrawItemCircle* virtical = new DrawItemCircle(pos_x,pos_y,size_x/2.0);
-// }
-// DrawItemRectangle* CreateSide(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-// {
-// 	RectF rect;
-// 	DrawItemRectangle* side = new DrawItemRectangle(rect,DrawTools::buildDrawStraightLine(rect));
-// }
 
 class DrawItemCircle : public DrawItemShape
 {
