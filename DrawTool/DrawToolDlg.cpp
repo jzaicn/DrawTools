@@ -1206,7 +1206,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="depth" Value="14" />
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
-	infos.push_back(new DrawVertical(248,483,180,15,15,14));
+	//infos.push_back(new DrawVertical(248,483,180,15,15,14));
 // 	<VERTICAL Layer="SIDE29.000000" Name="¿ª¿×2">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="483" />
@@ -1306,7 +1306,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 			<Param Name="depth" Value="9" />
 // 			<Param Name="dwgFile" Value="SIDE.dwg" />
 // 		</VERTICAL>
-	//infos.push_back(new DrawSideVertical(4,240,33,90,33,8,9));
+	infos.push_back(new DrawSideVertical(4,240,33,90,33,8,9));
 //		</PanelFace>
 	shape->InfoVertical(infos);
 

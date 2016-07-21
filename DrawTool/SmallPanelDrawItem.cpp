@@ -30,8 +30,8 @@ DrawSideVertical::DrawSideVertical( int side,float pos_x,float pos_y,float angle
 	case 4 : rect = buildRect_4_Top( pos_x, pos_y, angle, size_x, size_y, depth); break;
 	default: rect = buildRect_0_Face( pos_x, pos_y, angle, size_x, size_y, depth); break;
 	}
-	DrawItemRectangle &base = *this;
-	base = DrawItemRectangle(rect,DrawTools::buildDrawStraightLine(rect));
+	m_myRect = rect;									//父类构造函数没来得及调用
+	m_lines = DrawTools::buildDrawStraightLine(rect);	//父类构造函数没来得及调用
 	m_isFillPath = false;
 	m_isDrawPath = true;
 }
