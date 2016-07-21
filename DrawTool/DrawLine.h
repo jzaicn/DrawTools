@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <list>
+
 /************************************************************************/
 /*  I线段 IDrawLine                                                     */
 /************************************************************************/
@@ -21,16 +24,14 @@ class DrawLineBase : public IDrawLine
 {
 public:
 	DrawLineBase(PointF first,PointF last);
+
 public:
 	virtual void loadPoints(std::list<PointF>& points);	//从线型数据中取得集合点
 	virtual void updatePoints(std::list<PointF>& points);	//从外部取得点更新到集合中
 	virtual void getPath(GraphicsPath& path);				//用内部点集合构建到图形中
 	virtual void getPaint(Graphics &g);						//用内部点集合画到图形中
-public:
-	void setPen(Pen pen);									//Pen
-	Pen getPen();											//Pen
+
 protected:
-	Pen m_pen;
 	PointF m_first;
 	PointF m_last;
 };

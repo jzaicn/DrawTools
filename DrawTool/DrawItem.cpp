@@ -81,23 +81,14 @@ void DrawItemBase::setRect(RectF rect)
 {
 	m_myRect = rect;
 }
-void DrawItemBase::setRect(PointF topLeft,PointF bottomRight)
-{
-	setRect(DrawTools::buildRectF(topLeft,bottomRight));
-}
-void DrawItemBase::setRect(int x1,int y1,int x2,int y2)
-{
-	setRect(RectF(x1,y1,x2,y2));
-}
-
 RectF DrawItemBase::getRect()
 {
 	return m_myRect;
 }
 
-Region DrawItemBase::getRegion()
+std::shared_ptr<Region> DrawItemBase::getRegion()
 {
-	return Region(getRect());
+	return std::shared_ptr<Region>(new Region(getRect()));
 }
 
 
@@ -120,17 +111,15 @@ void DrawItemBase::writePoints(std::list<PointF>& points)
 	tempArr.push_back(points.front());
 	points.pop_front();
 
-	PointF topLeft(numeric_limits<float>::max(),numeric_limits<float>::max());
-	PointF bottomRight(numeric_limits<float>::min(),numeric_limits<float>::min());
-	std::for_each(tempArr.begin(),tempArr.end(),
-		[&](PointF p)
+	PointF topLeft(FLT_MAX,FLT_MAX);
+	PointF bottomRight(FLT_MIN,FLT_MIN);
+	for(auto itter = tempArr.begin();itter != tempArr.end() ; itter++ )
 	{
-		topLeft.X = min(topLeft.X,p.X);
-		topLeft.Y = min(topLeft.Y,p.Y);
-		bottomRight.X = max(topLeft.X,p.X);
-		bottomRight.Y = max(topLeft.Y,p.Y);
-	});
-
+		topLeft.X = (topLeft.X < (*itter).X ? topLeft.X : (*itter).X);
+		topLeft.Y = (topLeft.Y < (*itter).Y ? topLeft.Y : (*itter).Y);
+		bottomRight.X = (bottomRight.X > (*itter).X ? bottomRight.X :(*itter).X);
+		bottomRight.Y = (bottomRight.Y > (*itter).Y ? bottomRight.Y :(*itter).Y);
+	}
 	m_myRect = DrawTools::buildRectF(topLeft,bottomRight);
 }
 
@@ -154,32 +143,32 @@ void DrawItemBase::move(PointF offset)
 
 void DrawItemBase::OnPaint( Graphics &g )
 {
-	Region region = getRegion();
+	std::shared_ptr<Region> region = getRegion();
 	if (StateNormal == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), &region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
 	}
 	else if (StateHovered == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorHovered), &region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
 	}
 	else if (StateDisable == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorDisable), &region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
 	}
 	else if (StateDown == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorDown), &region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
 	}
 	else if (StateError == m_state)
 	{
-		g.FillRegion(&SolidBrush(DrawTools::ColorError), &region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
 	}
 	else
 	{
 		//TODO: 记录日志报错
 		OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
-		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), &region);
+		g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
 	}
 }
 
@@ -219,7 +208,7 @@ DrawItemShape::~DrawItemShape()
 
 //////////////////////////////////////////////////////////////////////////
 // 接口实现
-Region DrawItemShape::getRegion()
+std::shared_ptr<Region> DrawItemShape::getRegion()
 {
 	if (m_lines.size()>0)
 	{
@@ -230,7 +219,7 @@ Region DrawItemShape::getRegion()
 			(*itter)->getPath(path);
 		}
 		path.CloseFigure();
-		return Region(&path);
+		return std::shared_ptr<Region>(new Region(&path));
 	}
 	else
 	{
@@ -245,7 +234,6 @@ void DrawItemShape::readPoints(std::list<PointF>& points)
 		(*itter)->loadPoints(points);
 	}
 	DrawItemBase::readPoints(points);
-	return result;
 }
 void DrawItemShape::writePoints(std::list<PointF>& points)
 {
@@ -294,10 +282,10 @@ DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius 
 	PointF right(rectCircle.GetRight(),(rectCircle.GetBottom() + rectCircle.GetTop())/2);
 
 	m_lines.clear();
-	m_lines.push_back(new DrawArcLine(top,left,size_x/2,DrawTools::ArcSignLeft));
-	m_lines.push_back(new DrawArcLine(left,bottom,size_x/2,DrawTools::ArcSignLeft));
-	m_lines.push_back(new DrawArcLine(bottom,right,size_x/2,DrawTools::ArcSignLeft));
-	m_lines.push_back(new DrawArcLine(right,top,size_x/2,DrawTools::ArcSignLeft));
+	m_lines.push_back(new DrawArcLine(top,left,radius,DrawTools::ArcSignLeft));
+	m_lines.push_back(new DrawArcLine(left,bottom,radius,DrawTools::ArcSignLeft));
+	m_lines.push_back(new DrawArcLine(bottom,right,radius,DrawTools::ArcSignLeft));
+	m_lines.push_back(new DrawArcLine(right,top,radius,DrawTools::ArcSignLeft));
 }
 #endif
 /************************************************************************/

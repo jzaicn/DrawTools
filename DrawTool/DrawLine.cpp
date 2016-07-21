@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "DrawLine.h"
+#include "DrawTools.h"
 
 /************************************************************************/
 /*  IÏß¶Î IDrawLine                                                     */
@@ -14,14 +15,13 @@ DrawLineBase::DrawLineBase(PointF first,PointF last)
 {
 	m_first = first;
 	m_last = last;
-	m_pen = Pen(DrawTools::ColorBorder);
 }
-void DrawLineBase::loadPoints(std::vector<PointF>& points)
+void DrawLineBase::loadPoints(std::list<PointF>& points)
 {
 	points.push_back(m_first);
 	points.push_back(m_last);
 }
-void DrawLineBase::updatePoints(std::vector<PointF>& points)
+void DrawLineBase::updatePoints(std::list<PointF>& points)
 {
 	m_first = points.front();
 	points.erase(points.begin());
@@ -35,17 +35,7 @@ void DrawLineBase::getPath(GraphicsPath& path)
 }
 void DrawLineBase::getPaint(Graphics &g)
 {
-	g.DrawLine(&m_pen,m_first,m_last);
-}
-
-
-void DrawLineBase::setPen(Pen pen)
-{
-	m_pen = pen;
-}
-Pen DrawLineBase::getPen()
-{
-	return m_pen;
+	g.DrawLine(&Pen(DrawTools::ColorBorder),m_first,m_last);
 }
 #endif
 /************************************************************************/
@@ -82,6 +72,6 @@ void DrawArcLine::getPaint(Graphics &g)
 	double endAngle;
 	DrawTools::getArc(m_first,m_last,m_radius,m_sign,
 		rect,beginAngle,endAngle);
-	g.DrawArc(m_pen,rect,beginAngle,endAngle);
+	g.DrawArc(&Pen(DrawTools::ColorBorder),rect,beginAngle,endAngle);
 }
 #endif

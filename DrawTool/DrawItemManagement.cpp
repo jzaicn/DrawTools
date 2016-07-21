@@ -65,7 +65,7 @@ void DrawItemManagement::OnMouseMove(UINT nFlags, PointF point)
 
 		for(auto itter = m_staticDrawItemList.begin();itter != m_staticDrawItemList.end() ; itter++ )
 		{
-			if ((*itter)->getRegion().IsVisible(point))
+			if ((*itter)->getRegion()->IsVisible(point))
 			{
 				(*itter)->setState(DrawItemBase::StateHovered);
 			}
@@ -118,7 +118,7 @@ void DrawItemManagement::OnLButtonDown(UINT nFlags, PointF point)
 
 		for(auto itter = m_allDrawItemList.begin();itter != m_allDrawItemList.end() ; itter++ )
 		{
-			if(!isPicked && (*itter)->getRegion().IsVisible(point))
+			if(!isPicked && (*itter)->getRegion()->IsVisible(point))
 			{
 				isPicked = true;
 				(*itter) ->setState(DrawItemBase::StateDown);
@@ -227,7 +227,7 @@ bool DrawItemManagement::IsCrashArea()
 		HRGN staticRegion = CreateRectRgn( 0,0,0,0 ); 
 		for(auto itter = m_staticDrawItemList.begin();itter != m_staticDrawItemList.end() ; itter++ )
 		{
-			Gdiplus::Region* region = (*itter)->getRegion();
+			std::shared_ptr<Region> region = (*itter)->getRegion();
 			HRGN regionHgrn = region->GetHRGN(&g);
 			int combineResult = CombineRgn( staticRegion,staticRegion,regionHgrn,RGN_OR ); 
 			DeleteObject(regionHgrn);
@@ -240,7 +240,7 @@ bool DrawItemManagement::IsCrashArea()
 		HRGN activeRegion = CreateRectRgn( 0,0,0,0 ); 
 		for(auto itter = m_activeDrawItemList.begin();itter != m_activeDrawItemList.end() ; itter++ )
 		{
-			Gdiplus::Region* region = (*itter)->getRegion();
+			std::shared_ptr<Region> region = (*itter)->getRegion();
 			HRGN regionHgrn = region->GetHRGN(&g);
 			int combineResult = CombineRgn( activeRegion,activeRegion,regionHgrn,RGN_OR ); 
 			DeleteObject(regionHgrn);

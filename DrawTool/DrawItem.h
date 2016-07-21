@@ -27,7 +27,7 @@ public:
 	virtual void setRect(RectF rect) = 0;	//区域
 	virtual RectF getRect() = 0;			//区域
 
-	virtual Region getRegion() = 0;			//区域
+	virtual std::shared_ptr<Region> getRegion() = 0;			//区域
 
 	virtual void readPoints(std::list<PointF>& points) = 0;	//点集合
 	virtual void writePoints(std::list<PointF>& points) = 0;	//点集合
@@ -68,11 +68,9 @@ public:
 	virtual int getOrder();				//序号
 
 	virtual void setRect(RectF rect);	//区域
-	void setRect(PointF topLeft,PointF bottomRight);
-	void setRect(int x1,int y1,int x2,int y2);
 	virtual RectF getRect();			//区域
 
-	virtual Region getRegion();			//区域
+	virtual std::shared_ptr<Region> getRegion();			//区域
 
 	virtual void readPoints(std::list<PointF>& points);		//点集合
 	virtual void writePoints(std::list<PointF>& points);	//点集合
@@ -116,7 +114,7 @@ public:
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 接口实现
-	virtual Region getRegion();				//区域
+	virtual std::shared_ptr<Region> getRegion();				//区域
 
 	virtual void readPoints(std::list<PointF>& points);		//点集合
 	virtual void writePoints(std::list<PointF>& points);	//点集合
@@ -152,7 +150,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
 	DrawItemCircle(RectF rect,float pos_x,float pos_y,float radius);
-	virtual ~DrawItemCircle();
+	virtual ~DrawItemCircle(){};
 };
 #endif
 /************************************************************************/
@@ -165,6 +163,6 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
 	DrawItemRectangle(RectF rect,std::list<IDrawLine*> lines);
-	virtual ~DrawItemRectangle();
+	virtual ~DrawItemRectangle(){};
 };
 #endif

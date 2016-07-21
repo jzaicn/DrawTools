@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClInclude Include="DrawItem.h" />
     <ClInclude Include="DrawItemManagement.h" />
+    <ClInclude Include="DrawLine.h" />
     <ClInclude Include="DrawTool.h" />
     <ClInclude Include="DrawToolDlg.h" />
     <ClInclude Include="DrawTools.h" />
@@ -112,6 +113,7 @@
   <ItemGroup>
     <ClCompile Include="DrawItem.cpp" />
     <ClCompile Include="DrawItemManagement.cpp" />
+    <ClCompile Include="DrawLine.cpp" />
     <ClCompile Include="DrawTool.cpp" />
     <ClCompile Include="DrawToolDlg.cpp" />
     <ClCompile Include="DrawTools.cpp" />
