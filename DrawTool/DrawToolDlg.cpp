@@ -755,12 +755,9 @@ bool pfe(PointF& p1,PointF& p2)
 #define TestNew 1
 void CDrawToolDlg::OnBnClickedTest()
 {
-#if TestOnce
-#endif
-
-#if TestNew
+#if TestOnce //测试形状的旋转,坐标
 	{
-		//测试用长方形,带侧面孔，正面孔
+		
 		RectF rect = RectF(0,0,281,531);
 		std::list<PointF> points;
 
@@ -803,7 +800,7 @@ void CDrawToolDlg::OnBnClickedTest()
 		ASSERT(shape->getRect().GetLeft() == 200);
 
 	}
-#endif
+#endif //测试形状的旋转,坐标
 
 
 
