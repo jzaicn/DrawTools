@@ -18,6 +18,8 @@ DrawItemBase::DrawItemBase()
 	m_order = 0;
 	m_state = StateNormal;
 	m_myRect = RectF(0,0,0,0);
+	m_isDrawPath = false;
+	m_isFillPath = true;
 }
 DrawItemBase::DrawItemBase(PointF topLeft,PointF bottomRight)
 {
@@ -26,6 +28,8 @@ DrawItemBase::DrawItemBase(PointF topLeft,PointF bottomRight)
 	m_order = 0;
 	m_state = StateNormal;
 	m_myRect = DrawTools::buildRectF(topLeft,bottomRight);
+	m_isDrawPath = false;
+	m_isFillPath = true;
 }
 DrawItemBase::DrawItemBase(RectF rect)
 {
@@ -34,6 +38,8 @@ DrawItemBase::DrawItemBase(RectF rect)
 	m_order = 0;
 	m_state = StateNormal;
 	m_myRect = rect;
+	m_isDrawPath = false;
+	m_isFillPath = true;
 }
 DrawItemBase::~DrawItemBase(void)
 {
@@ -147,6 +153,7 @@ void DrawItemBase::move(PointF offset)
 		(*itter) = (*itter) + offset;
 	}
 	writePoints(points);
+	//m_myRect.Offset(offset);
 }
 
 

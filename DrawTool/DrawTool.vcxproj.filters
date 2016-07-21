@@ -76,7 +76,19 @@
       <Filter>工程类</Filter>
     </ClInclude>
     <ClInclude Include="TestDrawTools.h">
-      <Filter>测试类</Filter>
+      <Filter>测试类\框架测试</Filter>
+    </ClInclude>
+    <ClInclude Include="TestDrawLine.h">
+      <Filter>测试类\框架测试</Filter>
+    </ClInclude>
+    <ClInclude Include="TestDrawItem.h">
+      <Filter>测试类\框架测试</Filter>
+    </ClInclude>
+    <ClInclude Include="TestDrawItemManagement.h">
+      <Filter>测试类\框架测试</Filter>
+    </ClInclude>
+    <ClInclude Include="TestSmallPanelDrawItem.h">
+      <Filter>测试类\工程测试</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,7 +117,19 @@
       <Filter>工程类</Filter>
     </ClCompile>
     <ClCompile Include="TestDrawTools.cpp">
-      <Filter>测试类</Filter>
+      <Filter>测试类\框架测试</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDrawLine.cpp">
+      <Filter>测试类\框架测试</Filter>
+    </ClCompile>
+    <ClCompile Include="TestSmallPanelDrawItem.cpp">
+      <Filter>测试类\工程测试</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDrawItemManagement.cpp">
+      <Filter>测试类\框架测试</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDrawItem.cpp">
+      <Filter>测试类\框架测试</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

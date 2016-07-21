@@ -45,7 +45,7 @@ class SmallPanel : public DrawItemBase
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
-	SmallPanel(void);
+	SmallPanel( RectF rect );
 	SmallPanel(const SmallPanel &smallpanel);
 	SmallPanel& operator=(const SmallPanel &smallpanel);
 	~SmallPanel(void);
@@ -54,25 +54,33 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 接口实现
 	virtual void setState( int state );
-
 	virtual std::shared_ptr<Region> getRegion();
-
 	virtual void readPoints( std::list<PointF>& points );
 	virtual void writePoints( std::list<PointF>& points );
-
 	virtual void move( PointF offset );
-
 	virtual void OnPaint( Graphics &g );
+
+public:
+	//////////////////////////////////////////////////////////////////////////
+	// 设置数据
+	void OutterFrame(std::list<IDrawItem*> val) { m_outterFrame = val; }
+	void InnerFrame(std::list<IDrawItem*> val) { m_innerFrame = val; }
+	void InnerShape(std::list<IDrawItem*> val) { m_innerShape = val; }
+	void OutterShape(std::list<IDrawItem*> val) { m_outterShape = val; }
+	void InfoSide(std::list<IDrawItem*> val) { m_infoSide = val; }
+	void InfoVertical(std::list<IDrawItem*> val) { m_infoVertical = val; }
+	void InfoSaw(std::list<IDrawItem*> val) { m_infoSaw = val; }
+	
+	void setInnerShape(IDrawItem* val) { m_innerShape.push_back(val); }
 
 private:
 	std::list<IDrawItem*> m_outterFrame;	//外边框
 	std::list<IDrawItem*> m_innerFrame;		//内边框
 	std::list<IDrawItem*> m_innerShape;		//内异形
 	std::list<IDrawItem*> m_outterShape;	//外异形（刀路）
-private:
-	std::list<IDrawItem*> m_info_Side;		//侧面孔
-	std::list<IDrawItem*> m_info_Vertical;	//垂直孔
-	std::list<IDrawItem*> m_info_Saw;		//锯缝
+	std::list<IDrawItem*> m_infoSide;		//侧面孔
+	std::list<IDrawItem*> m_infoVertical;	//垂直孔
+	std::list<IDrawItem*> m_infoSaw;		//锯缝
 };
 /************************************************************************/
 /*                                                                      */

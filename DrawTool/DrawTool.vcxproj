@@ -109,7 +109,11 @@
     <ClInclude Include="SmallPanelDrawItem.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="TestDrawItem.h" />
+    <ClInclude Include="TestDrawItemManagement.h" />
+    <ClInclude Include="TestDrawLine.h" />
     <ClInclude Include="TestDrawTools.h" />
+    <ClInclude Include="TestSmallPanelDrawItem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DrawItem.cpp" />
@@ -123,7 +127,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="TestDrawItem.cpp" />
+    <ClCompile Include="TestDrawItemManagement.cpp" />
+    <ClCompile Include="TestDrawLine.cpp" />
     <ClCompile Include="TestDrawTools.cpp" />
+    <ClCompile Include="TestSmallPanelDrawItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrawTool.rc" />

@@ -101,14 +101,20 @@ DrawSaw::DrawSaw( float pos_x,float pos_y,float angle,float size_x,float size_y,
 #if 1
 //////////////////////////////////////////////////////////////////////////
 // ππ‘Ï
-SmallPanel::SmallPanel( void )
+SmallPanel::SmallPanel( RectF rect ):DrawItemBase(rect)
 {
 	setType(L"SmallPanel");
 }
 
 SmallPanel::~SmallPanel( void )
 {
-
+	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){delete item;});
+	std::for_each(m_innerFrame.begin(),m_innerFrame.end(),[&](IDrawItem* item){delete item;});
+	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){delete item;});
+	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){delete item;});
+	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){delete item;});
+	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){delete item;});
+	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){delete item;});
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -141,9 +147,9 @@ void SmallPanel::readPoints( std::list<PointF>& points )
 	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->readPoints(points);});
 	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->readPoints(points);});
 
-	std::for_each(m_info_Side.begin(),m_info_Side.end(),[&](IDrawItem* item){item->readPoints(points);});
-	std::for_each(m_info_Vertical.begin(),m_info_Vertical.end(),[&](IDrawItem* item){item->readPoints(points);});
-	std::for_each(m_info_Saw.begin(),m_info_Saw.end(),[&](IDrawItem* item){item->readPoints(points);});
+	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->readPoints(points);});
+	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->readPoints(points);});
+	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->readPoints(points);});
 }
 
 void SmallPanel::writePoints( std::list<PointF>& points )
@@ -154,9 +160,9 @@ void SmallPanel::writePoints( std::list<PointF>& points )
 	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->writePoints(points);});
 	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->writePoints(points);});
 
-	std::for_each(m_info_Side.begin(),m_info_Side.end(),[&](IDrawItem* item){item->writePoints(points);});
-	std::for_each(m_info_Vertical.begin(),m_info_Vertical.end(),[&](IDrawItem* item){item->writePoints(points);});
-	std::for_each(m_info_Saw.begin(),m_info_Saw.end(),[&](IDrawItem* item){item->writePoints(points);});
+	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->writePoints(points);});
+	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->writePoints(points);});
+	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->writePoints(points);});
 }
 
 void SmallPanel::move( PointF offset )
@@ -167,9 +173,9 @@ void SmallPanel::move( PointF offset )
 	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->move(offset);});
 	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->move(offset);});
 
-	std::for_each(m_info_Side.begin(),m_info_Side.end(),[&](IDrawItem* item){item->move(offset);});
-	std::for_each(m_info_Vertical.begin(),m_info_Vertical.end(),[&](IDrawItem* item){item->move(offset);});
-	std::for_each(m_info_Saw.begin(),m_info_Saw.end(),[&](IDrawItem* item){item->move(offset);});
+	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->move(offset);});
+	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->move(offset);});
+	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->move(offset);});
 }
 
 void SmallPanel::OnPaint( Graphics &g )
@@ -180,9 +186,9 @@ void SmallPanel::OnPaint( Graphics &g )
 	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->OnPaint(g);});
 	//std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->OnPaint(g);});
 
-	std::for_each(m_info_Side.begin(),m_info_Side.end(),[&](IDrawItem* item){item->OnPaint(g);});
-	std::for_each(m_info_Vertical.begin(),m_info_Vertical.end(),[&](IDrawItem* item){item->OnPaint(g);});
-	std::for_each(m_info_Saw.begin(),m_info_Saw.end(),[&](IDrawItem* item){item->OnPaint(g);});
+	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->OnPaint(g);});
+	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->OnPaint(g);});
+	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->OnPaint(g);});
 }
 
 #endif

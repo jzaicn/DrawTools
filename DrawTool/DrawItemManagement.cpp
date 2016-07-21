@@ -273,17 +273,18 @@ bool DrawItemManagement::IsCrashArea()
 
 void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 {
-	if (item->getType().Compare(L"DrawItemShape") == 0 || item->getType().Compare(L"SmallPanel") == 0)
+	//if (item->getType().Compare(L"DrawItemShape") == 0 || item->getType().Compare(L"SmallPanel") == 0)
 	{
 		DrawItemShape* companel = (DrawItemShape*)item;
 		std::list<PointF> outlines;
 		companel->readPoints(outlines);
 		RectF rect = companel->getRect();
-
+		
 		//用于旋转后偏移
 		PointF offset(rect.Height,0);
 
 		std::list<PointF> outResult;
+
 		for(auto itter = outlines.begin();itter != outlines.end() ; itter++ )
 		{
 			//旋转点
@@ -296,7 +297,9 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 			//保存
 			outResult.push_back(PointF(tempPoint.X,tempPoint.Y));
 		}
+
 		companel->writePoints(outResult);
 		companel->setRect(RectF(rect.X,rect.Y,rect.Height,rect.Width));
+
 	}
 }
