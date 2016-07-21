@@ -9,8 +9,11 @@
 DrawVertical::DrawVertical( float pos_x,float pos_y,float angle,float size_x,float size_y,float depth )
 	:DrawItemCircle(RectF(pos_x - (size_x/2),pos_y - (size_y/2),size_x,size_y),pos_x,pos_y,size_x/2)
 {
+	setState(DrawItemBase::StateSelfDefine);
 	m_isFillPath = true;
 	m_isDrawPath = true;
+	m_drawColor = DrawTools::ColorVertical;;
+	m_fillColor = DrawTools::ColorVertical;
 }
 #endif
 /************************************************************************/
@@ -33,6 +36,7 @@ DrawSideVertical::DrawSideVertical( int side,float pos_x,float pos_y,float angle
 	m_lines = DrawTools::buildDrawStraightLine(rect);	//父类构造函数没来得及调用
 	m_isFillPath = false;
 	m_isDrawPath = true;
+	m_drawColor = DrawTools::ColorVertical;
 }
 RectF DrawSideVertical::buildRect_1_Left( float pos_x,float pos_y,float angle,float size_x,float size_y,float depth )
 {
@@ -92,6 +96,9 @@ DrawSaw::DrawSaw( float pos_x,float pos_y,float angle,float size_x,float size_y,
 	base = DrawItemRectangle(rect,DrawTools::buildDrawStraightLine(rect));
 	m_isFillPath = true;
 	m_isDrawPath = true;
+	m_drawColor = DrawTools::ColorSaw;
+	m_fillColor = DrawTools::ColorSaw;
+	setState(DrawItemBase::StateSelfDefine);
 }
 #endif
 /************************************************************************/

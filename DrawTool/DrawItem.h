@@ -93,10 +93,13 @@ protected:
 	RectF m_myRect;							//区域
 	bool m_isDrawPath;						//画轮廓
 	bool m_isFillPath;						//填充
+	Color m_drawColor;						//自画边线颜色
+	Color m_fillColor;						//自画填充颜色
 
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 公共数据
+	const static int StateSelfDefine;		//自定义状态
 	const static int StateNormal;			//正常状态
 	const static int StateHovered;			//覆盖状态
 	const static int StateDisable;			//失效状态

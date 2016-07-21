@@ -20,6 +20,8 @@ DrawItemBase::DrawItemBase()
 	m_myRect = RectF(0,0,0,0);
 	m_isDrawPath = false;
 	m_isFillPath = true;
+	m_drawColor = DrawTools::ColorBorder;
+	m_fillColor = DrawTools::ColorNormal;
 }
 DrawItemBase::DrawItemBase(PointF topLeft,PointF bottomRight)
 {
@@ -30,6 +32,8 @@ DrawItemBase::DrawItemBase(PointF topLeft,PointF bottomRight)
 	m_myRect = DrawTools::buildRectF(topLeft,bottomRight);
 	m_isDrawPath = false;
 	m_isFillPath = true;
+	m_drawColor = DrawTools::ColorBorder;
+	m_fillColor = DrawTools::ColorNormal;
 }
 DrawItemBase::DrawItemBase(RectF rect)
 {
@@ -40,6 +44,8 @@ DrawItemBase::DrawItemBase(RectF rect)
 	m_myRect = rect;
 	m_isDrawPath = false;
 	m_isFillPath = true;
+	m_drawColor = DrawTools::ColorBorder;
+	m_fillColor = DrawTools::ColorNormal;
 }
 DrawItemBase::~DrawItemBase(void)
 {
@@ -185,23 +191,24 @@ void DrawItemBase::OnPaint( Graphics &g )
 		{
 			//TODO: 记录日志报错
 			OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
-			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+			g.FillRegion(&SolidBrush(m_fillColor), region.get());
 		}
 	}
 	if (m_isDrawPath)
 	{
-		g.DrawRectangle(&Pen(DrawTools::ColorBorder),getRect());
+		g.DrawRectangle(&Pen(m_drawColor),getRect());
 	}
 }
 
 
 //////////////////////////////////////////////////////////////////////////
 // 公共数据
-const int DrawItemBase::StateNormal = 0;
-const int DrawItemBase::StateHovered = 1;
-const int DrawItemBase::StateDisable = 2;
-const int DrawItemBase::StateDown = 3;
-const int DrawItemBase::StateError = 4;
+const int DrawItemBase::StateSelfDefine = 0;
+const int DrawItemBase::StateNormal = 1;
+const int DrawItemBase::StateHovered = 2;
+const int DrawItemBase::StateDisable = 3;
+const int DrawItemBase::StateDown = 4;
+const int DrawItemBase::StateError = 5;
 
 #endif
 
@@ -306,7 +313,7 @@ void DrawItemShape::OnPaint( Graphics &g )
 		{
 			//TODO: 记录日志报错
 			OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
-			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+			g.FillRegion(&SolidBrush(m_fillColor), region.get());
 		}
 	}
 	if (m_isDrawPath)
@@ -319,7 +326,7 @@ void DrawItemShape::OnPaint( Graphics &g )
 		}
 		path.CloseFigure();
 
-		g.DrawPath(&Pen(DrawTools::ColorBorder),&path);
+		g.DrawPath(&Pen(m_drawColor),&path);
 	}
 }
 
