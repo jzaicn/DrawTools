@@ -16,6 +16,24 @@
     <Filter Include="外部库封装">
       <UniqueIdentifier>{ce0abf36-fb70-4b24-8a5d-5b8b2cad818d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="运行类">
+      <UniqueIdentifier>{72007f81-ce15-4a4b-8a05-3768cfa65522}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="工程类">
+      <UniqueIdentifier>{097c7d82-35ad-4936-b9b4-5b81d32e8e41}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="测试类">
+      <UniqueIdentifier>{d473df97-cee5-4f6a-9cc3-975fffba0547}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="框架类">
+      <UniqueIdentifier>{0140a7ae-0408-4171-baa3-5ec6c2ab5162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="测试类\框架测试">
+      <UniqueIdentifier>{e68c7aa9-f1c2-4fd5-83b8-d10a5110e71d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="测试类\工程测试">
+      <UniqueIdentifier>{762126a6-f193-4721-b1f9-065f201251cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -27,61 +45,67 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawTool.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawToolDlg.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
+      <Filter>源文件</Filter>
     </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>头文件</Filter>
+      <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="DrawItem.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="stdafx.h">
+      <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="DrawItemManagement.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="DrawTool.h">
+      <Filter>运行类</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawToolDlg.h">
+      <Filter>运行类</Filter>
     </ClInclude>
     <ClInclude Include="DrawTools.h">
-      <Filter>头文件</Filter>
+      <Filter>框架类</Filter>
     </ClInclude>
-    <ClInclude Include="SmallPanelDrawItem.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="DrawItem.h">
+      <Filter>框架类</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawItemManagement.h">
+      <Filter>框架类</Filter>
     </ClInclude>
     <ClInclude Include="DrawLine.h">
-      <Filter>头文件</Filter>
+      <Filter>框架类</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallPanelDrawItem.h">
+      <Filter>工程类</Filter>
+    </ClInclude>
+    <ClInclude Include="TestDrawTools.h">
+      <Filter>测试类</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DrawTool.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawToolDlg.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DrawTool.cpp">
+      <Filter>运行类</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawToolDlg.cpp">
+      <Filter>运行类</Filter>
+    </ClCompile>
     <ClCompile Include="DrawItem.cpp">
-      <Filter>源文件</Filter>
+      <Filter>框架类</Filter>
     </ClCompile>
     <ClCompile Include="DrawItemManagement.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawTools.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="SmallPanelDrawItem.cpp">
-      <Filter>源文件</Filter>
+      <Filter>框架类</Filter>
     </ClCompile>
     <ClCompile Include="DrawLine.cpp">
-      <Filter>源文件</Filter>
+      <Filter>框架类</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawTools.cpp">
+      <Filter>框架类</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallPanelDrawItem.cpp">
+      <Filter>工程类</Filter>
+    </ClCompile>
+    <ClCompile Include="TestDrawTools.cpp">
+      <Filter>测试类</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
