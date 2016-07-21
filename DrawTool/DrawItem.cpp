@@ -184,7 +184,7 @@ void DrawItemBase::OnPaint( Graphics &g )
 	}
 	if (m_isDrawPath)
 	{
-		g.DrawPath(region.get());
+		g.DrawRectangle(&Pen(DrawTools::ColorBorder),getRect());
 	}
 }
 
