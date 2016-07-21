@@ -500,7 +500,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	//  lines.push_back(new DrawArcLine(PointF(,),PointF(,),0,0));
 	//测试用长方形,带侧面孔，正面孔
 	RectF rect(0,0,281,531);
-	SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
+	//SmallPanelDrawItem* shape = SmallPanelDrawItem::SmallPanelFactory(rect);
 	
 	std::list<IDrawLine*> lines;
 	lines.push_back(new DrawStraightLine(PointF(0,0),PointF(0,381)));
@@ -509,7 +509,9 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	lines.push_back(new DrawStraightLine(PointF(281,531),PointF(281,0)));
 	lines.push_back(new DrawStraightLine(PointF(281,0),PointF(0,0)));
 
-	shape->setOutterLine(lines);
+	DrawItemBase* shape = new DrawItemBase(rect);
+
+	//shape->setOutterLine(lines);
 
 	//异形的时候，SIDE1 和 SIDE2翻转 ， SIDE3 和 SIDE4翻转
 	//更改方法：一旦检测到是异形板，将PanelFace子节点中的Layer="SIDE1 改成 Layer="SIDE2
@@ -750,9 +752,88 @@ bool pfe(PointF& p1,PointF& p2)
 }
 
 #define TestOnce 0
-#define TestNew 0
+#define TestNew 1
 void CDrawToolDlg::OnBnClickedTest()
 {
+#if TestOnce
+#endif
+
+#if TestNew
+	{
+		//测试用长方形,带侧面孔，正面孔
+		RectF rect = RectF(0,0,281,531);
+		std::list<PointF> points;
+
+		std::list<IDrawLine*> lines;
+		lines.push_back(new DrawStraightLine(PointF(0,0),PointF(0,381)));
+		lines.push_back(new DrawArcLine(PointF(0,381),PointF(150,531),150,1));
+		lines.push_back(new DrawStraightLine(PointF(150,531),PointF(281,531)));
+		lines.push_back(new DrawStraightLine(PointF(281,531),PointF(281,0)));
+		lines.push_back(new DrawStraightLine(PointF(281,0),PointF(0,0)));
+
+		DrawItemShape* shape = new DrawItemShape(rect,lines);
+
+		m_manager.addDrawItem(shape);
+
+		points.clear();
+		shape->readPoints(points);
+		ASSERT(shape->getRect().GetLeft() == 0);
+		ASSERT(shape->getRect().GetTop() == 0);
+		ASSERT(points.front().X == 0);
+		ASSERT(points.front().Y == 0);
+
+		//移动板件
+		shape->move(PointF(200,0));
+
+		ASSERT(shape->getRect().GetLeft() == 200);
+		ASSERT(shape->getRect().GetTop() == 0);
+		
+		points.clear();
+		shape->readPoints(points);
+		ASSERT(points.front().X == 200);
+		ASSERT(points.front().Y == 0);
+
+		//旋转板件
+		m_manager.rotateDrawItem(shape);
+		points.clear();
+		shape->readPoints(points);
+		ASSERT(points.front().X == 731);
+		ASSERT(points.front().Y == 0);
+		ASSERT(shape->getRect().GetTop() == 0);
+		ASSERT(shape->getRect().GetLeft() == 200);
+
+	}
+#endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//测试画图形的点移动是否恰当
 #if TestOnce
 	{
@@ -1071,51 +1152,7 @@ void CDrawToolDlg::OnBnClickedTest()
 #endif
 
 #if TestNew
-	//方中方
-	{
-		RectF rect(0,0,100,100);
-		std::list<IDrawLine*> lines;
-
-		//外边框
-		lines.push_back(new DrawStraightLine(PointF(100.0,0.0000),PointF(0.0,00.0)));
-		lines.push_back(new DrawStraightLine(PointF(00.0,0.0000),PointF(0.0,100.0)));
-		lines.push_back(new DrawStraightLine(PointF(0.0,100.0000),PointF(100.0000,100.0)));
-		lines.push_back(new DrawStraightLine(PointF(100.0000,100.0000),PointF(100.0000,0.0)));
-
-		//内小方1
-		lines.push_back(new DrawStraightLine(PointF(40,10),PointF(10,10)));
-		lines.push_back(new DrawStraightLine(PointF(10,10),PointF(10,90)));
-		lines.push_back(new DrawStraightLine(PointF(10,90),PointF(40,90)));
-		lines.push_back(new DrawStraightLine(PointF(40,90),PointF(40,10)));
-
-// 		//内小方2
-// 		lines.push_back(new DrawStraightLine(PointF(50,90),PointF(80,90)));
-// 		lines.push_back(new DrawStraightLine(PointF(80,90),PointF(80,10)));
-// 		lines.push_back(new DrawStraightLine(PointF(80,10),PointF(50,10)));
-// 		lines.push_back(new DrawStraightLine(PointF(50,10),PointF(50,90)));
-
-
-		DrawItemShape* shape = new DrawItemShape(rect,lines);
-		shape->setType(L"companel");
-		m_manager.addDrawItem(shape);
-
-		std::list<IDrawLine*> lines2;
-
-		//内小方
-		RectF rect2(15,15,10,10);
-		lines2.push_back(new DrawStraightLine(PointF(15,15),PointF(15,10)));
-		lines2.push_back(new DrawStraightLine(PointF(15,10),PointF(10,10)));
-		lines2.push_back(new DrawStraightLine(PointF(10,10),PointF(10,15)));
-		lines2.push_back(new DrawStraightLine(PointF(10,15),PointF(15,15)));
-
-		DrawItemShape* shape2 = new DrawItemShape(rect2,lines2);
-		shape2->setType(L"companel");
-		m_manager.addDrawItem(shape2);
-
-	}
-
-
-
+	
 #endif
 	InvalidateRect(m_manager.getDrawCRect());
 }
@@ -1137,6 +1174,10 @@ void CDrawToolDlg::OnBnClickedTest()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
+
+
+
+
 	
 	//测试用长方形,带侧面孔，正面孔
 	RectF rect = RectF(0,0,281,531);

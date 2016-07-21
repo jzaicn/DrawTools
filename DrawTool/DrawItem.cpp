@@ -280,7 +280,6 @@ void DrawItemShape::move(PointF offset)
 		(*itter) = (*itter) + offset;
 	}
 	writePoints(points);
-	m_myRect.Offset(offset);
 }
 
 void DrawItemShape::OnPaint( Graphics &g )
