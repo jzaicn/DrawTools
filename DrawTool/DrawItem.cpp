@@ -153,7 +153,6 @@ void DrawItemBase::move(PointF offset)
 		(*itter) = (*itter) + offset;
 	}
 	writePoints(points);
-	//m_myRect.Offset(offset);
 }
 
 
@@ -267,10 +266,6 @@ void DrawItemShape::writePoints(std::list<PointF>& points)
 	DrawItemBase::writePoints(points);
 }
 
-void DrawItemShape::moveTo(PointF point)
-{
-	move(point - DrawTools::getTopLeft(m_myRect));
-}
 void DrawItemShape::move(PointF offset)
 {
 	std::list<PointF> points;
@@ -284,7 +279,48 @@ void DrawItemShape::move(PointF offset)
 
 void DrawItemShape::OnPaint( Graphics &g )
 {
-	DrawItemBase::OnPaint(g);
+	std::shared_ptr<Region> region = getRegion();
+	if (m_isFillPath)
+	{
+		if (StateNormal == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+		}
+		else if (StateHovered == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
+		}
+		else if (StateDisable == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
+		}
+		else if (StateDown == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
+		}
+		else if (StateError == m_state)
+		{
+			g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
+		}
+		else
+		{
+			//TODO: 记录日志报错
+			OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
+			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+		}
+	}
+	if (m_isDrawPath)
+	{
+		GraphicsPath path;
+		path.StartFigure();
+		for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
+		{
+			(*itter)->getPath(path);
+		}
+		path.CloseFigure();
+
+		g.DrawPath(&Pen(DrawTools::ColorBorder),&path);
+	}
 }
 
 #endif

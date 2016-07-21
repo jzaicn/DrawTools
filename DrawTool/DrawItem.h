@@ -124,7 +124,6 @@ public:
 	virtual void readPoints(std::list<PointF>& points);		//点集合
 	virtual void writePoints(std::list<PointF>& points);	//点集合
 
-	virtual void moveTo(PointF point);		//移动到
 	virtual void move(PointF offset);		//偏移
 
 	virtual void OnPaint( Graphics &g );	//画图

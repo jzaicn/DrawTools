@@ -11,7 +11,7 @@ DrawVertical::DrawVertical( float pos_x,float pos_y,float angle,float size_x,flo
 {
 	
 	m_isFillPath = true;
-	m_isDrawPath = false;
+	m_isDrawPath = true;
 }
 #endif
 /************************************************************************/
@@ -163,19 +163,6 @@ void SmallPanel::writePoints( std::list<PointF>& points )
 	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->writePoints(points);});
 	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->writePoints(points);});
 	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->writePoints(points);});
-}
-
-void SmallPanel::move( PointF offset )
-{
-	DrawItemBase::move(offset);
-	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){item->move(offset);});
-	std::for_each(m_innerFrame.begin(),m_innerFrame.end(),[&](IDrawItem* item){item->move(offset);});
-	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->move(offset);});
-	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->move(offset);});
-
-	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->move(offset);});
-	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->move(offset);});
-	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->move(offset);});
 }
 
 void SmallPanel::OnPaint( Graphics &g )

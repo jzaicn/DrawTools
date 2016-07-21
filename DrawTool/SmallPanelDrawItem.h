@@ -57,7 +57,6 @@ public:
 	virtual std::shared_ptr<Region> getRegion();
 	virtual void readPoints( std::list<PointF>& points );
 	virtual void writePoints( std::list<PointF>& points );
-	virtual void move( PointF offset );
 	virtual void OnPaint( Graphics &g );
 
 public:
