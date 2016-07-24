@@ -16,23 +16,26 @@
     <Filter Include="外部库封装">
       <UniqueIdentifier>{ce0abf36-fb70-4b24-8a5d-5b8b2cad818d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="运行类">
-      <UniqueIdentifier>{72007f81-ce15-4a4b-8a05-3768cfa65522}</UniqueIdentifier>
+    <Filter Include="测试">
+      <UniqueIdentifier>{6b8c3c55-0816-4628-b4e8-0fc61c3aa485}</UniqueIdentifier>
     </Filter>
-    <Filter Include="工程类">
-      <UniqueIdentifier>{097c7d82-35ad-4936-b9b4-5b81d32e8e41}</UniqueIdentifier>
+    <Filter Include="框架">
+      <UniqueIdentifier>{6c75d9f2-31ce-4ee7-86e2-25dc949198c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="测试类">
-      <UniqueIdentifier>{d473df97-cee5-4f6a-9cc3-975fffba0547}</UniqueIdentifier>
+    <Filter Include="工程">
+      <UniqueIdentifier>{2bc0c5df-3ac8-41d3-a96a-b1791e69d436}</UniqueIdentifier>
     </Filter>
-    <Filter Include="框架类">
-      <UniqueIdentifier>{0140a7ae-0408-4171-baa3-5ec6c2ab5162}</UniqueIdentifier>
+    <Filter Include="运行">
+      <UniqueIdentifier>{a8d1b996-6d3b-432c-afa3-617aaaa25756}</UniqueIdentifier>
     </Filter>
-    <Filter Include="测试类\框架测试">
-      <UniqueIdentifier>{e68c7aa9-f1c2-4fd5-83b8-d10a5110e71d}</UniqueIdentifier>
+    <Filter Include="数据">
+      <UniqueIdentifier>{31ab86d1-d5ac-4cd7-a785-56c9be7d4143}</UniqueIdentifier>
     </Filter>
-    <Filter Include="测试类\工程测试">
+    <Filter Include="测试\工程测试">
       <UniqueIdentifier>{762126a6-f193-4721-b1f9-065f201251cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="测试\框架测试">
+      <UniqueIdentifier>{e68c7aa9-f1c2-4fd5-83b8-d10a5110e71d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -54,82 +57,91 @@
     <ClInclude Include="stdafx.h">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="DrawTool.h">
-      <Filter>运行类</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawToolDlg.h">
-      <Filter>运行类</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawTools.h">
-      <Filter>框架类</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawItem.h">
-      <Filter>框架类</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawItemManagement.h">
-      <Filter>框架类</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawLine.h">
-      <Filter>框架类</Filter>
-    </ClInclude>
-    <ClInclude Include="SmallPanelDrawItem.h">
-      <Filter>工程类</Filter>
-    </ClInclude>
     <ClInclude Include="TestDrawTools.h">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
     </ClInclude>
     <ClInclude Include="TestDrawLine.h">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
     </ClInclude>
     <ClInclude Include="TestDrawItem.h">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
     </ClInclude>
     <ClInclude Include="TestDrawItemManagement.h">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
     </ClInclude>
     <ClInclude Include="TestSmallPanelDrawItem.h">
-      <Filter>测试类\工程测试</Filter>
+      <Filter>测试\工程测试</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawTools.h">
+      <Filter>框架</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawItem.h">
+      <Filter>框架</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawItemManagement.h">
+      <Filter>框架</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawLine.h">
+      <Filter>框架</Filter>
+    </ClInclude>
+    <ClInclude Include="SmallPanelDrawItem.h">
+      <Filter>工程</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawToolDlg.h">
+      <Filter>运行</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawTool.h">
+      <Filter>运行</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawItemStrategy.h">
+      <Filter>框架</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawFrameHeader.h">
+      <Filter>框架</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DrawTool.cpp">
-      <Filter>运行类</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawToolDlg.cpp">
-      <Filter>运行类</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawItem.cpp">
-      <Filter>框架类</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawItemManagement.cpp">
-      <Filter>框架类</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawLine.cpp">
-      <Filter>框架类</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawTools.cpp">
-      <Filter>框架类</Filter>
-    </ClCompile>
-    <ClCompile Include="SmallPanelDrawItem.cpp">
-      <Filter>工程类</Filter>
-    </ClCompile>
     <ClCompile Include="TestDrawTools.cpp">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
     </ClCompile>
     <ClCompile Include="TestDrawLine.cpp">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
     </ClCompile>
     <ClCompile Include="TestSmallPanelDrawItem.cpp">
-      <Filter>测试类\工程测试</Filter>
+      <Filter>测试\工程测试</Filter>
     </ClCompile>
     <ClCompile Include="TestDrawItemManagement.cpp">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
     </ClCompile>
     <ClCompile Include="TestDrawItem.cpp">
-      <Filter>测试类\框架测试</Filter>
+      <Filter>测试\框架测试</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawItem.cpp">
+      <Filter>框架</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawItemManagement.cpp">
+      <Filter>框架</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawLine.cpp">
+      <Filter>框架</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawTools.cpp">
+      <Filter>框架</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallPanelDrawItem.cpp">
+      <Filter>工程</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawTool.cpp">
+      <Filter>运行</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawToolDlg.cpp">
+      <Filter>运行</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawItemStrategy.cpp">
+      <Filter>框架</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

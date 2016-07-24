@@ -99,8 +99,10 @@
     <None Include="res\DrawTool.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DrawFrameHeader.h" />
     <ClInclude Include="DrawItem.h" />
     <ClInclude Include="DrawItemManagement.h" />
+    <ClInclude Include="DrawItemStrategy.h" />
     <ClInclude Include="DrawLine.h" />
     <ClInclude Include="DrawTool.h" />
     <ClInclude Include="DrawToolDlg.h" />
@@ -118,6 +120,7 @@
   <ItemGroup>
     <ClCompile Include="DrawItem.cpp" />
     <ClCompile Include="DrawItemManagement.cpp" />
+    <ClCompile Include="DrawItemStrategy.cpp" />
     <ClCompile Include="DrawLine.cpp" />
     <ClCompile Include="DrawTool.cpp" />
     <ClCompile Include="DrawToolDlg.cpp" />

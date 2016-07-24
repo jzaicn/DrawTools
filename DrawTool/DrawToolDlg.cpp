@@ -7,6 +7,7 @@
 #include "afxdialogex.h"
 #include "DrawItem.h"
 #include "SmallPanelDrawItem.h"
+#include "DrawItemStrategy.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -23,6 +24,8 @@ CDrawToolDlg::CDrawToolDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CDrawToolDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+
+	m_manager.Strategy(new DrawItemStrategyBase());
 }
 
 void CDrawToolDlg::DoDataExchange(CDataExchange* pDX)
