@@ -189,8 +189,6 @@ void DrawItemBase::OnPaint( Graphics &g )
 		}
 		else
 		{
-			//TODO: 记录日志报错
-			OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
 			g.FillRegion(&SolidBrush(m_fillColor), region.get());
 		}
 	}
@@ -311,8 +309,6 @@ void DrawItemShape::OnPaint( Graphics &g )
 		}
 		else
 		{
-			//TODO: 记录日志报错
-			OutputDebugString(L"DrawItemBase::OnPaint() maybe error state\n");
 			g.FillRegion(&SolidBrush(m_fillColor), region.get());
 		}
 	}

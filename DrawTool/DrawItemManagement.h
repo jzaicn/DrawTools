@@ -45,5 +45,6 @@ public:
 	void SetActiveState(int state);					//统一设置活动区域元素状态
 	bool checkMoveable(IDrawItem* item , PointF point);	//检测是否能移动
 	void rotateDrawItem(IDrawItem* item);			//元素旋转
+	void scaleDrawItemDown(IDrawItem* item);		//元素缩小
 };
 

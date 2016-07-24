@@ -39,6 +39,24 @@ bool DrawItemManagement::PreTranslateMessage(MSG* pMsg)
 		}
 		return true;
 	}
+	//按下+
+	if (pMsg ->wParam == _T('\x06B'))
+	{
+		for(auto itter = m_activeDrawItemList.begin();itter != m_activeDrawItemList.end() ; itter++ )
+		{
+			//scaleDrawItemUp((*itter));
+		}
+		return true;
+	}
+	//按下-
+	if (pMsg ->wParam == _T('\x06D'))
+	{
+		for(auto itter = m_allDrawItemList.begin();itter != m_allDrawItemList.end() ; itter++ )
+		{
+			scaleDrawItemDown((*itter));
+		}
+		return true;
+	}
 
 	return false;
     
@@ -300,6 +318,29 @@ void DrawItemManagement::rotateDrawItem(IDrawItem* item)
 
 		companel->writePoints(outResult);
 		companel->setRect(RectF(rect.X,rect.Y,rect.Height,rect.Width));
+
+	}
+}
+
+
+void DrawItemManagement::scaleDrawItemDown(IDrawItem* item)
+{
+	{
+		std::list<PointF> points;
+		std::list<PointF> outResult;
+		item->readPoints(points);
+
+		for(auto itter = points.begin();itter != points.end() ; itter++ )
+		{
+			//旋转点
+			PointF tempPoint((*itter).X,(*itter).Y);
+			tempPoint.X = tempPoint.X * 0.99;
+			tempPoint.Y = tempPoint.Y * 0.99;
+
+			//保存
+			outResult.push_back(PointF(tempPoint.X,tempPoint.Y));
+		}
+		item->writePoints(outResult);
 
 	}
 }
