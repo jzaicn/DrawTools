@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "DrawItemStrategy.h"
 
 /************************************************************************/
@@ -9,17 +9,8 @@
 /************************************************************************/
 /* 画图策略基类 DrawItemStrategyBase                                     */
 /************************************************************************/
-#if 0
-//////////////////////////////////////////////////////////////////////////
-// 构造
-DrawItemStrategyBase::DrawItemStrategyBase(void)
-{
-}
+#if 1
 
-
-DrawItemStrategyBase::~DrawItemStrategyBase(void)
-{
-}
 //////////////////////////////////////////////////////////////////////////
 // 事件
 //响应初始化
@@ -30,7 +21,10 @@ void DrawItemStrategyBase::OnInitial( std::list<IDrawItem*> all )
 //响应绘图
 void DrawItemStrategyBase::OnPaint( Graphics& g, std::list<IDrawItem*> all )
 {
-	for_each(all.begin(),all.end(),[](IDrawItem* item){item->OnPaint(g);});
+	for(auto itter = all.begin();itter != all.end() ; itter++ )
+	{
+		(*itter)->OnPaint(g);
+	}
 }
 //响应消息
 bool DrawItemStrategyBase::PreTranslateMessage(MSG* pMsg, std::list<IDrawItem*> all)
@@ -185,30 +179,30 @@ void DrawItemStrategyBase::OnRButtonDown(UINT nFlags, PointF point, std::list<ID
 void DrawItemStrategyBase::OnRButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all){}		
 //////////////////////////////////////////////////////////////////////////
 // 检测
-bool DrawItemStrategyBase::IsCrash_ActiveWithStatic()
-{
-
-}
-
-void DrawItemStrategyBase::SetAll_ActiveState( int state )
-{
-
-}
-
-bool DrawItemStrategyBase::MoveDrawItem( IDrawItem* item , PointF point )
-{
-
-}
-
-void DrawItemStrategyBase::RotateDrawItem( IDrawItem* item )
-{
-
-}
-
-void DrawItemStrategyBase::scaleDrawItemDown( IDrawItem* item )
-{
-
-}
+// bool DrawItemStrategyBaseB::IsCrash_ActiveWithStatic()
+// {
+// 
+// }
+// 
+// void DrawItemStrategyBaseB::SetAll_ActiveState( int state )
+// {
+// 
+// }
+// 
+// bool DrawItemStrategyBaseB::MoveDrawItem( IDrawItem* item , PointF point )
+// {
+// 
+// }
+// 
+// void DrawItemStrategyBaseB::RotateDrawItem( IDrawItem* item )
+// {
+// 
+// }
+// 
+// void DrawItemStrategyBaseB::scaleDrawItemDown( IDrawItem* item )
+// {
+// 
+// }
 
 //////////////////////////////////////////////////////////////////////////
 // 操作

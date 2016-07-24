@@ -9,7 +9,6 @@
 
 
 #include "DrawItemManagement.h"
-#include "DrawItemStrategy.h"
 
 // CDrawToolDlg ¶Ô»°¿ò
 class CDrawToolDlg : public CDialogEx

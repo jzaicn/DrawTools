@@ -1,9 +1,12 @@
 #pragma once
 
 #include "atltypes.h"
-#include "DrawItem.h"
 #include <vector>
+#include <list>
+
+#include "DrawItem.h"
 #include "DrawItemStrategy.h"
+
 class DrawItemManagement
 {
 public:

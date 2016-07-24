@@ -2,8 +2,8 @@
 #include "stdafx.h"
 #include <vector>
 #include <list>
+
 #include "DrawLine.h"
-#include "DrawTools.h"
 
 /************************************************************************/
 /*  »æÍ¼½Ó¿Ú IDrawItem                                                  */

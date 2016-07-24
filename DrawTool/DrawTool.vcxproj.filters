@@ -78,14 +78,8 @@
     <ClInclude Include="DrawItem.h">
       <Filter>框架</Filter>
     </ClInclude>
-    <ClInclude Include="DrawItemManagement.h">
-      <Filter>框架</Filter>
-    </ClInclude>
     <ClInclude Include="DrawLine.h">
       <Filter>框架</Filter>
-    </ClInclude>
-    <ClInclude Include="SmallPanelDrawItem.h">
-      <Filter>工程</Filter>
     </ClInclude>
     <ClInclude Include="DrawToolDlg.h">
       <Filter>运行</Filter>
@@ -94,6 +88,9 @@
       <Filter>运行</Filter>
     </ClInclude>
     <ClInclude Include="DrawItemStrategy.h">
+      <Filter>框架</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawItemManagement.h">
       <Filter>框架</Filter>
     </ClInclude>
     <ClInclude Include="DrawFrameHeader.h">
@@ -122,17 +119,11 @@
     <ClCompile Include="DrawItem.cpp">
       <Filter>框架</Filter>
     </ClCompile>
-    <ClCompile Include="DrawItemManagement.cpp">
-      <Filter>框架</Filter>
-    </ClCompile>
     <ClCompile Include="DrawLine.cpp">
       <Filter>框架</Filter>
     </ClCompile>
     <ClCompile Include="DrawTools.cpp">
       <Filter>框架</Filter>
-    </ClCompile>
-    <ClCompile Include="SmallPanelDrawItem.cpp">
-      <Filter>工程</Filter>
     </ClCompile>
     <ClCompile Include="DrawTool.cpp">
       <Filter>运行</Filter>
@@ -141,6 +132,9 @@
       <Filter>运行</Filter>
     </ClCompile>
     <ClCompile Include="DrawItemStrategy.cpp">
+      <Filter>框架</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawItemManagement.cpp">
       <Filter>框架</Filter>
     </ClCompile>
   </ItemGroup>

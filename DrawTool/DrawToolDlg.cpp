@@ -5,9 +5,10 @@
 #include "DrawTool.h"
 #include "DrawToolDlg.h"
 #include "afxdialogex.h"
+#include "DrawLine.h"
 #include "DrawItem.h"
-#include "SmallPanelDrawItem.h"
 #include "DrawItemStrategy.h"
+#include "SmallPanelDrawItem.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -24,8 +25,8 @@ CDrawToolDlg::CDrawToolDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CDrawToolDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-
-	m_manager.Strategy(new DrawItemStrategyBase());
+	
+	
 }
 
 void CDrawToolDlg::DoDataExchange(CDataExchange* pDX)
@@ -91,8 +92,10 @@ BOOL CDrawToolDlg::OnInitDialog()
 	GetClientRect(rcClient);
 	rcClient.bottom -= 120;
 	m_manager.setDrawCRect(rcClient);
-
+	m_manager.Strategy(NULL);
+	IDrawItemStrategy* s = new DrawItemStrategyBase();
 	CreateOutterFrame(m_manager.getDrawRectF());
+	m_manager.Strategy(new DrawItemStrategyBase());
 
 
 
@@ -727,7 +730,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 void CDrawToolDlg::clearDrawMap()
 {
 	m_manager.clearDrawItem();
-	InvalidateRect(m_manager.getDrawCRect());
+	//InvalidateRect(m_manager.getDrawCRect());
 }
 
 void CDrawToolDlg::CreateOutterFrame( RectF &rcClient )
@@ -1174,6 +1177,7 @@ void CDrawToolDlg::OnBnClickedTest()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
+#if 0
 
 
 
@@ -1315,5 +1319,8 @@ void CDrawToolDlg::OnBnClickedInputitem()
 
 	m_manager.addDrawItem(shape);
 
-	
+
+#endif	
+
+
 }
