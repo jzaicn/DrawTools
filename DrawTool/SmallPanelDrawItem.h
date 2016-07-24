@@ -82,14 +82,26 @@ private:
 	std::list<IDrawItem*> m_infoSaw;		//锯缝
 };
 /************************************************************************/
-/*                                                                      */
+/* 编辑板件策略 PanelEditionStrategy                                    */
 /************************************************************************/
-// DrawItemCircle* CreateVirtical(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-// {
-// 	DrawItemCircle* virtical = new DrawItemCircle(pos_x,pos_y,size_x/2.0);
-// }
-// DrawItemRectangle* CreateSide(float pos_x,float pos_y,float angle,float size_x,float size_y,float depth)
-// {
-// 	RectF rect;
-// 	DrawItemRectangle* side = new DrawItemRectangle(rect,DrawTools::buildDrawStraightLine(rect));
-// }
+#if 1
+//class PanelEditionStrategy : public DrawItemStrategyBase
+//{
+//public:
+//	PanelEditionStrategy(){};
+//	~PanelEditionStrategy(){};
+//
+//public:
+//	//////////////////////////////////////////////////////////////////////////
+//	// 接口
+//// 	virtual void OnInitial( std::list<IDrawItem*> all );
+//// 	virtual void OnPaint( Graphics& g, std::list<IDrawItem*> all );
+//// 	virtual bool PreTranslateMessage( MSG* pMsg, std::list<IDrawItem*> all );
+//// 	virtual bool OnEraseBkgnd( CDC* pDC, std::list<IDrawItem*> all );
+//// 	virtual void OnMouseMove( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+//// 	virtual void OnLButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+//// 	virtual void OnLButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+//// 	virtual void OnRButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+//// 	virtual void OnRButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+//};
+#endif

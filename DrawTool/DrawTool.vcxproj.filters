@@ -96,6 +96,9 @@
     <ClInclude Include="DrawFrameHeader.h">
       <Filter>框架</Filter>
     </ClInclude>
+    <ClInclude Include="SmallPanelDrawItem.h">
+      <Filter>工程</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="DrawItemManagement.cpp">
       <Filter>框架</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallPanelDrawItem.cpp">
+      <Filter>工程</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

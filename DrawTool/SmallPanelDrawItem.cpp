@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "SmallPanelDrawItem.h"
 #include <algorithm> 
+#include "DrawTools.h"
 
 /************************************************************************/
 /* ´¹Ö±¿× DrawVertical                                                  */
@@ -184,4 +185,9 @@ void SmallPanel::OnPaint( Graphics &g )
 	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->OnPaint(g);});
 }
 
+#endif
+/************************************************************************/
+/* ±à¼­°å¼þ²ßÂÔ PanelEditionStrategy                                    */
+/************************************************************************/
+#if 1
 #endif

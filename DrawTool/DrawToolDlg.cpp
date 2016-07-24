@@ -181,17 +181,22 @@ HCURSOR CDrawToolDlg::OnQueryDragIcon()
 //消息路由
 BOOL CDrawToolDlg::PreTranslateMessage(MSG* pMsg)
 {
+	if (m_manager.PreTranslateMessage(pMsg))
+	{
+		return TRUE;
+	}
+	
 	//键盘按键
 	if (pMsg ->message == WM_KEYDOWN)  // If a keydown message
 	{
 		CString key;
 		key.Format(L"key press 0x%02x\n",pMsg->wParam);
 		OutputDebugString(key);
-
-		if (m_manager.PreTranslateMessage(pMsg)){
-			InvalidateRect(m_manager.getDrawCRect());
-			return TRUE;
-		}
+// 
+// 		if (m_manager.PreTranslateMessage(pMsg)){
+// 			InvalidateRect(m_manager.getDrawCRect());
+// 			return TRUE;
+// 		}
 	}
 	return CDialogEx::PreTranslateMessage(pMsg);
 }
@@ -1177,7 +1182,7 @@ void CDrawToolDlg::OnBnClickedTest()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
-#if 0
+#if 1
 
 
 
