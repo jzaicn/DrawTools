@@ -1,5 +1,6 @@
 #pragma once
 #include "DrawItem.h"
+#include "DrawItemStrategy.h"
 
 /************************************************************************/
 /* 垂直孔 DrawVertical                                                  */
@@ -85,23 +86,43 @@ private:
 /* 编辑板件策略 PanelEditionStrategy                                    */
 /************************************************************************/
 #if 1
-//class PanelEditionStrategy : public DrawItemStrategyBase
-//{
-//public:
-//	PanelEditionStrategy(){};
-//	~PanelEditionStrategy(){};
-//
-//public:
-//	//////////////////////////////////////////////////////////////////////////
-//	// 接口
-//// 	virtual void OnInitial( std::list<IDrawItem*> all );
-//// 	virtual void OnPaint( Graphics& g, std::list<IDrawItem*> all );
-//// 	virtual bool PreTranslateMessage( MSG* pMsg, std::list<IDrawItem*> all );
-//// 	virtual bool OnEraseBkgnd( CDC* pDC, std::list<IDrawItem*> all );
-//// 	virtual void OnMouseMove( UINT nFlags, PointF point, std::list<IDrawItem*> all );
-//// 	virtual void OnLButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all );
-//// 	virtual void OnLButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
-//// 	virtual void OnRButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all );
-//// 	virtual void OnRButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
-//};
+class SmallPanelStrategy : public DrawItemStrategyBase
+{
+public:
+	SmallPanelStrategy(){};
+	~SmallPanelStrategy(){};
+
+public:
+	//////////////////////////////////////////////////////////////////////////
+	// 接口
+	virtual void OnInitial( std::list<IDrawItem*> all );
+	virtual void OnPaint( Graphics& g, std::list<IDrawItem*> all );
+	virtual bool PreTranslateMessage( MSG* pMsg, std::list<IDrawItem*> all );
+	virtual bool OnEraseBkgnd( CDC* pDC, std::list<IDrawItem*> all );
+	virtual void OnMouseMove( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+
+
+
+	virtual void OnLButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+	virtual void OnLButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+	virtual void OnRButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+	virtual void OnRButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
+
+public:
+	//////////////////////////////////////////////////////////////////////////
+	// 操作
+	void setNewActiveItem(IDrawItem* item);
+
+	bool IsActiveCraseWithStatic();
+	void SetStaticHoveredByPoint( PointF point );
+	void SetActiveState(int state);
+	void MoveAllActive( PointF diff );
+
+	static void RotateItem(IDrawItem* item);
+
+private:
+	std::list<IDrawItem*> m_active;
+	std::list<IDrawItem*> m_static;
+
+};
 #endif

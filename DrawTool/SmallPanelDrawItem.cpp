@@ -190,4 +190,243 @@ void SmallPanel::OnPaint( Graphics &g )
 /* 编辑板件策略 PanelEditionStrategy                                    */
 /************************************************************************/
 #if 1
+//////////////////////////////////////////////////////////////////////////
+// 接口
+void SmallPanelStrategy::OnInitial( std::list<IDrawItem*> all )
+{
+	m_pressFlag = false;
+}
+void SmallPanelStrategy::OnPaint( Graphics& g, std::list<IDrawItem*> all )
+{
+	DrawItemStrategyBase::OnPaint(g,all);
+}
+bool SmallPanelStrategy::PreTranslateMessage( MSG* pMsg, std::list<IDrawItem*> all )
+{
+	//键盘按键
+	if (pMsg ->message == WM_KEYDOWN)  // If a keydown message
+	{
+		//按下空格
+		if (pMsg ->wParam == _T('\x020'))
+		{
+			for(auto itter = m_active.begin();itter != m_active.end() ; itter++ )
+			{
+				RotateItem((*itter));
+			}
+			return true;
+		}
+	}
+}
+bool SmallPanelStrategy::OnEraseBkgnd( CDC* pDC, std::list<IDrawItem*> all )
+{
+	return true;
+}
+void SmallPanelStrategy::OnMouseMove( UINT nFlags, PointF point, std::list<IDrawItem*> all )
+{
+	if (m_pressFlag)
+	{
+		PointF diff(point.X - m_mouseStartPoint.X, point.Y - m_mouseStartPoint.Y);
+		MoveAllActive(diff);
+		m_mouseStartPoint = point;
+
+		if (IsActiveCraseWithStatic())
+		{
+			SetActiveState(DrawItemBase::StateError);
+
+			PointF rediff(m_mouseStartPoint.X - point.X, m_mouseStartPoint.Y - point.Y);
+			MoveAllActive(rediff);
+		}
+		else
+		{
+			SetActiveState(DrawItemBase::StateDown);
+		}
+	}
+	else
+	{
+		SetStaticHoveredByPoint(point);
+
+	}
+
+
+
+}
+void SmallPanelStrategy::OnLButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all )
+{
+	//有活动点的时候，点击意味着布置元素完成
+	if (m_pressFlag)
+	{
+		m_pressFlag = false;
+		m_active.clear();
+		m_static.clear();
+		m_static = all;
+	}
+	//没有活动点的时候，点击意味着拾起元素
+	else
+	{
+		bool isPicked = false;
+		m_active.clear();
+		m_static.clear();
+
+		for(auto itter = all.begin();itter != all.end() ; itter++ )
+		{
+			if(!isPicked && (*itter)->getRegion()->IsVisible(point))
+			{
+				isPicked = true;
+				m_pressFlag = true;
+				(*itter) ->setState(DrawItemBase::StateDown);
+				m_active.push_back((*itter) );
+			}
+			else
+			{
+				m_active.push_back((*itter) );
+			}
+		}
+		m_mouseStartPoint = point;
+	}
+}
+void SmallPanelStrategy::OnLButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all )
+{
+	//有活动点的时候，点击意味着布置元素完成
+	if (m_pressFlag)
+	{
+		m_pressFlag = false;
+		m_active.clear();
+		m_static.clear();
+		m_static = all;
+	}
+}
+void SmallPanelStrategy::OnRButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all )
+{
+
+}
+void SmallPanelStrategy::OnRButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all )
+{
+
+}
+//////////////////////////////////////////////////////////////////////////
+// 接口
+void SmallPanelStrategy::setNewActiveItem(IDrawItem* item)
+{
+	m_pressFlag = true;
+	m_active.push_back(item);
+}
+
+bool SmallPanelStrategy::IsActiveCraseWithStatic()
+{
+	bool isActiveCrashStatic = false;
+	try
+	{
+		Bitmap img(200,300); 
+		Graphics g((Image*)&img);
+		//原来的墙
+		HRGN staticRegion = CreateRectRgn( 0,0,0,0 ); 
+		for(auto itter = m_static.begin();itter != m_static.end() ; itter++ )
+		{
+			std::shared_ptr<Region> region = (*itter)->getRegion();
+			HRGN regionHgrn = region->GetHRGN(&g);
+			int combineResult = CombineRgn( staticRegion,staticRegion,regionHgrn,RGN_OR ); 
+			DeleteObject(regionHgrn);
+		}
+		OffsetRgn(staticRegion,300,0);
+		Region staticRegionRgn(staticRegion);
+		//g1.FillRegion(&SolidBrush(Color::Red),&staticRegionRgn);
+
+		//判断活动物品是否和原来有重合
+		HRGN activeRegion = CreateRectRgn( 0,0,0,0 ); 
+		for(auto itter = m_active.begin();itter != m_active.end() ; itter++ )
+		{
+			std::shared_ptr<Region> region = (*itter)->getRegion();
+			HRGN regionHgrn = region->GetHRGN(&g);
+			int combineResult = CombineRgn( activeRegion,activeRegion,regionHgrn,RGN_OR ); 
+			DeleteObject(regionHgrn);
+		}
+		OffsetRgn(activeRegion,300,0);
+		Region activeRegionRgn(activeRegion);
+		//g1.FillRegion(&SolidBrush(Color::Yellow),&activeRegionRgn);
+
+
+		HRGN crashRegion = CreateRectRgn( 0,0,0,0 ); 
+		int combineResult = CombineRgn( crashRegion,staticRegion,activeRegion,RGN_AND );
+		//g1.FillRegion(&SolidBrush(Color::Blue),&crashRegionRgn);
+
+		if(combineResult != NULLREGION)
+		{
+			isActiveCrashStatic = true;
+		}
+		DeleteObject(crashRegion);
+		DeleteObject(staticRegion);
+		DeleteObject(activeRegion);
+
+	}
+	catch (...)
+	{
+		isActiveCrashStatic = false;
+	}
+
+	return isActiveCrashStatic;
+}
+
+void SmallPanelStrategy::SetStaticHoveredByPoint( PointF point )
+{
+	for(auto itter = m_static.begin();itter != m_static.end() ; itter++ )
+	{
+		if ((*itter)->getRegion()->IsVisible(point))
+		{
+			(*itter)->setState(DrawItemBase::StateHovered);
+		}
+		else
+		{
+			(*itter)->setState(DrawItemBase::StateNormal);
+		}
+	}
+}
+
+void SmallPanelStrategy::SetActiveState( int state )
+{
+	for(auto itter = m_active.begin();itter != m_active.end() ; itter++ )
+	{
+		(*itter)->setState(state);
+	}
+}
+void SmallPanelStrategy::MoveAllActive( PointF diff )
+{
+	for(auto itter = m_active.begin();itter != m_active.end() ; itter++ )
+	{
+		(*itter)->move(diff);
+	}
+}
+
+void SmallPanelStrategy::RotateItem(IDrawItem* item)
+{
+	DrawItemShape* companel = (DrawItemShape*)item;
+	std::list<PointF> outlines;
+	companel->readPoints(outlines);
+	RectF rect = companel->getRect();
+
+	//用于旋转后偏移
+	PointF offset(rect.Height,0);
+
+	std::list<PointF> outResult;
+
+	for(auto itter = outlines.begin();itter != outlines.end() ; itter++ )
+	{
+		//旋转点
+		PointF tempPoint((*itter).X,(*itter).Y);
+		DrawTools::rotateByAngle(DrawTools::getTopLeft(rect),tempPoint,90);
+
+		//偏移点
+		tempPoint = tempPoint + offset;
+
+		//保存
+		outResult.push_back(PointF(tempPoint.X,tempPoint.Y));
+	}
+
+	companel->writePoints(outResult);
+	companel->setRect(RectF(rect.X,rect.Y,rect.Height,rect.Width));
+
+}
+
+
+
+
+
 #endif
