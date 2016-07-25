@@ -85,19 +85,16 @@ BOOL CDrawToolDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// 设置大图标
 	SetIcon(m_hIcon, FALSE);		// 设置小图标
 
-	//ShowWindow(SW_MAXIMIZE);
+	ShowWindow(SW_MAXIMIZE);
 
 
 	CRect rcClient;
 	GetClientRect(rcClient);
 	rcClient.bottom -= 120;
 	m_manager.setDrawCRect(rcClient);
-	m_manager.Strategy(NULL);
-	IDrawItemStrategy* s = new DrawItemStrategyBase();
 	CreateOutterFrame(m_manager.getDrawRectF());
-	m_manager.Strategy(new DrawItemStrategyBase());
-
-
+	m_manager.Strategy(new SmallPanelStrategy());
+	m_manager.OnInitial();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
@@ -192,11 +189,6 @@ BOOL CDrawToolDlg::PreTranslateMessage(MSG* pMsg)
 		CString key;
 		key.Format(L"key press 0x%02x\n",pMsg->wParam);
 		OutputDebugString(key);
-// 
-// 		if (m_manager.PreTranslateMessage(pMsg)){
-// 			InvalidateRect(m_manager.getDrawCRect());
-// 			return TRUE;
-// 		}
 	}
 	return CDialogEx::PreTranslateMessage(pMsg);
 }
@@ -207,8 +199,25 @@ void CDrawToolDlg::OnSize(UINT nType, int cx, int cy)
 
 	CRect rcClient;
 	GetClientRect(rcClient);
-	rcClient.bottom -= 120;
-	m_manager.setDrawCRect(rcClient);
+
+	CRect drawClient = rcClient;
+	drawClient.bottom -= 60;
+	m_manager.setDrawCRect(drawClient);
+
+	CRect itemRect;
+	GetDlgItem(IDC_RELOAD)->GetWindowRect(itemRect);
+	ScreenToClient(&itemRect);
+	GetDlgItem(IDC_RELOAD)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
+
+	GetDlgItem(IDC_INPUTITEM)->GetWindowRect(itemRect);
+	ScreenToClient(&itemRect);
+	GetDlgItem(IDC_INPUTITEM)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
+
+	GetDlgItem(IDC_TEST)->GetWindowRect(itemRect);
+	ScreenToClient(&itemRect);
+	GetDlgItem(IDC_TEST)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
+
+
 }
 //按下按键
 void CDrawToolDlg::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
@@ -1165,16 +1174,7 @@ void CDrawToolDlg::OnBnClickedTest()
 	InvalidateRect(m_manager.getDrawCRect());
 }
 
-/************************************************************************/
-/* TODO LIST                                                            */
-/************************************************************************/
-//TODO: 方中圆
-//TODO: 板上的图案（孔槽）
-//TODO: 板件外轮廓
-//TODO: 放大缩小显示
-//TODO: 界面大板栏，界面小板栏
-//TODO: 加载数据保存数据
-//TODO: 错误信息管理，日志信息管理
+
 
 
 
