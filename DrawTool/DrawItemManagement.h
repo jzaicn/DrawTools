@@ -19,9 +19,10 @@ private:
 	IDrawItemStrategy* m_strategy;					//工作策略
 	std::list<IDrawItem*> m_allDrawItemList;		//所有的画图元素
 
-	//static DrawItemStrategyBase DefaultStrategy;
+	static DrawItemStrategyBase DefaultStrategy;
 
 public:
+	void OnInitial();								//响应初始化
 	void OnPaint(Graphics& g);						//响应绘图
 	bool PreTranslateMessage(MSG* pMsg);			//响应消息
 	BOOL OnEraseBkgnd(CDC* pDC);					//响应擦除背景

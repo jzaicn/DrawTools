@@ -4,12 +4,12 @@
 #include <algorithm>
 #include "DrawItemManagement.h"
 
-//DrawItemStrategyBase DrawItemManagement::DefaultStrategy;
+DrawItemStrategyBase DrawItemManagement::DefaultStrategy;
 
 DrawItemManagement::DrawItemManagement(void)
 {
 	m_backgroundColor = Color::Black;
-	//m_strategy = &DefaultStrategy;
+	m_strategy = &DefaultStrategy;
 }
 DrawItemManagement::~DrawItemManagement(void)
 {
@@ -18,6 +18,11 @@ DrawItemManagement::~DrawItemManagement(void)
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
+//ÏìÓ¦³õÊ¼»¯
+void DrawItemManagement::OnInitial()
+{
+	m_strategy->OnInitial(m_allDrawItemList);
+}
 
 void DrawItemManagement::OnPaint(Graphics& g)
 {
@@ -26,7 +31,6 @@ void DrawItemManagement::OnPaint(Graphics& g)
 
 	m_strategy->OnPaint(g,m_allDrawItemList);
 }
-
 
 bool DrawItemManagement::PreTranslateMessage(MSG* pMsg)
 {
