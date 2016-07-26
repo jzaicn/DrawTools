@@ -59,6 +59,7 @@ BEGIN_MESSAGE_MAP(CDrawToolDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_INPUTITEM, &CDrawToolDlg::OnBnClickedInputitem)
 	ON_BN_CLICKED(IDC_TEST, &CDrawToolDlg::OnBnClickedTest)
 	ON_WM_SIZE()
+	ON_BN_CLICKED(IDC_CLEAR, &CDrawToolDlg::OnBnClickedClear)
 END_MESSAGE_MAP()
 
 
@@ -209,14 +210,22 @@ void CDrawToolDlg::OnSize(UINT nType, int cx, int cy)
 	m_manager.setDrawCRect(drawClient);
 
 	CRect itemRect;
+	//清空大板
+	GetDlgItem(IDC_CLEAR)->GetWindowRect(itemRect);
+	ScreenToClient(&itemRect);
+	GetDlgItem(IDC_CLEAR)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
+
+	//重新加载
 	GetDlgItem(IDC_RELOAD)->GetWindowRect(itemRect);
 	ScreenToClient(&itemRect);
 	GetDlgItem(IDC_RELOAD)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
 
+	//添加小板
 	GetDlgItem(IDC_INPUTITEM)->GetWindowRect(itemRect);
 	ScreenToClient(&itemRect);
 	GetDlgItem(IDC_INPUTITEM)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
-
+	
+	//测试
 	GetDlgItem(IDC_TEST)->GetWindowRect(itemRect);
 	ScreenToClient(&itemRect);
 	GetDlgItem(IDC_TEST)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
@@ -274,9 +283,19 @@ void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
-
+//清空
+void CDrawToolDlg::OnBnClickedClear()
+{
+	m_manager.clearDrawItem();
+	InvalidateRect(m_manager.getDrawCRect());
+}
+//重新加载
 void CDrawToolDlg::OnBnClickedReload()
 {
+
+
+
+
 	m_manager.clearDrawItem();
 	InvalidateRect(m_manager.getDrawCRect());
 }
@@ -286,6 +305,19 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
+
+
+
+
+
+
+
+
+
+
+
+
+
 #if 1
 
 	
@@ -450,3 +482,4 @@ void CDrawToolDlg::OnBnClickedTest()
 #endif
 	InvalidateRect(m_manager.getDrawCRect());
 }
+
