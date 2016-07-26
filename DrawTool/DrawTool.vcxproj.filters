@@ -69,9 +69,6 @@
     <ClInclude Include="TestDrawItemManagement.h">
       <Filter>测试\框架测试</Filter>
     </ClInclude>
-    <ClInclude Include="TestSmallPanelDrawItem.h">
-      <Filter>测试\工程测试</Filter>
-    </ClInclude>
     <ClInclude Include="DrawTools.h">
       <Filter>框架</Filter>
     </ClInclude>
@@ -99,6 +96,12 @@
     <ClInclude Include="SmallPanelDrawItem.h">
       <Filter>工程</Filter>
     </ClInclude>
+    <ClInclude Include="TestBase.h">
+      <Filter>测试</Filter>
+    </ClInclude>
+    <ClInclude Include="TestSmallPanel.h">
+      <Filter>测试\工程测试</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -109,9 +112,6 @@
     </ClCompile>
     <ClCompile Include="TestDrawLine.cpp">
       <Filter>测试\框架测试</Filter>
-    </ClCompile>
-    <ClCompile Include="TestSmallPanelDrawItem.cpp">
-      <Filter>测试\工程测试</Filter>
     </ClCompile>
     <ClCompile Include="TestDrawItemManagement.cpp">
       <Filter>测试\框架测试</Filter>
@@ -142,6 +142,12 @@
     </ClCompile>
     <ClCompile Include="SmallPanelDrawItem.cpp">
       <Filter>工程</Filter>
+    </ClCompile>
+    <ClCompile Include="TestBase.cpp">
+      <Filter>测试</Filter>
+    </ClCompile>
+    <ClCompile Include="TestSmallPanel.cpp">
+      <Filter>测试\工程测试</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
