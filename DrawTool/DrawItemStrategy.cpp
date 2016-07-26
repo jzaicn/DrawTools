@@ -89,6 +89,7 @@ void DrawItemStrategyBase::OnLButtonUp(UINT nFlags, PointF point, std::list<IDra
 //响应右键按下
 void DrawItemStrategyBase::OnRButtonDown(UINT nFlags, PointF point, std::list<IDrawItem*> all){}	
 //响应右键弹起
-void DrawItemStrategyBase::OnRButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all){}		
-
+void DrawItemStrategyBase::OnRButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all){}	
+//响应清除数据
+void DrawItemStrategyBase::OnClear(std::list<IDrawItem*> all){}
 #endif

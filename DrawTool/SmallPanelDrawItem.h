@@ -107,12 +107,13 @@ public:
 	virtual void OnLButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
 	virtual void OnRButtonDown( UINT nFlags, PointF point, std::list<IDrawItem*> all );
 	virtual void OnRButtonUp( UINT nFlags, PointF point, std::list<IDrawItem*> all );
-
+	virtual void OnClear(std::list<IDrawItem*> all);
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// ²Ù×÷
-	void setNewActiveItem(IDrawItem* item);
+	void addNewActiveItem(IDrawItem* item);
 
+	//bool IsActiveCraseWithStatic(Graphics &g1);
 	bool IsActiveCraseWithStatic();
 	void SetStaticHoveredByPoint( PointF point );
 	void SetActiveState(int state);

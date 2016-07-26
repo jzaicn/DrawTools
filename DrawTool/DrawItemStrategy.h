@@ -19,6 +19,7 @@ public:
 	virtual void OnLButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all) = 0;		//响应左键弹起
 	virtual void OnRButtonDown(UINT nFlags, PointF point, std::list<IDrawItem*> all) = 0;	//响应右键按下
 	virtual void OnRButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all) = 0;		//响应右键弹起
+	virtual void OnClear(std::list<IDrawItem*> all) = 0;									//响应清除数据
 
 };
 #endif
@@ -47,6 +48,7 @@ public:
 	virtual void OnLButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all);		//响应左键弹起
 	virtual void OnRButtonDown(UINT nFlags, PointF point, std::list<IDrawItem*> all);	//响应右键按下
 	virtual void OnRButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all);		//响应右键弹起
+	virtual void OnClear(std::list<IDrawItem*> all);									//响应清除数据
 	
 protected:
 	PointF m_mouseStartPoint;						//鼠标的起始点

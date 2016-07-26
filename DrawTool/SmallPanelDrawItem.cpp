@@ -199,6 +199,7 @@ void SmallPanelStrategy::OnInitial( std::list<IDrawItem*> all )
 void SmallPanelStrategy::OnPaint( Graphics& g, std::list<IDrawItem*> all )
 {
 	DrawItemStrategyBase::OnPaint(g,all);
+	//IsActiveCraseWithStatic(g);
 }
 bool SmallPanelStrategy::PreTranslateMessage( MSG* pMsg, std::list<IDrawItem*> all )
 {
@@ -215,6 +216,7 @@ bool SmallPanelStrategy::PreTranslateMessage( MSG* pMsg, std::list<IDrawItem*> a
 			return true;
 		}
 	}
+	return false;
 }
 bool SmallPanelStrategy::OnEraseBkgnd( CDC* pDC, std::list<IDrawItem*> all )
 {
@@ -228,7 +230,8 @@ void SmallPanelStrategy::OnMouseMove( UINT nFlags, PointF point, std::list<IDraw
 		MoveAllActive(diff);
 		m_mouseStartPoint = point;
 
-		if (IsActiveCraseWithStatic())
+		//if (IsActiveCraseWithStatic())
+		if (0)
 		{
 			SetActiveState(DrawItemBase::StateError);
 
@@ -277,7 +280,7 @@ void SmallPanelStrategy::OnLButtonDown( UINT nFlags, PointF point, std::list<IDr
 			}
 			else
 			{
-				m_active.push_back((*itter) );
+				m_static.push_back((*itter) );
 			}
 		}
 		m_mouseStartPoint = point;
@@ -302,14 +305,21 @@ void SmallPanelStrategy::OnRButtonUp( UINT nFlags, PointF point, std::list<IDraw
 {
 
 }
+
+void SmallPanelStrategy::OnClear(std::list<IDrawItem*> all)
+{
+	m_active.clear();
+	m_static.clear();
+}
 //////////////////////////////////////////////////////////////////////////
 // ½Ó¿Ú
-void SmallPanelStrategy::setNewActiveItem(IDrawItem* item)
+void SmallPanelStrategy::addNewActiveItem(IDrawItem* item)
 {
 	m_pressFlag = true;
 	m_active.push_back(item);
 }
 
+//bool SmallPanelStrategy::IsActiveCraseWithStatic(Graphics &g1)
 bool SmallPanelStrategy::IsActiveCraseWithStatic()
 {
 	bool isActiveCrashStatic = false;
@@ -346,6 +356,7 @@ bool SmallPanelStrategy::IsActiveCraseWithStatic()
 
 		HRGN crashRegion = CreateRectRgn( 0,0,0,0 ); 
 		int combineResult = CombineRgn( crashRegion,staticRegion,activeRegion,RGN_AND );
+		Region crashRegionRgn(crashRegion);
 		//g1.FillRegion(&SolidBrush(Color::Blue),&crashRegionRgn);
 
 		if(combineResult != NULLREGION)
