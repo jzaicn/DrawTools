@@ -1,9 +1,10 @@
 #pragma once
-class TestDrawItemManagement
+#include "TestBase.h"
+class TestDrawItemManagement : public TestBase
 {
 public:
-	TestDrawItemManagement(void);
-	~TestDrawItemManagement(void);
+	static bool TestDrawItemManagementAll();
 
+	static void Test_rotateDrawItem();
 };
 

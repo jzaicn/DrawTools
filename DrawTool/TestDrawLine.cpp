@@ -2,11 +2,8 @@
 #include "TestDrawLine.h"
 
 
-TestDrawLine::TestDrawLine(void)
-{
-}
 
-
-TestDrawLine::~TestDrawLine(void)
+bool TestDrawLine::TestDrawLineAll()
 {
+	return true;
 }

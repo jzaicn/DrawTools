@@ -1,8 +1,8 @@
 #pragma once
-class TestDrawLine
+#include "TestBase.h"
+class TestDrawLine : public TestBase
 {
 public:
-	TestDrawLine(void);
-	~TestDrawLine(void);
+	static bool TestDrawLineAll();
 };
 
