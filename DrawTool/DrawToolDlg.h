@@ -11,6 +11,8 @@
 #include "DrawItemManagement.h"
 #include "SmallPanelDrawItem.h"
 
+#include "XmlHandlePlus.h"
+
 // CDrawToolDlg 对话框
 class CDrawToolDlg : public CDialogEx
 {
@@ -34,6 +36,16 @@ protected:
 	virtual BOOL OnInitDialog();
 
 
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+
+
 	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
 	afx_msg void OnPaint();
 	afx_msg HCURSOR OnQueryDragIcon();
@@ -42,14 +54,9 @@ protected:
 public:
 	//////////////////////////////////////////////////////////////////////////
 	//事件命令
-	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnRButtonUp(UINT nFlags, CPoint point);
 
 
+	void InsertSmallPanel(TiXmlNode* node);
 private:
 	//////////////////////////////////////////////////////////////////////////
 	//数据结构
@@ -66,11 +73,9 @@ public:
 	//按钮事件
 	afx_msg void OnBnClickedReload();
 	afx_msg void OnBnClickedInputitem();
-
-	void CreateOutterFrame( RectF &rcClient );
-
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
 	afx_msg void OnBnClickedTest();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnBnClickedClear();
+
+
+
 };

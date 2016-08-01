@@ -1,5 +1,5 @@
-#include "stdafx.h"
-// DrawToolDlg.cpp : ÊµÏÖÎÄ¼ş
+ï»¿#include "stdafx.h"
+// DrawToolDlg.cpp : å®ç°æ–‡ä»¶
 //
 
 #include "DrawTool.h"
@@ -19,13 +19,15 @@
 #include "TestDrawItemManagement.h"
 #include "TestSmallPanel.h"
 
+
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
 
 
-// CDrawToolDlg ¶Ô»°¿ò
+// CDrawToolDlg å¯¹è¯æ¡†
 
 
 
@@ -63,7 +65,7 @@ BEGIN_MESSAGE_MAP(CDrawToolDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 
-// CDrawToolDlg ÏûÏ¢´¦Àí³ÌĞò
+// CDrawToolDlg æ¶ˆæ¯å¤„ç†ç¨‹åº
 
 void CDrawToolDlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
@@ -92,9 +94,9 @@ BOOL CDrawToolDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// ½«¡°¹ØÓÚ...¡±²Ëµ¥ÏîÌí¼Óµ½ÏµÍ³²Ëµ¥ÖĞ¡£
+	// å°†â€œå…³äº...â€èœå•é¡¹æ·»åŠ åˆ°ç³»ç»Ÿèœå•ä¸­ã€‚
 
-	// IDM_ABOUTBOX ±ØĞëÔÚÏµÍ³ÃüÁî·¶Î§ÄÚ¡£
+	// IDM_ABOUTBOX å¿…é¡»åœ¨ç³»ç»Ÿå‘½ä»¤èŒƒå›´å†…ã€‚
 	ASSERT((IDM_ABOUTBOX & 0xFFF0) == IDM_ABOUTBOX);
 	ASSERT(IDM_ABOUTBOX < 0xF000);
 
@@ -112,10 +114,10 @@ BOOL CDrawToolDlg::OnInitDialog()
 		}
 	}
 
-	// ÉèÖÃ´Ë¶Ô»°¿òµÄÍ¼±ê¡£µ±Ó¦ÓÃ³ÌĞòÖ÷´°¿Ú²»ÊÇ¶Ô»°¿òÊ±£¬¿ò¼Ü½«×Ô¶¯
-	//  Ö´ĞĞ´Ë²Ù×÷
-	SetIcon(m_hIcon, TRUE);			// ÉèÖÃ´óÍ¼±ê
-	SetIcon(m_hIcon, FALSE);		// ÉèÖÃĞ¡Í¼±ê
+	// è®¾ç½®æ­¤å¯¹è¯æ¡†çš„å›¾æ ‡ã€‚å½“åº”ç”¨ç¨‹åºä¸»çª—å£ä¸æ˜¯å¯¹è¯æ¡†æ—¶ï¼Œæ¡†æ¶å°†è‡ªåŠ¨
+	//  æ‰§è¡Œæ­¤æ“ä½œ
+	SetIcon(m_hIcon, TRUE);			// è®¾ç½®å¤§å›¾æ ‡
+	SetIcon(m_hIcon, FALSE);		// è®¾ç½®å°å›¾æ ‡
 
 	ShowWindow(SW_MAXIMIZE);
 
@@ -127,18 +129,18 @@ BOOL CDrawToolDlg::OnInitDialog()
 	m_manager.Strategy(&m_smallStrategy);
 	m_manager.OnInitial();
 
-	return TRUE;  // ³ı·Ç½«½¹µãÉèÖÃµ½¿Ø¼ş£¬·ñÔò·µ»Ø TRUE
+	return TRUE;  // é™¤éå°†ç„¦ç‚¹è®¾ç½®åˆ°æ§ä»¶ï¼Œå¦åˆ™è¿”å› TRUE
 }
 
 void CDrawToolDlg::OnPaint()
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // ÓÃÓÚ»æÖÆµÄÉè±¸ÉÏÏÂÎÄ
+		CPaintDC dc(this); // ç”¨äºç»˜åˆ¶çš„è®¾å¤‡ä¸Šä¸‹æ–‡
 
 		SendMessage(WM_ICONERASEBKGND, reinterpret_cast<WPARAM>(dc.GetSafeHdc()), 0);
 
-		// Ê¹Í¼±êÔÚ¹¤×÷Çø¾ØĞÎÖĞ¾ÓÖĞ
+		// ä½¿å›¾æ ‡åœ¨å·¥ä½œåŒºçŸ©å½¢ä¸­å±…ä¸­
 		int cxIcon = GetSystemMetrics(SM_CXICON);
 		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
@@ -146,7 +148,7 @@ void CDrawToolDlg::OnPaint()
 		int x = (rect.Width() - cxIcon + 1) / 2;
 		int y = (rect.Height() - cyIcon + 1) / 2;
 
-		// »æÖÆÍ¼±ê
+		// ç»˜åˆ¶å›¾æ ‡
 		dc.DrawIcon(x, y, m_hIcon);
 	}
 	else
@@ -169,7 +171,7 @@ void CDrawToolDlg::OnPaint()
 
 		g.FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), RectF(rcClient.left,rcClient.top,rcClient.Width(),rcClient.Height()));
 
-		m_manager.OnPaint(g);//»­Í¼
+		m_manager.OnPaint(g);//ç”»å›¾
 
 		dc.BitBlt(0, 0, rcClient.Width(), rcClient.Height(), &dcMem, 0, 0, SRCCOPY);
 
@@ -180,7 +182,7 @@ void CDrawToolDlg::OnPaint()
 	}
 }
 
-//ÏûÏ¢Â·ÓÉ
+//æ¶ˆæ¯è·¯ç”±
 BOOL CDrawToolDlg::PreTranslateMessage(MSG* pMsg)
 {
 	if (m_manager.PreTranslateMessage(pMsg))
@@ -188,7 +190,7 @@ BOOL CDrawToolDlg::PreTranslateMessage(MSG* pMsg)
 		return TRUE;
 	}
 	
-	//¼üÅÌ°´¼ü
+	//é”®ç›˜æŒ‰é”®
 	if (pMsg ->message == WM_KEYDOWN)  // If a keydown message
 	{
 		CString key;
@@ -210,22 +212,22 @@ void CDrawToolDlg::OnSize(UINT nType, int cx, int cy)
 	m_manager.setDrawCRect(drawClient);
 
 	CRect itemRect;
-	//Çå¿Õ´ó°å
+	//æ¸…ç©ºå¤§æ¿
 	GetDlgItem(IDC_CLEAR)->GetWindowRect(itemRect);
 	ScreenToClient(&itemRect);
 	GetDlgItem(IDC_CLEAR)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
 
-	//ÖØĞÂ¼ÓÔØ
+	//é‡æ–°åŠ è½½
 	GetDlgItem(IDC_RELOAD)->GetWindowRect(itemRect);
 	ScreenToClient(&itemRect);
 	GetDlgItem(IDC_RELOAD)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
 
-	//Ìí¼ÓĞ¡°å
+	//æ·»åŠ å°æ¿
 	GetDlgItem(IDC_INPUTITEM)->GetWindowRect(itemRect);
 	ScreenToClient(&itemRect);
 	GetDlgItem(IDC_INPUTITEM)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
 	
-	//²âÊÔ
+	//æµ‹è¯•
 	GetDlgItem(IDC_TEST)->GetWindowRect(itemRect);
 	ScreenToClient(&itemRect);
 	GetDlgItem(IDC_TEST)->SetWindowPos(NULL, itemRect.left, drawClient.bottom + 5 , itemRect.Width(), itemRect.Height(), SWP_SHOWWINDOW);
@@ -283,20 +285,60 @@ void CDrawToolDlg::OnRButtonUp(UINT nFlags, CPoint point)
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
-//Çå¿Õ
+//æ¸…ç©º
 void CDrawToolDlg::OnBnClickedClear()
 {
 	m_manager.clearDrawItem();
 	InvalidateRect(m_manager.getDrawCRect());
 }
-//ÖØĞÂ¼ÓÔØ
+//é‡æ–°åŠ è½½
 void CDrawToolDlg::OnBnClickedReload()
 {
-
-
-
-
 	m_manager.clearDrawItem();
+
+
+	TiXmlDocument doc;
+	doc.LoadFile("E:\\Test_data\\07-26æµ‹è¯•æ•°æ®\\å¤šæ§½å­”æ­£å.xml");
+	XmlHandlePlus docHandler(&doc);
+
+	
+	std::vector<TiXmlNode*> KnifeThin_Arr = docHandler.findAll("\\KnifeData\\KnifeThin\\");
+	for (int KnifeThinArr_Index = 0 ; KnifeThinArr_Index < KnifeThin_Arr.size() ; KnifeThinArr_Index++)
+	{
+		//è·å¾—æ‰€æœ‰è€—æ
+		XmlHandlePlus KnifeThin_Handler(KnifeThin_Arr[KnifeThinArr_Index]);
+
+
+
+
+
+
+		std::vector<TiXmlNode*> SrcPanel_Arr = KnifeThin_Handler.findAll("SrcPanel\\");
+		for (int SrcPanelArr_Index = 0 ; SrcPanelArr_Index < SrcPanel_Arr.size() ; SrcPanelArr_Index++)
+		{
+			//è·å¾—æ‰€æœ‰å¤§æ¿
+			XmlHandlePlus SrcPanel_Handler(SrcPanel_Arr[SrcPanelArr_Index]);
+
+
+
+
+
+
+			//è·å¾—æ‰€æœ‰å°æ¿
+			std::vector<TiXmlNode*> ComPanel_Arr = SrcPanel_Handler.findAll("ComPanel\\");
+			for (int ComPanel_Index = 0 ; ComPanel_Index < ComPanel_Arr.size() ; ComPanel_Index++)
+			{
+
+
+
+				//æ’å…¥å°æ¿
+				InsertSmallPanel(ComPanel_Arr[ComPanel_Index]);
+			}
+
+		}
+
+	}
+	
 	InvalidateRect(m_manager.getDrawCRect());
 }
 
@@ -321,7 +363,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 #if 1
 
 	
-	//²âÊÔÓÃ³¤·½ĞÎ,´ø²àÃæ¿×£¬ÕıÃæ¿×
+	//æµ‹è¯•ç”¨é•¿æ–¹å½¢,å¸¦ä¾§é¢å­”ï¼Œæ­£é¢å­”
 	RectF rect = RectF(0,0,281,531);
 	SmallPanel* shape = new SmallPanel(rect);
 	
@@ -337,12 +379,12 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	//DrawItemShape* shape = new DrawItemShape(rect,lines);
 	shape->setInnerShape(new DrawItemShape(rect,lines));
 
-	//ÒìĞÎµÄÊ±ºò£¬SIDE1 ºÍ SIDE2·­×ª £¬ SIDE3 ºÍ SIDE4·­×ª
-	//¸ü¸Ä·½·¨£ºÒ»µ©¼ì²âµ½ÊÇÒìĞÎ°å£¬½«PanelFace×Ó½ÚµãÖĞµÄLayer="SIDE1 ¸Ä³É Layer="SIDE2
-	//ÆäËûÕÕ¾É
+	//å¼‚å½¢çš„æ—¶å€™ï¼ŒSIDE1 å’Œ SIDE2ç¿»è½¬ ï¼Œ SIDE3 å’Œ SIDE4ç¿»è½¬
+	//æ›´æ”¹æ–¹æ³•ï¼šä¸€æ—¦æ£€æµ‹åˆ°æ˜¯å¼‚å½¢æ¿ï¼Œå°†PanelFaceå­èŠ‚ç‚¹ä¸­çš„Layer="SIDE1 æ”¹æˆ Layer="SIDE2
+	//å…¶ä»–ç…§æ—§
 
 	std::list<IDrawItem*> infos;
-// 	<VERTICAL Layer="VERTICAL14.000000" Name="¿ª¿×1">
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="å¼€å­”1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="483" />
 // 		<Param Name="angle" Value="180" />
@@ -352,7 +394,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawVertical(248,483,180,15,15,14));
-// 	<VERTICAL Layer="SIDE29.000000" Name="¿ª¿×2">
+// 	<VERTICAL Layer="SIDE29.000000" Name="å¼€å­”2">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="483" />
 // 		<Param Name="angle" Value="0" />
@@ -362,7 +404,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawSideVertical(2,248,483,0,33,8,9));
-// 	<VERTICAL Layer="SIDE29.000000" Name="¿ª¿×1">
+// 	<VERTICAL Layer="SIDE29.000000" Name="å¼€å­”1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="451" />
 // 		<Param Name="angle" Value="0" />
@@ -372,7 +414,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawSideVertical(2,248,451,0,33,8,9));
-// 	<VERTICAL Layer="SIDE29.000000" Name="¿ª¿×1">
+// 	<VERTICAL Layer="SIDE29.000000" Name="å¼€å­”1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="99" />
 // 		<Param Name="angle" Value="0" />
@@ -382,7 +424,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawSideVertical(2,248,99,0,33,8,9));
-// 	<VERTICAL Layer="VERTICAL14.000000" Name="¿ª¿×1">
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="å¼€å­”1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="67" />
 // 		<Param Name="angle" Value="180" />
@@ -392,7 +434,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawVertical(248,67,180,15,15,14));
-// 	<VERTICAL Layer="SIDE29.000000" Name="¿ª¿×2">
+// 	<VERTICAL Layer="SIDE29.000000" Name="å¼€å­”2">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="67" />
 // 		<Param Name="angle" Value="0" />
@@ -402,7 +444,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawSideVertical(2,248,67,0,33,8,9));
-// 	<VERTICAL Layer="VERTICAL14.000000" Name="¿ª¿×1">
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="å¼€å­”1">
 // 		<Param Name="pos_x" Value="48" />
 // 		<Param Name="pos_y" Value="33" />
 // 		<Param Name="angle" Value="180" />
@@ -412,7 +454,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawVertical(48,33,180,15,15,14));
-// 	<VERTICAL Layer="SIDE49.000000" Name="¿ª¿×2">
+// 	<VERTICAL Layer="SIDE49.000000" Name="å¼€å­”2">
 // 		<Param Name="pos_x" Value="48" />
 // 		<Param Name="pos_y" Value="33" />
 // 		<Param Name="angle" Value="90" />
@@ -422,7 +464,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawSideVertical(4,48,33,90,33,8,9));
-// 	<VERTICAL Layer="SIDE49.000000" Name="¿ª¿×1">
+// 	<VERTICAL Layer="SIDE49.000000" Name="å¼€å­”1">
 // 		<Param Name="pos_x" Value="144" />
 // 		<Param Name="pos_y" Value="33" />
 // 		<Param Name="angle" Value="90" />
@@ -432,7 +474,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="SIDE.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawSideVertical(4,144,33,90,33,8,9));
-// 	<VERTICAL Layer="VERTICAL14.000000" Name="¿ª¿×1">
+// 	<VERTICAL Layer="VERTICAL14.000000" Name="å¼€å­”1">
 // 		<Param Name="pos_x" Value="240" />
 // 		<Param Name="pos_y" Value="33" />
 // 		<Param Name="angle" Value="180" />
@@ -442,7 +484,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 // 		<Param Name="dwgFile" Value="VERTICAL.dwg" />
 // 	</VERTICAL>
 	infos.push_back(new DrawVertical(240,33,180,15,15,14));
-// 		<VERTICAL Layer="SIDE49.000000" Name="¿ª¿×2">
+// 		<VERTICAL Layer="SIDE49.000000" Name="å¼€å­”2">
 // 			<Param Name="pos_x" Value="240" />
 // 			<Param Name="pos_y" Value="33" />
 // 			<Param Name="angle" Value="90" />
@@ -467,13 +509,13 @@ void CDrawToolDlg::OnBnClickedInputitem()
 
 void CDrawToolDlg::OnBnClickedTest()
 {
-	//¿ò¼Ü²âÊÔ
+	//æ¡†æ¶æµ‹è¯•
 	ASSERT(TestDrawTools::TestDrawToolsAll());
 	ASSERT(TestDrawLine::TestDrawLineAll());
 	ASSERT(TestDrawItem::TestDrawItemAll());
 	ASSERT(TestDrawItemManagement::TestDrawItemManagementAll());
 
-	//¹¤³Ì´úÂë²âÊÔ
+	//å·¥ç¨‹ä»£ç æµ‹è¯•
 	ASSERT(TestSmallPanel::TestSmallPanelAll());
 
 
@@ -481,5 +523,79 @@ void CDrawToolDlg::OnBnClickedTest()
 
 #endif
 	InvalidateRect(m_manager.getDrawCRect());
+}
+
+IDrawItem* CDrawToolDlg::InsertSmallPanel( TiXmlNode* node )
+{
+	XmlHandlePlus smallPanel_handler(node);
+	std::vector<TiXmlNode*> Vector_Arr = smallPanel_handler.findAll("OutLine\\Vector\\");
+	if (Vector_Arr.size()>0)
+	{
+		
+
+		for (int Vector_Index = 0 ; Vector_Index < Vector_Arr.size() ; Vector_Index++)
+		{
+			//
+			XmlHandlePlus Vector_Handler(Vector_Arr[Vector_Index]);
+			TiXmlNode* next = NULL;
+			if (Vector_Index == Vector_Arr.size() - 1)
+			{
+				next = Vector_Arr[0];
+			}
+			else
+			{
+				next = Vector_Arr[Vector_Index+1];
+			}
+			XmlHandlePlus Vector_Handler_Next(next);
+
+		
+			//ï¬	-1ï¼šå¯¹ç”ŸæˆåŠ å·¥æ•°æ®æ— ç”¨çš„ç‚¹ï¼Œåªæ˜¯ä¸‰ç»´æ˜¾ç¤ºçš„ç‚¹ã€‚
+			if (Vector_Handler.getAttr("Sign").compare("-1"))
+			{
+
+			}
+			//ï¬	0ï¼šç›´çº¿ç‚¹ã€‚
+			else if (Vector_Handler.getAttr("Sign").compare("0"))
+			{
+				PointF first = PointF(atof(Vector_Handler.getAttr("X").c_str()),atof(Vector_Handler.getAttr("Y").c_str()));
+				PointF last = PointF(atof(Vector_Handler_Next.getAttr("X").c_str()),atof(Vector_Handler_Next.getAttr("Y").c_str()));
+				DrawStraightLine* line = new DrawStraightLine(first,last);
+			}
+			//ï¬	1ï¼šåœ†å¼§èµ·ç‚¹ã€‚
+			else if (Vector_Handler.getAttr("Sign").compare("1"))
+			{
+				PointF first = PointF(atof(Vector_Handler.getAttr("X").c_str()),atof(Vector_Handler.getAttr("Y").c_str()));
+				PointF last = PointF(atof(Vector_Handler_Next.getAttr("X").c_str()),atof(Vector_Handler_Next.getAttr("Y").c_str()));
+				float radius = atof(Vector_Handler.getAttr("R").c_str());
+				float dir = atof(Vector_Handler.getAttr("Dir").c_str());
+				DrawArcLine* line = new DrawArcLine(first,last,r,dir);
+			}
+			//ï¬	2ï¼šåœ†å¼§ç»ˆç‚¹ã€‚
+			else if (Vector_Handler.getAttr("Sign").compare("2"))
+			{
+				PointF first = PointF(atof(Vector_Handler.getAttr("X").c_str()),atof(Vector_Handler.getAttr("Y").c_str()));
+				PointF last = PointF(atof(Vector_Handler_Next.getAttr("X").c_str()),atof(Vector_Handler_Next.getAttr("Y").c_str()));
+				DrawStraightLine* line = new DrawStraightLine(first,last);
+			}
+			//ï¬	3ï¼šä¸¤æ®µåœ†å¼§ç›¸è¿æ¥ç‚¹ã€‚åœ†å¼§èµ·ç‚¹å’Œç»ˆç‚¹é‡åˆã€‚
+			else if (Vector_Handler.getAttr("Sign").compare("3"))
+			{
+				PointF first = PointF(atof(Vector_Handler.getAttr("X").c_str()),atof(Vector_Handler.getAttr("Y").c_str()));
+				PointF last = PointF(atof(Vector_Handler_Next.getAttr("X").c_str()),atof(Vector_Handler_Next.getAttr("Y").c_str()));
+				float radius = atof(Vector_Handler.getAttr("R").c_str());
+				float dir = atof(Vector_Handler.getAttr("Dir").c_str());
+				DrawArcLine* line = new DrawArcLine(first,last,r,dir);
+			}
+			else
+			{
+				//TODO: è®°å½•å¼‚å¸¸
+				throw std::logic_error("undefine sign value.");
+			}
+		}
+
+		IDrawItem* shape = new DrawItemShape();
+
+	}
+
 }
 

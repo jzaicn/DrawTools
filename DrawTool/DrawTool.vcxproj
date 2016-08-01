@@ -117,6 +117,7 @@
     <ClInclude Include="TestDrawLine.h" />
     <ClInclude Include="TestDrawTools.h" />
     <ClInclude Include="TestSmallPanel.h" />
+    <ClInclude Include="XmlHandlePlus.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DrawItem.cpp" />
@@ -137,6 +138,7 @@
     <ClCompile Include="TestDrawLine.cpp" />
     <ClCompile Include="TestDrawTools.cpp" />
     <ClCompile Include="TestSmallPanel.cpp" />
+    <ClCompile Include="XmlHandlePlus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DrawTool.rc" />

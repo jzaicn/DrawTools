@@ -269,7 +269,7 @@ void SmallPanelStrategy::OnLButtonDown( UINT nFlags, PointF point, std::list<IDr
 		m_active.clear();
 		m_static.clear();
 
-		for(auto itter = all.begin();itter != all.end() ; itter++ )
+		for(auto itter = all.rbegin();itter != all.rend() ; itter++ )
 		{
 			if(!isPicked && (*itter)->getRegion()->IsVisible(point))
 			{

@@ -37,6 +37,9 @@
     <Filter Include="测试\框架测试">
       <UniqueIdentifier>{e68c7aa9-f1c2-4fd5-83b8-d10a5110e71d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="外部库">
+      <UniqueIdentifier>{c2be354f-5976-4551-99e1-189617203607}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
@@ -102,6 +105,9 @@
     <ClInclude Include="TestSmallPanel.h">
       <Filter>测试\工程测试</Filter>
     </ClInclude>
+    <ClInclude Include="XmlHandlePlus.h">
+      <Filter>外部库</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -148,6 +154,9 @@
     </ClCompile>
     <ClCompile Include="TestSmallPanel.cpp">
       <Filter>测试\工程测试</Filter>
+    </ClCompile>
+    <ClCompile Include="XmlHandlePlus.cpp">
+      <Filter>外部库</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
