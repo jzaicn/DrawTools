@@ -94,6 +94,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="ClassDiagram11.cd" />
     <None Include="ReadMe.txt" />
     <None Include="res\DrawTool.ico" />
     <None Include="res\DrawTool.rc2" />

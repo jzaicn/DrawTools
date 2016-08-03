@@ -124,7 +124,7 @@ BOOL CDrawToolDlg::OnInitDialog()
 	GetClientRect(rcClient);
 	rcClient.bottom -= 120;
 	m_manager.setDrawCRect(rcClient);
-	m_manager.Strategy(&m_smallStrategy);
+	//m_manager.Strategy(&m_smallStrategy);
 	m_manager.OnInitial();
 
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
@@ -327,12 +327,12 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	
 	
 
-	std::list<IDrawLine*> lines;
-	lines.push_back(new DrawStraightLine(PointF(0,0),PointF(0,381)));
+	std::list<IDataLine*> lines;
+	lines.push_back(new DataStraightLine(PointF(0,0),PointF(0,381)));
 	lines.push_back(new DrawArcLine(PointF(0,381),PointF(150,531),150,1));
-	lines.push_back(new DrawStraightLine(PointF(150,531),PointF(281,531)));
-	lines.push_back(new DrawStraightLine(PointF(281,531),PointF(281,0)));
-	lines.push_back(new DrawStraightLine(PointF(281,0),PointF(0,0)));
+	lines.push_back(new DataStraightLine(PointF(150,531),PointF(281,531)));
+	lines.push_back(new DataStraightLine(PointF(281,531),PointF(281,0)));
+	lines.push_back(new DataStraightLine(PointF(281,0),PointF(0,0)));
 
 	//DrawItemShape* shape = new DrawItemShape(rect,lines);
 	shape->setInnerShape(new DrawItemShape(rect,lines));

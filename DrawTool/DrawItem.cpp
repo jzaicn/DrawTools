@@ -218,7 +218,7 @@ const int DrawItemBase::StateError = 5;
 #if 1
 //////////////////////////////////////////////////////////////////////////
 // ¹¹Ôì
-DrawItemShape::DrawItemShape(RectF rect,std::list<IDrawLine*> lines)
+DrawItemShape::DrawItemShape(RectF rect,std::list<IDataLine*> lines)
 {
 	m_myRect = rect;
 	m_lines = lines;
@@ -335,7 +335,7 @@ void DrawItemShape::OnPaint( Graphics &g )
 /************************************************************************/
 #if 1
 DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius )
-	:DrawItemShape(rect,std::list<IDrawLine*>())
+	:DrawItemShape(rect,std::list<IDataLine*>())
 {
 	initCircle(rect,pos_x,pos_y,radius);
 }
@@ -360,7 +360,7 @@ void DrawItemCircle::initCircle(RectF rect,float pos_x,float pos_y,float radius)
 /*  »æÍ¼ÐÎ×´ DrawItemRectangle                                          */
 /************************************************************************/
 #if 1
-DrawItemRectangle::DrawItemRectangle( RectF rect,std::list<IDrawLine*> lines )
+DrawItemRectangle::DrawItemRectangle( RectF rect,std::list<IDataLine*> lines )
 	:DrawItemShape(rect,lines)
 {
 	

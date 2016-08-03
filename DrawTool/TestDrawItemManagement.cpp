@@ -18,12 +18,12 @@ void TestDrawItemManagement::Test_rotateDrawItem()
 	RectF rect = RectF(0,0,281,531);
 	std::list<PointF> points;
 
-	std::list<IDrawLine*> lines;
-	lines.push_back(new DrawStraightLine(PointF(0,0),PointF(0,381)));
+	std::list<IDataLine*> lines;
+	lines.push_back(new DataStraightLine(PointF(0,0),PointF(0,381)));
 	lines.push_back(new DrawArcLine(PointF(0,381),PointF(150,531),150,1));
-	lines.push_back(new DrawStraightLine(PointF(150,531),PointF(281,531)));
-	lines.push_back(new DrawStraightLine(PointF(281,531),PointF(281,0)));
-	lines.push_back(new DrawStraightLine(PointF(281,0),PointF(0,0)));
+	lines.push_back(new DataStraightLine(PointF(150,531),PointF(281,531)));
+	lines.push_back(new DataStraightLine(PointF(281,531),PointF(281,0)));
+	lines.push_back(new DataStraightLine(PointF(281,0),PointF(0,0)));
 
 	DrawItemShape* shape = new DrawItemShape(rect,lines);
 

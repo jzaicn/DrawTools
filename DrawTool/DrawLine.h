@@ -2,10 +2,11 @@
 /************************************************************************/
 #include <vector>
 #include <list>
-/*  I线段 IDrawLine                                                     */
+/*  I线段 IDataLine   
+ *  只用于做数据存储，多个线段按照顺序排列可以组成一个多边形*/
 /************************************************************************/
 #if 1
-class IDrawLine
+class IDataLine
 {
 public:
 	virtual void loadPoints(std::list<PointF>& points) = 0;	//从线型数据中取得集合点
@@ -18,10 +19,10 @@ public:
 /* 线段基类 DrawLineBase                                                */
 /************************************************************************/
 #if 1
-class DrawLineBase : public IDrawLine
+class DataLineBase : public IDataLine
 {
 public:
-	DrawLineBase(PointF first,PointF last);
+	DataLineBase(PointF first,PointF last);
 
 public:
 	virtual void loadPoints(std::list<PointF>& points);	//从线型数据中取得集合点
@@ -38,17 +39,17 @@ protected:
 /* 直线 DrawStraightLine                                                */
 /************************************************************************/
 #if 1
-class DrawStraightLine : public DrawLineBase
+class DataStraightLine : public DataLineBase
 {
 public:
-	DrawStraightLine(PointF first,PointF last) :DrawLineBase(first,last){};
+	DataStraightLine(PointF first,PointF last) :DataLineBase(first,last){};
 };
 #endif
 /************************************************************************/
 /* 曲线 DrawArcLine                                                     */
 /************************************************************************/
 #if 1
-class DrawArcLine : public DrawLineBase
+class DrawArcLine : public DataLineBase
 {
 public:
 	DrawArcLine(PointF first, PointF last, float radius, int sign);

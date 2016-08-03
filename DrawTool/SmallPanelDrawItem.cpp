@@ -22,7 +22,7 @@ DrawVertical::DrawVertical( float pos_x,float pos_y,float angle,float size_x,flo
 /************************************************************************/
 #if 1
 DrawSideVertical::DrawSideVertical( int side,float pos_x,float pos_y,float angle,float size_x,float size_y,float depth )
-	:DrawItemRectangle(RectF(),std::list<IDrawLine* >())
+	:DrawItemRectangle(RectF(),std::list<IDataLine* >())
 {
 	RectF rect;
 	switch(side)
@@ -90,7 +90,7 @@ RectF DrawSideVertical::buildRect_0_Face( float pos_x,float pos_y,float angle,fl
 /************************************************************************/
 #if 1
 DrawSaw::DrawSaw( float pos_x,float pos_y,float angle,float size_x,float size_y,float depth )
-	:DrawItemRectangle(RectF(),std::list<IDrawLine* >())
+	:DrawItemRectangle(RectF(),std::list<IDataLine* >())
 {
 	RectF rect = DrawSideVertical::buildRect_0_Face( pos_x, pos_y, angle, size_x, size_y, depth);
 	DrawItemRectangle &base = *this;

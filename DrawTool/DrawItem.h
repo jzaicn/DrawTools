@@ -116,7 +116,7 @@ class DrawItemShape : public DrawItemBase
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
-	DrawItemShape(RectF rect,std::list<IDrawLine*> lines);
+	DrawItemShape(RectF rect,std::list<IDataLine*> lines);
 	virtual ~DrawItemShape();
 
 public:
@@ -134,7 +134,7 @@ public:
 protected:
 	//////////////////////////////////////////////////////////////////////////
 	// 数据
-	std::list<IDrawLine*> m_lines;
+	std::list<IDataLine*> m_lines;
 };
 #endif
 /************************************************************************/
@@ -161,7 +161,7 @@ class DrawItemRectangle : public DrawItemShape
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
-	DrawItemRectangle(RectF rect,std::list<IDrawLine*> lines);
+	DrawItemRectangle(RectF rect,std::list<IDataLine*> lines);
 	virtual ~DrawItemRectangle(){};
 };
 #endif

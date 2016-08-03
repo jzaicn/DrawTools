@@ -3,7 +3,7 @@
 #include "DrawTools.h"
 
 /************************************************************************/
-/*  I线段 IDrawLine                                                     */
+/*  I线段 IDataLine                                                     */
 /************************************************************************/
 #if 1
 #endif
@@ -11,17 +11,17 @@
 /* 线段基类 DrawLineBase                                                */
 /************************************************************************/
 #if 1
-DrawLineBase::DrawLineBase(PointF first,PointF last)
+DataLineBase::DataLineBase(PointF first,PointF last)
 {
 	m_first = first;
 	m_last = last;
 }
-void DrawLineBase::loadPoints(std::list<PointF>& points)
+void DataLineBase::loadPoints(std::list<PointF>& points)
 {
 	points.push_back(m_first);
 	points.push_back(m_last);
 }
-void DrawLineBase::updatePoints(std::list<PointF>& points)
+void DataLineBase::updatePoints(std::list<PointF>& points)
 {
 	m_first = points.front();
 	points.erase(points.begin());
@@ -29,11 +29,11 @@ void DrawLineBase::updatePoints(std::list<PointF>& points)
 	m_last = points.front();
 	points.erase(points.begin());
 }
-void DrawLineBase::getPath(GraphicsPath& path)
+void DataLineBase::getPath(GraphicsPath& path)
 {
 	path.AddLine(m_first,m_last);
 }
-void DrawLineBase::getPaint(Graphics &g)
+void DataLineBase::getPaint(Graphics &g)
 {
 	g.DrawLine(&Pen(DrawTools::ColorBorder),m_first,m_last);
 }
@@ -49,7 +49,7 @@ void DrawLineBase::getPaint(Graphics &g)
 /************************************************************************/
 #if 1
 DrawArcLine::DrawArcLine(PointF first, PointF last, float radius, int sign)
-	:DrawLineBase(first,last)
+	:DataLineBase(first,last)
 {
 	m_radius = radius;
 	m_sign = sign;

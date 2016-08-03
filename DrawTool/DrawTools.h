@@ -47,7 +47,7 @@ public:
 	static PointF buildPointF(CPoint point);
 	static CPoint buildCPoint(PointF point);
 
-	static std::list<IDrawLine*> buildDrawStraightLine( RectF rect );
+	static std::list<IDataLine*> buildDrawStraightLine( RectF rect );
 
 public:
 	/************************************************************************/

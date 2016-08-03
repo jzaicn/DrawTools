@@ -46,6 +46,7 @@
     <None Include="res\DrawTool.ico">
       <Filter>资源文件</Filter>
     </None>
+    <None Include="ClassDiagram11.cd" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="targetver.h">
