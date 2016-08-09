@@ -37,19 +37,19 @@ RectF DrawTools::buildRectF(PointF topLeft,PointF bottomRight)
 		);
 }
 
-PointF DrawTools::getTopLeft(RectF rect)
+PointF DrawTools::getTopLeft(const RectF& rect)
 {
 	return PointF(rect.GetLeft(),rect.GetTop());
 }
-PointF DrawTools::getBottomRight(RectF rect)
+PointF DrawTools::getBottomRight(const RectF& rect)
 {
 	return PointF(rect.GetRight(),rect.GetBottom());
 }
-PointF DrawTools::getTopRight(RectF rect)
+PointF DrawTools::getTopRight(const RectF& rect)
 {
 	return PointF(rect.GetRight(),rect.GetTop());
 }
-PointF DrawTools::getBottomLeft(RectF rect)
+PointF DrawTools::getBottomLeft(const RectF& rect)
 {
 	return PointF(rect.GetLeft(),rect.GetBottom());
 }
@@ -62,7 +62,7 @@ CPoint DrawTools::buildCPoint(PointF point)
 {
 	return CPoint(point.X,point.Y);
 }
-std::list<IDataLine*> DrawTools::buildDrawStraightLine( RectF rect )
+std::list<IDataLine*> DrawTools::buildDrawStraightLine( const RectF& rect )
 {
 	std::list<IDataLine* > infos;
 	infos.push_back(new DataStraightLine(DrawTools::getTopLeft(rect),DrawTools::getBottomLeft(rect)));

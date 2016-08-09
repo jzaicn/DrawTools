@@ -55,8 +55,8 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 接口实现
 	virtual void setState( int state );
-	virtual std::shared_ptr<Region> getRegion();
-	virtual void readPoints( std::list<PointF>& points );
+	virtual const std::shared_ptr<Region>& getRegion()const;
+	virtual void readPoints( std::list<PointF>& points )const;
 	virtual void writePoints( std::list<PointF>& points );
 	virtual void OnPaint( Graphics &g );
 

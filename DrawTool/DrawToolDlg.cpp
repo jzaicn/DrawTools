@@ -34,8 +34,8 @@ CDrawToolDlg::CDrawToolDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(CDrawToolDlg::IDD, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	
-	
+	m_dcBackgroudBitmap = nullptr;
+	m_g= nullptr;
 }
 
 void CDrawToolDlg::DoDataExchange(CDataExchange* pDX)
@@ -126,7 +126,7 @@ BOOL CDrawToolDlg::OnInitDialog()
 	m_manager.setDrawCRect(rcClient);
 	//m_manager.Strategy(&m_smallStrategy);
 	m_manager.OnInitial();
-
+	initBKDC();
 	return TRUE;  // 除非将焦点设置到控件，否则返回 TRUE
 }
 
@@ -156,26 +156,14 @@ void CDrawToolDlg::OnPaint()
 
 		RectF drawRect = m_manager.getDrawRectF();
 
-		CPaintDC dc(this);
-
-		CDC dcMem;
-		dcMem.CreateCompatibleDC(&dc);
-		CBitmap bmpMem;
-		bmpMem.CreateCompatibleBitmap(&dc, rcClient.Width(), rcClient.Height());
-		dcMem.SelectObject(&bmpMem);
-		Graphics g(dcMem.m_hDC);
+		CPaintDC dc(this);		
+		
 		COLORREF colBK = GetSysColor(CTLCOLOR_DLG);
+		m_g->FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), RectF(rcClient.left,rcClient.top,rcClient.Width(),rcClient.Height()));
 
-
-		g.FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), RectF(rcClient.left,rcClient.top,rcClient.Width(),rcClient.Height()));
-
-		m_manager.OnPaint(g);//画图
-
-		dc.BitBlt(0, 0, rcClient.Width(), rcClient.Height(), &dcMem, 0, 0, SRCCOPY);
-
-		bmpMem.DeleteObject();
-		dcMem.DeleteDC();
-
+		m_manager.OnPaint(*m_g);//画图
+		dc.BitBlt(0, 0, rcClient.Width(), rcClient.Height(), &m_dcBackgroud, 0, 0, SRCCOPY);
+		
 		//CDialogEx::OnPaint();
 	}
 }
@@ -292,10 +280,6 @@ void CDrawToolDlg::OnBnClickedClear()
 //重新加载
 void CDrawToolDlg::OnBnClickedReload()
 {
-
-
-
-
 	m_manager.clearDrawItem();
 	InvalidateRect(m_manager.getDrawCRect());
 }
@@ -305,18 +289,6 @@ void CDrawToolDlg::OnBnClickedReload()
 
 void CDrawToolDlg::OnBnClickedInputitem()
 {
-
-
-
-
-
-
-
-
-
-
-
-
 
 #if 1
 
@@ -481,5 +453,37 @@ void CDrawToolDlg::OnBnClickedTest()
 
 #endif
 	InvalidateRect(m_manager.getDrawCRect());
+}
+
+int CDrawToolDlg::initBKDC()
+{
+	//创建bitmap
+	CRect rcClient;
+	GetClientRect(rcClient);
+	CBitmap bmpMem;
+	bmpMem.CreateCompatibleBitmap(GetDC(), rcClient.Width(), rcClient.Height());
+
+	//创建缓冲DC
+	m_dcBackgroud.CreateCompatibleDC(GetDC());
+	m_dcBackgroudBitmap = m_dcBackgroud.SelectObject(&bmpMem);
+	m_g = Graphics::FromHDC(m_dcBackgroud.GetSafeHdc());
+	return !!m_dcBackgroud.GetSafeHdc();
+}
+
+int CDrawToolDlg::releaseBKDC()
+{
+	auto curbitmap = m_dcBackgroud.GetCurrentBitmap();
+	 if(curbitmap && curbitmap != m_dcBackgroudBitmap)
+	 {
+		 auto lastbitmap = m_dcBackgroud.SelectObject(m_dcBackgroudBitmap);
+	 }
+	 m_dcBackgroud.DeleteDC();
+	 return !m_dcBackgroud.GetSafeHdc();
+}
+
+CDrawToolDlg::~CDrawToolDlg()
+{
+	auto re = releaseBKDC();
+	delete m_g;
 }
 

@@ -9,9 +9,9 @@
 class IDataLine
 {
 public:
-	virtual void loadPoints(std::list<PointF>& points) = 0;	//从线型数据中取得集合点
+	virtual void loadPoints(std::list<PointF>& points)const = 0;	//从线型数据中取得集合点
 	virtual void updatePoints(std::list<PointF>& points) = 0;	//从外部取得点更新到集合中
-	virtual void getPath(GraphicsPath& path) = 0;				//用内部点集合构建到图形中
+	virtual void getPath(GraphicsPath& path)const = 0;				//用内部点集合构建到图形中
 	virtual void getPaint(Graphics &g) = 0;						//用内部点集合画到图形中
 };
 #endif
@@ -25,9 +25,9 @@ public:
 	DataLineBase(PointF first,PointF last);
 
 public:
-	virtual void loadPoints(std::list<PointF>& points);	//从线型数据中取得集合点
+	virtual void loadPoints(std::list<PointF>& points)const;	//从线型数据中取得集合点
 	virtual void updatePoints(std::list<PointF>& points);	//从外部取得点更新到集合中
-	virtual void getPath(GraphicsPath& path);				//用内部点集合构建到图形中
+	virtual void getPath(GraphicsPath& path)const;				//用内部点集合构建到图形中
 	virtual void getPaint(Graphics &g);						//用内部点集合画到图形中
 
 protected:
@@ -54,7 +54,7 @@ class DrawArcLine : public DataLineBase
 public:
 	DrawArcLine(PointF first, PointF last, float radius, int sign);
 public:
-	virtual void getPath(GraphicsPath& path);				//用内部点集合构建到图形中
+	virtual void getPath(GraphicsPath& path)const;				//用内部点集合构建到图形中
 	virtual void getPaint(Graphics &g);						//用内部点集合画到图形中
 private:
 	float m_radius;

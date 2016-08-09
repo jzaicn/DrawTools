@@ -54,38 +54,38 @@ DrawItemBase::~DrawItemBase(void)
 }
 //////////////////////////////////////////////////////////////////////////
 // 实现接口
-void DrawItemBase::setState(int state)
+void DrawItemBase::setState(const int& state)
 {
 	m_state = state;
 }
-int DrawItemBase::getState()
+const int& DrawItemBase::getState()const
 {
 	return m_state;
 }
 
-void DrawItemBase::setType(CString type)
+void DrawItemBase::setType(const CString& type)
 {
 	m_type = type;
 }
-CString DrawItemBase::getType()
+const CString& DrawItemBase::getType()const
 {
 	return m_type;
 }
 
-void DrawItemBase::setID(CString id)
+void DrawItemBase::setID(const CString& id)
 {
 	m_ID = id;
 }
-CString DrawItemBase::getID()
+const CString& DrawItemBase::getID()const
 {
 	return m_ID;
 }
 
-void DrawItemBase::setOrder(int order)
+void DrawItemBase::setOrder(const int& order)
 {
 	m_order = order;
 }
-int DrawItemBase::getOrder()
+const int& DrawItemBase::getOrder()const
 {
 	return m_order;
 }
@@ -94,8 +94,9 @@ int DrawItemBase::getOrder()
 void DrawItemBase::setRect(RectF rect)
 {
 	m_myRect = rect;
+	m_region = std::shared_ptr<Region>(new Region(getRect()));	
 }
-RectF DrawItemBase::getRect()
+RectF DrawItemBase::getRect()const
 {
 	return m_myRect;
 }
@@ -109,13 +110,13 @@ void DrawItemBase::setFillPath(bool isFillPath)
 	m_isFillPath = isFillPath;
 }
 
-std::shared_ptr<Region> DrawItemBase::getRegion()
-{
-	return std::shared_ptr<Region>(new Region(getRect()));
+const std::shared_ptr<Region>& DrawItemBase::getRegion() const
+{	
+	return m_region;
 }
 
 
-void DrawItemBase::readPoints(std::list<PointF>& points)
+void DrawItemBase::readPoints(std::list<PointF>& points) const
 {
 	points.push_back(DrawTools::getTopLeft(getRect()));
 	points.push_back(DrawTools::getBottomLeft(getRect()));
@@ -124,16 +125,13 @@ void DrawItemBase::readPoints(std::list<PointF>& points)
 }
 void DrawItemBase::writePoints(std::list<PointF>& points)
 {
-	std::list<PointF> tempArr;
-	tempArr.push_back(points.front());
-	points.pop_front();
-	tempArr.push_back(points.front());
-	points.pop_front();
-	tempArr.push_back(points.front());
-	points.pop_front();
-	tempArr.push_back(points.front());
-	points.pop_front();
+	auto begin = points.begin();
+	auto end = begin;
+	std::advance(end,4);
 
+	std::list<PointF> tempArr(begin,end);
+	points.erase(begin,end);
+	
 	PointF topLeft(FLT_MAX,FLT_MAX);
 	PointF bottomRight(FLT_MIN,FLT_MIN);
 	for(auto itter = tempArr.begin();itter != tempArr.end() ; itter++ )
@@ -166,33 +164,39 @@ void DrawItemBase::move(PointF offset)
 
 void DrawItemBase::OnPaint( Graphics &g )
 {
-	std::shared_ptr<Region> region = getRegion();
+	auto region = getRegion();
+	static SolidBrush brush(DrawTools::ColorNormal);
 	if (m_isFillPath)
 	{
 		if (StateNormal == m_state)
 		{
-			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+			brush.SetColor(DrawTools::ColorNormal);
 		}
 		else if (StateHovered == m_state)
 		{
-			g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
+			brush.SetColor(DrawTools::ColorHovered);
+			//g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
 		}
 		else if (StateDisable == m_state)
 		{
-			g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
+			brush.SetColor(DrawTools::ColorDisable);
+			//g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
 		}
 		else if (StateDown == m_state)
 		{
-			g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
+			brush.SetColor(DrawTools::ColorDown);
+			//g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
 		}
 		else if (StateError == m_state)
 		{
-			g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
+			brush.SetColor(DrawTools::ColorError);
+			//g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
 		}
 		else
 		{
-			g.FillRegion(&SolidBrush(m_fillColor), region.get());
+			brush.SetColor(m_fillColor);
 		}
+		g.FillRegion(&brush, region.get());
 	}
 	if (m_isDrawPath)
 	{
@@ -218,10 +222,11 @@ const int DrawItemBase::StateError = 5;
 #if 1
 //////////////////////////////////////////////////////////////////////////
 // 构造
-DrawItemShape::DrawItemShape(RectF rect,std::list<IDataLine*> lines)
+DrawItemShape::DrawItemShape(RectF rect,const std::list<IDataLine*>& lines)
 {
 	m_myRect = rect;
 	m_lines = lines;
+	setRegion(lines);
 }
 DrawItemShape::~DrawItemShape()
 {
@@ -237,26 +242,12 @@ DrawItemShape::~DrawItemShape()
 
 //////////////////////////////////////////////////////////////////////////
 // 接口实现
-std::shared_ptr<Region> DrawItemShape::getRegion()
+const std::shared_ptr<Region>& DrawItemShape::getRegion() const
 {
-	if (m_lines.size()>0)
-	{
-		GraphicsPath path;
-		path.StartFigure();
-		for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
-		{
-			(*itter)->getPath(path);
-		}
-		path.CloseFigure();
-		return std::shared_ptr<Region>(new Region(&path));
-	}
-	else
-	{
-		return DrawItemBase::getRegion();
-	}
+	return DrawItemBase::getRegion();	
 }
 
-void DrawItemShape::readPoints(std::list<PointF>& points)
+void DrawItemShape::readPoints(std::list<PointF>& points) const
 {
 	for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
 	{
@@ -270,6 +261,7 @@ void DrawItemShape::writePoints(std::list<PointF>& points)
 	{
 		(*itter)->updatePoints(points);
 	}
+	setRegion(m_lines);
 	DrawItemBase::writePoints(points);
 }
 
@@ -287,11 +279,12 @@ void DrawItemShape::move(PointF offset)
 void DrawItemShape::OnPaint( Graphics &g )
 {
 	std::shared_ptr<Region> region = getRegion();
+	static SolidBrush brush(DrawTools::ColorNormal);
 	if (m_isFillPath)
 	{
 		if (StateNormal == m_state)
 		{
-			g.FillRegion(&SolidBrush(DrawTools::ColorNormal), region.get());
+			g.FillRegion(&brush, region.get());
 		}
 		else if (StateHovered == m_state)
 		{
@@ -326,6 +319,18 @@ void DrawItemShape::OnPaint( Graphics &g )
 
 		g.DrawPath(&Pen(m_drawColor),&path);
 	}
+}
+
+void DrawItemShape::setRegion(const std::list<IDataLine*>& lines)
+{
+	GraphicsPath path;
+	path.StartFigure();
+	for(auto itter = m_lines.begin();itter != m_lines.end() ; itter++ )
+	{
+		(*itter)->getPath(path);
+	}
+	path.CloseFigure();
+	m_region = std::shared_ptr<Region>(new Region(&path));
 }
 
 #endif

@@ -134,19 +134,19 @@ void SmallPanel::setState( int state )
 }
 
 
-std::shared_ptr<Region> SmallPanel::getRegion()
+const std::shared_ptr<Region>& SmallPanel::getRegion() const
 {
-	if (m_innerFrame.size()>0)
+	if (m_innerShape.size()>0)
 	{
 		return m_innerShape.front()->getRegion();
 	}
 	else
 	{
-		return DrawItemBase::getRegion();
+		throw "²»´æÔÚRegion";
 	}
 }
 
-void SmallPanel::readPoints( std::list<PointF>& points )
+void SmallPanel::readPoints( std::list<PointF>& points ) const
 {
 	DrawItemBase::readPoints(points);
 	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){item->readPoints(points);});
@@ -230,7 +230,6 @@ void SmallPanelStrategy::OnMouseMove( UINT nFlags, PointF point, std::list<IDraw
 		MoveAllActive(diff);
 		m_mouseStartPoint = point;
 
-		//if (IsActiveCraseWithStatic())
 		if (0)
 		{
 			SetActiveState(DrawItemBase::StateError);
@@ -246,7 +245,6 @@ void SmallPanelStrategy::OnMouseMove( UINT nFlags, PointF point, std::list<IDraw
 	else
 	{
 		SetStaticHoveredByPoint(point);
-
 	}
 
 
@@ -276,7 +274,7 @@ void SmallPanelStrategy::OnLButtonDown( UINT nFlags, PointF point, std::list<IDr
 				isPicked = true;
 				m_pressFlag = true;
 				(*itter) ->setState(DrawItemBase::StateDown);
-				m_active.push_back((*itter) );
+				m_active.push_back((*itter));
 			}
 			else
 			{

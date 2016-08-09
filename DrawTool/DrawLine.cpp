@@ -16,20 +16,20 @@ DataLineBase::DataLineBase(PointF first,PointF last)
 	m_first = first;
 	m_last = last;
 }
-void DataLineBase::loadPoints(std::list<PointF>& points)
+void DataLineBase::loadPoints(std::list<PointF>& points) const
 {
 	points.push_back(m_first);
 	points.push_back(m_last);
 }
 void DataLineBase::updatePoints(std::list<PointF>& points)
 {
-	m_first = points.front();
-	points.erase(points.begin());
-
-	m_last = points.front();
-	points.erase(points.begin());
+	auto begin = points.cbegin();
+	auto end = ++points.cbegin();
+	m_first = *begin;
+	m_last = *end;
+	points.erase(begin,++end);
 }
-void DataLineBase::getPath(GraphicsPath& path)
+void DataLineBase::getPath(GraphicsPath& path) const
 {
 	path.AddLine(m_first,m_last);
 }
@@ -55,7 +55,7 @@ DrawArcLine::DrawArcLine(PointF first, PointF last, float radius, int sign)
 	m_sign = sign;
 }
 
-void DrawArcLine::getPath(GraphicsPath& path)
+void DrawArcLine::getPath(GraphicsPath& path) const
 {
 	RectF rect;
 	double beginAngle;

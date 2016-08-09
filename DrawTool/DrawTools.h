@@ -39,15 +39,15 @@ public:
 	static RectF buildRectF(CRect rect);
 	static RectF buildRectF(PointF topleft,PointF bottomRight);
 
-	static PointF getTopLeft(RectF rect);
-	static PointF getBottomRight(RectF rect);
-	static PointF getTopRight(RectF rect);
-	static PointF getBottomLeft(RectF rect);
+	static PointF getTopLeft(const RectF& rect);
+	static PointF getBottomRight(const RectF& rect);
+	static PointF getTopRight(const RectF& rect);
+	static PointF getBottomLeft(const RectF& rect);
 
 	static PointF buildPointF(CPoint point);
 	static CPoint buildCPoint(PointF point);
 
-	static std::list<IDataLine*> buildDrawStraightLine( RectF rect );
+	static std::list<IDataLine*> buildDrawStraightLine( const RectF& rect );
 
 public:
 	/************************************************************************/

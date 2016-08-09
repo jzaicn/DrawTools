@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "DrawItemStrategy.h"
+#include <sstream>
 
 /************************************************************************/
 /* 画图策略接口 IDrawItemStrategy                                       */
@@ -43,11 +44,19 @@ void DrawItemStrategyBase::OnMouseMove(UINT nFlags, PointF point, std::list<IDra
 	if (m_pressFlag)
 	{
 		PointF diff(point.X - m_mouseStartPoint.X, point.Y - m_mouseStartPoint.Y);
+		
+		//测试
+		auto lasttime = clock(); 
+		
 
 		for(auto itter = all.begin();itter != all.end() ; itter++ )
 		{
 			(*itter)->move(diff);
 		}
+		
+		std::ostringstream os;
+		os<<"移动时间:"<<clock()-lasttime<<"\n";
+		TRACE(os.str().c_str());
 
 		m_mouseStartPoint = point;
 	}

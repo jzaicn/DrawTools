@@ -17,13 +17,16 @@ class CDrawToolDlg : public CDialogEx
 // 构造
 public:
 	CDrawToolDlg(CWnd* pParent = NULL);	// 标准构造函数
-
+	~CDrawToolDlg();
 // 对话框数据
 	enum { IDD = IDD_DRAWTOOL_DIALOG };
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV 支持
-
+protected:
+	//各种初始化
+	int initBKDC();
+	int releaseBKDC();
 
 // 实现
 protected:
@@ -61,6 +64,12 @@ private:
 	DrawItemManagement m_manager;
 	SmallPanelStrategy m_smallStrategy;
 
+	//背面DC，缓冲DC
+	CDC m_dcBackgroud;
+	//背面DC的原始bitmap，用于还原
+	CBitmap* m_dcBackgroudBitmap;
+	Graphics* m_g;
+
 public:
 	//////////////////////////////////////////////////////////////////////////
 	//按钮事件
@@ -73,4 +82,5 @@ public:
 	afx_msg void OnBnClickedTest();
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnBnClickedClear();
+
 };

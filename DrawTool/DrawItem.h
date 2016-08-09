@@ -12,24 +12,24 @@
 class IDrawItem
 {
 public:
-	virtual void setState(int state) = 0;	//状态
-	virtual int getState() = 0;				//状态
+	virtual void setState(const int& state) = 0;	//状态
+	virtual const int& getState()const = 0;				//状态
 
-	virtual void setType(CString type) = 0;	//类型
-	virtual CString getType() = 0;			//类型
+	virtual void setType(const CString& type) = 0;	//类型
+	virtual const CString& getType()const = 0;			//类型
 
-	virtual void setID(CString id) = 0;		//ID
-	virtual CString getID() = 0;			//ID
+	virtual void setID(const CString& id) = 0;		//ID
+	virtual const CString& getID()const = 0;			//ID
 
-	virtual void setOrder(int order) = 0;	//序号
-	virtual int getOrder() = 0;				//序号
+	virtual void setOrder(const int& order) = 0;	//序号
+	virtual const int& getOrder()const = 0;				//序号
 
 	virtual void setRect(RectF rect) = 0;	//区域
-	virtual RectF getRect() = 0;			//区域
+	virtual RectF getRect()const = 0;		//区域
 
-	virtual std::shared_ptr<Region> getRegion() = 0;			//区域
+	virtual const std::shared_ptr<Region>& getRegion()const = 0;			//区域
 
-	virtual void readPoints(std::list<PointF>& points) = 0;	//点集合
+	virtual void readPoints(std::list<PointF>& points)const = 0;	//点集合
 	virtual void writePoints(std::list<PointF>& points) = 0;	//点集合
 
 	virtual void moveTo(PointF point) = 0;	//移动到
@@ -55,27 +55,27 @@ public:
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 实现接口
-	virtual void setState(int state);	//状态
-	virtual int getState();				//状态
+	virtual void setState(const int& state);	//状态
+	virtual const int& getState()const;				//状态
 
-	virtual void setType(CString type);	//类型
-	virtual CString getType();			//类型
+	virtual void setType(const CString& type);	//类型
+	virtual const CString& getType()const;			//类型
 
-	virtual void setID(CString id);		//ID
-	virtual CString getID();			//ID
+	virtual void setID(const CString& id);		//ID
+	virtual const CString& getID()const;			//ID
 
-	virtual void setOrder(int order);	//序号
-	virtual int getOrder();				//序号
+	virtual void setOrder(const int& order);	//序号
+	virtual const int& getOrder()const;				//序号
 
 	virtual void setRect(RectF rect);	//区域
-	virtual RectF getRect();			//区域
+	virtual RectF getRect()const;			//区域
 
 	virtual void setDrawPath(bool isDrawPath);				//画轮廓
 	virtual void setFillPath(bool isFillPath);				//填充
 
-	virtual std::shared_ptr<Region> getRegion();			//区域
+	virtual const std::shared_ptr<Region>& getRegion()const;			//区域
 
-	virtual void readPoints(std::list<PointF>& points);		//点集合
+	virtual void readPoints(std::list<PointF>& points)const;		//点集合
 	virtual void writePoints(std::list<PointF>& points);	//点集合
 
 	virtual void moveTo(PointF point);	//移动到
@@ -95,6 +95,7 @@ protected:
 	bool m_isFillPath;						//填充
 	Color m_drawColor;						//自画边线颜色
 	Color m_fillColor;						//自画填充颜色
+	std::shared_ptr<Region> m_region;		//当前图标的范围
 
 public:
 	//////////////////////////////////////////////////////////////////////////
@@ -116,15 +117,16 @@ class DrawItemShape : public DrawItemBase
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 构造
-	DrawItemShape(RectF rect,std::list<IDataLine*> lines);
+	DrawItemShape(RectF rect,const std::list<IDataLine*>& lines);
 	virtual ~DrawItemShape();
 
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 接口实现
-	virtual std::shared_ptr<Region> getRegion();			//区域
+	virtual const std::shared_ptr<Region>& getRegion()const;			//区域
+	virtual void setRegion(const std::list<IDataLine*>& lines);			//区域
 
-	virtual void readPoints(std::list<PointF>& points);		//点集合
+	virtual void readPoints(std::list<PointF>& points)const;		//点集合
 	virtual void writePoints(std::list<PointF>& points);	//点集合
 
 	virtual void move(PointF offset);		//偏移
@@ -135,6 +137,7 @@ protected:
 	//////////////////////////////////////////////////////////////////////////
 	// 数据
 	std::list<IDataLine*> m_lines;
+	
 };
 #endif
 /************************************************************************/
