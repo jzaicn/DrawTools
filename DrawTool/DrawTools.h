@@ -43,6 +43,7 @@ public:
 	static PointF getBottomRight(const RectF& rect);
 	static PointF getTopRight(const RectF& rect);
 	static PointF getBottomLeft(const RectF& rect);
+	static PointF getMiddle(const RectF& rect);
 
 	static PointF buildPointF(CPoint point);
 	static CPoint buildCPoint(PointF point);
@@ -72,7 +73,7 @@ public:
 	static PointF getCircleCenter(PointF first, PointF last , float radius , int sign);
 
 	//两点算角度  
-	static double getRadFrom2Point(PointF pointCenter,PointF pointDis) ;
+	static double getRadFrom2Point(const PointF& pointCenter,const PointF& pointDis) ;
 	//角度转弧度  
 	static double getRadFromAngle(double angle);
 	//弧度转角度  

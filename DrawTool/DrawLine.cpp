@@ -13,29 +13,45 @@
 #if 1
 DataLineBase::DataLineBase(PointF first,PointF last)
 {
-	m_first = first;
-	m_last = last;
+	m_points.push_back(first);
+	m_points.push_back(last);
 }
 void DataLineBase::loadPoints(std::list<PointF>& points) const
 {
-	points.push_back(m_first);
-	points.push_back(m_last);
+	for (auto it = m_points.begin();it!= m_points.end();it++)
+	{
+		points.push_back(*it);
+	}
 }
 void DataLineBase::updatePoints(std::list<PointF>& points)
 {
-	auto begin = points.cbegin();
-	auto end = ++points.cbegin();
-	m_first = *begin;
-	m_last = *end;
-	points.erase(begin,++end);
+	int i = 0;
+	std::for_each(m_points.begin(),m_points.end(),[&points](PointF& p){
+		p = points.front();
+		points.pop_back();
+	});
 }
 void DataLineBase::getPath(GraphicsPath& path) const
-{
-	path.AddLine(m_first,m_last);
+{	
+	auto count = m_points.size();
+	auto begin = m_points.cbegin();
+	for (int i = 0;i<count-1;++i,++begin)
+	{
+		auto end = begin;
+		advance(end,1);
+		path.AddLine(*begin,*end);
+	}
 }
-void DataLineBase::getPaint(Graphics &g)
+void DataLineBase::onPaint(Graphics &g)
 {
-	g.DrawLine(&Pen(DrawTools::ColorBorder),m_first,m_last);
+	auto count = m_points.size();
+	auto begin = m_points.cbegin();
+	for (int i = 0;i<count-1;++i,++begin)
+	{
+		auto end = begin;
+		advance(end,1);
+		g.DrawLine(&Pen(DrawTools::ColorBorder),*begin,*end);
+	}	
 }
 #endif
 /************************************************************************/
@@ -51,27 +67,42 @@ void DataLineBase::getPaint(Graphics &g)
 DrawArcLine::DrawArcLine(PointF first, PointF last, float radius, int sign)
 	:DataLineBase(first,last)
 {
+	assert(m_points.size() == 2);
 	m_radius = radius;
 	m_sign = sign;
+	m_center = DrawTools::getCircleCenter(first,last,radius,sign);
+	m_points.push_back(m_center);
+}
+
+DrawArcLine::DrawArcLine(PointF first, PointF last,PointF center)
+	:DataLineBase(first,last)
+{
+	assert(m_points.size() == 2);
+	m_points.push_back(m_center);
 }
 
 void DrawArcLine::getPath(GraphicsPath& path) const
 {
-	RectF rect;
-	double beginAngle;
-	double endAngle;
-	DrawTools::getArc(m_first,m_last,m_radius,m_sign,
-		rect,beginAngle,endAngle);
-	path.AddArc(rect,beginAngle,endAngle);
-
+	double beginAngle = 0,sweepAngle = 0;
+	RectF rect(getcenter().X-m_radius,getcenter().Y-m_radius,m_radius*2,m_radius*2);
+	DrawTools::getAngularCoordinate_DegreeCatchShort(getcenter() , getFrist(), getLast(), 0, beginAngle, sweepAngle);
+	DrawTools::getDrawArcAngularCoordinate(beginAngle,sweepAngle);
+	path.AddArc(rect,beginAngle,sweepAngle);
 }
-void DrawArcLine::getPaint(Graphics &g)
+void DrawArcLine::onPaint(Graphics &g)
 {
-	RectF rect;
-	double beginAngle;
-	double endAngle;
-	DrawTools::getArc(m_first,m_last,m_radius,m_sign,
-		rect,beginAngle,endAngle);
-	g.DrawArc(&Pen(DrawTools::ColorBorder),rect,beginAngle,endAngle);
+	double beginAngle = 0,sweepAngle = 0;
+	RectF rect(getcenter().X-m_radius,getcenter().Y-m_radius,m_radius*2,m_radius*2);
+	DrawTools::getAngularCoordinate_DegreeCatchShort(getcenter() , getFrist(), getLast(), 0, beginAngle, sweepAngle);
+	DrawTools::getDrawArcAngularCoordinate(beginAngle,sweepAngle);
+	g.DrawArc(&Pen(DrawTools::ColorBorder),rect,beginAngle,sweepAngle);
 }
+
+const PointF& DrawArcLine::getcenter()const
+{
+	auto begin = m_points.begin();
+	std::advance(begin,2);
+	return *begin;
+}
+
 #endif

@@ -150,7 +150,7 @@ void DrawTools::getArc(PointF first, PointF last,float radius,int sign,RectF& re
 }
 
 //两点算角度  
-double DrawTools::getRadFrom2Point(PointF pointCenter,PointF pointDis)  
+double DrawTools::getRadFrom2Point(const PointF& pointCenter,const PointF& pointDis)  
 {  
 	PointF point1 = PointF(pointCenter);  
 	PointF point2 = PointF(pointDis);  
@@ -270,4 +270,9 @@ void DrawTools::getDrawArcAngularCoordinate(double& beginAngle, double& sweepAng
 	//现在切割顺序是逆时针，所以通过角度sweep设成负数
 	beginAngle = getAngularCoordinate_Mirror(beginAngle);
 	sweepAngle = -sweepAngle;
+}
+
+PointF DrawTools::getMiddle(const RectF& rect)
+{
+	return PointF((rect.GetTop()+rect.GetBottom())/2.0,(rect.GetLeft()+rect.GetRight())/2.0);
 }
