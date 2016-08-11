@@ -4,15 +4,15 @@
 #include "DrawTools.h"
 
 /************************************************************************/
-/*  »æÍ¼½Ó¿Ú IDrawItem                                                  */
+/*  ç»˜å›¾æ¥å£ IDrawItem  5                                                */
 /************************************************************************/
 
 /************************************************************************/
-/*  »æÍ¼»ùÀà DrawItemBase                                               */
+/*  ç»˜å›¾åŸºç±» DrawItemBase                                               */
 /************************************************************************/
 #if 1
 //////////////////////////////////////////////////////////////////////////
-// ¹¹ÔìÊı¾İ
+// æ„é€ æ•°æ®
 DrawItemBase::DrawItemBase()
 {
 	m_type = "";
@@ -53,7 +53,7 @@ DrawItemBase::~DrawItemBase(void)
 {
 }
 //////////////////////////////////////////////////////////////////////////
-// ÊµÏÖ½Ó¿Ú
+// å®ç°æ¥å£
 void DrawItemBase::setState(const int& state)
 {
 	m_state = state;
@@ -213,7 +213,7 @@ const std::shared_ptr<Region>& DrawItemBase::getRegion()
 
 
 //////////////////////////////////////////////////////////////////////////
-// ¹«¹²Êı¾İ
+// å…¬å…±æ•°æ®
 const int DrawItemBase::StateSelfDefine = 0;
 const int DrawItemBase::StateNormal = 1;
 const int DrawItemBase::StateHovered = 2;
@@ -224,11 +224,11 @@ const int DrawItemBase::StateError = 5;
 #endif
 
 /************************************************************************/
-/*  »æÍ¼ĞÎ×´ DrawItemShape                                               */
+/*  ç»˜å›¾å½¢çŠ¶ DrawItemShape                                               */
 /************************************************************************/
 #if 1
 //////////////////////////////////////////////////////////////////////////
-// ¹¹Ôì
+// æ„é€ 
 DrawItemShape::DrawItemShape(RectF rect,const std::list<IDataLine*>& lines)
 {
 	m_myRect = rect;
@@ -248,7 +248,7 @@ DrawItemShape::~DrawItemShape()
 }
 
 //////////////////////////////////////////////////////////////////////////
-// ½Ó¿ÚÊµÏÖ
+// æ¥å£å®ç°
 // const std::shared_ptr<Region>& DrawItemShape::getRegion() const
 // {
 // 	return DrawItemBase::getRegion();	
@@ -361,7 +361,7 @@ void DrawItemShape::ResetRegion()
 #endif
 
 /************************************************************************/
-/*  »æÍ¼ĞÎ×´ DrawItemCircle                                             */
+/*  ç»˜å›¾å½¢çŠ¶ DrawItemCircle                                             */
 /************************************************************************/
 #if 1
 DrawItemCircle::DrawItemCircle( RectF rect,float pos_x,float pos_y,float radius )
@@ -373,7 +373,7 @@ void DrawItemCircle::initCircle(RectF rect,float pos_x,float pos_y,float radius)
 {
 	setRect(rect);
 	RectF rectCircle = RectF(pos_x - radius,pos_y - radius,radius*2.0,radius*2.0);
-	//»ñµÃÔ²»¡ÉÏÏÂ×óÓÒ¸÷µã
+	//è·å¾—åœ†å¼§ä¸Šä¸‹å·¦å³å„ç‚¹
 	PointF top( (rectCircle.GetRight() + rectCircle.GetLeft())/2 , rectCircle.GetTop() );
 	PointF left( rectCircle.GetLeft() , (rectCircle.GetBottom() + rectCircle.GetTop())/2 );
 	PointF bottom((rectCircle.GetRight() + rectCircle.GetLeft())/2,rectCircle.GetBottom());
@@ -387,7 +387,7 @@ void DrawItemCircle::initCircle(RectF rect,float pos_x,float pos_y,float radius)
 }
 #endif
 /************************************************************************/
-/*  »æÍ¼ĞÎ×´ DrawItemRectangle                                          */
+/*  ç»˜å›¾å½¢çŠ¶ DrawItemRectangle                                          */
 /************************************************************************/
 #if 1
 DrawItemRectangle::DrawItemRectangle( RectF rect,std::list<IDataLine*> lines )
