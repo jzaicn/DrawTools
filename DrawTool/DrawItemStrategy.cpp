@@ -45,19 +45,10 @@ void DrawItemStrategyBase::OnMouseMove(UINT nFlags, PointF point, std::list<IDra
 	{
 		PointF diff(point.X - m_mouseStartPoint.X, point.Y - m_mouseStartPoint.Y);
 		
-		//²âÊÔ
-		auto lasttime = clock(); 
-		
-
 		for(auto itter = all.begin();itter != all.end() ; itter++ )
 		{
 			(*itter)->move(diff);
-		}
-		
-		std::ostringstream os;
-		os<<"ÒÆ¶¯Ê±¼ä:"<<clock()-lasttime<<"\n";
-		TRACE(os.str().c_str());
-
+		}	
 		m_mouseStartPoint = point;
 	}
 	else
@@ -80,7 +71,6 @@ void DrawItemStrategyBase::OnMouseMove(UINT nFlags, PointF point, std::list<IDra
 void DrawItemStrategyBase::OnLButtonDown(UINT nFlags, PointF point, std::list<IDrawItem*> all)
 {
 	m_pressFlag = true;
-	 
 	for(auto itter = all.begin();itter != all.end() ; itter++ )
 	{
 	 	if((*itter)->getRegion()->IsVisible(point))

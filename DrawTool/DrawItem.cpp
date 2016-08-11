@@ -110,99 +110,106 @@ void DrawItemBase::setFillPath(bool isFillPath)
 	m_isFillPath = isFillPath;
 }
 
-const std::shared_ptr<Region>& DrawItemBase::getRegion() const
-{	
+const std::shared_ptr<Region>& DrawItemBase::getRegion()
+{
+	if(isChangeRegion()) ResetRegion();
 	return m_region;
 }
 
+//
+//const std::shared_ptr<Region>& DrawItemBase::getRegion() const
+//{	
+//	return m_region;
+//}
+//
+//
+//void DrawItemBase::readPoints(std::list<PointF>& points) const
+//{
+//	points.push_back(DrawTools::getTopLeft(getRect()));
+//	points.push_back(DrawTools::getBottomLeft(getRect()));
+//	points.push_back(DrawTools::getBottomRight(getRect()));
+//	points.push_back(DrawTools::getTopRight(getRect()));
+//}
+//void DrawItemBase::writePoints(std::list<PointF>& points)
+//{
+//	auto begin = points.begin();
+//	auto end = begin;
+//	std::advance(end,4);
+//
+//	std::list<PointF> tempArr(begin,end);
+//	points.erase(begin,end);
+//	
+//	PointF topLeft(FLT_MAX,FLT_MAX);
+//	PointF bottomRight(FLT_MIN,FLT_MIN);
+//	for(auto itter = tempArr.begin();itter != tempArr.end() ; itter++ )
+//	{
+//		topLeft.X = (topLeft.X < (*itter).X ? topLeft.X : (*itter).X);
+//		topLeft.Y = (topLeft.Y < (*itter).Y ? topLeft.Y : (*itter).Y);
+//		bottomRight.X = (bottomRight.X > (*itter).X ? bottomRight.X :(*itter).X);
+//		bottomRight.Y = (bottomRight.Y > (*itter).Y ? bottomRight.Y :(*itter).Y);
+//	}
+//	m_myRect = DrawTools::buildRectF(topLeft,bottomRight);
+//}
+//
 
-void DrawItemBase::readPoints(std::list<PointF>& points) const
-{
-	points.push_back(DrawTools::getTopLeft(getRect()));
-	points.push_back(DrawTools::getBottomLeft(getRect()));
-	points.push_back(DrawTools::getBottomRight(getRect()));
-	points.push_back(DrawTools::getTopRight(getRect()));
-}
-void DrawItemBase::writePoints(std::list<PointF>& points)
-{
-	auto begin = points.begin();
-	auto end = begin;
-	std::advance(end,4);
+// void DrawItemBase::moveTo(PointF point)
+// {
+// 	PointF temp = point - DrawTools::getTopLeft(getRect());
+// 	move(point);
+// }
+// void DrawItemBase::move(PointF offset)
+// {
+// 	std::list<PointF> points;
+// 	readPoints(points);
+// 	for(auto itter = points.begin();itter != points.end() ; itter++ )
+// 	{
+// 		(*itter) = (*itter) + offset;
+// 	}
+// 	writePoints(points);
+// }
 
-	std::list<PointF> tempArr(begin,end);
-	points.erase(begin,end);
-	
-	PointF topLeft(FLT_MAX,FLT_MAX);
-	PointF bottomRight(FLT_MIN,FLT_MIN);
-	for(auto itter = tempArr.begin();itter != tempArr.end() ; itter++ )
-	{
-		topLeft.X = (topLeft.X < (*itter).X ? topLeft.X : (*itter).X);
-		topLeft.Y = (topLeft.Y < (*itter).Y ? topLeft.Y : (*itter).Y);
-		bottomRight.X = (bottomRight.X > (*itter).X ? bottomRight.X :(*itter).X);
-		bottomRight.Y = (bottomRight.Y > (*itter).Y ? bottomRight.Y :(*itter).Y);
-	}
-	m_myRect = DrawTools::buildRectF(topLeft,bottomRight);
-}
-
-
-void DrawItemBase::moveTo(PointF point)
-{
-	PointF temp = point - DrawTools::getTopLeft(getRect());
-	move(point);
-}
-void DrawItemBase::move(PointF offset)
-{
-	std::list<PointF> points;
-	readPoints(points);
-	for(auto itter = points.begin();itter != points.end() ; itter++ )
-	{
-		(*itter) = (*itter) + offset;
-	}
-	writePoints(points);
-}
-
-
-void DrawItemBase::OnPaint( Graphics &g )
-{
-	auto region = getRegion();
-	static SolidBrush brush(DrawTools::ColorNormal);
-	if (m_isFillPath)
-	{
-		if (StateNormal == m_state)
-		{
-			brush.SetColor(DrawTools::ColorNormal);
-		}
-		else if (StateHovered == m_state)
-		{
-			brush.SetColor(DrawTools::ColorHovered);
-			//g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
-		}
-		else if (StateDisable == m_state)
-		{
-			brush.SetColor(DrawTools::ColorDisable);
-			//g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
-		}
-		else if (StateDown == m_state)
-		{
-			brush.SetColor(DrawTools::ColorDown);
-			//g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
-		}
-		else if (StateError == m_state)
-		{
-			brush.SetColor(DrawTools::ColorError);
-			//g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
-		}
-		else
-		{
-			brush.SetColor(m_fillColor);
-		}
-		g.FillRegion(&brush, region.get());
-	}
-	if (m_isDrawPath)
-	{
-		g.DrawRectangle(&Pen(m_drawColor),getRect());
-	}
-}
+// 
+// void DrawItemBase::OnPaint( Graphics &g )
+// {
+// 	auto region = getRegion();
+// 	static SolidBrush brush(DrawTools::ColorNormal);
+// 	if (m_isFillPath)
+// 	{
+// 		if (StateNormal == m_state)
+// 		{
+// 			brush.SetColor(DrawTools::ColorNormal);
+// 		}
+// 		else if (StateHovered == m_state)
+// 		{
+// 			brush.SetColor(DrawTools::ColorHovered);
+// 			//g.FillRegion(&SolidBrush(DrawTools::ColorHovered), region.get());
+// 		}
+// 		else if (StateDisable == m_state)
+// 		{
+// 			brush.SetColor(DrawTools::ColorDisable);
+// 			//g.FillRegion(&SolidBrush(DrawTools::ColorDisable), region.get());
+// 		}
+// 		else if (StateDown == m_state)
+// 		{
+// 			brush.SetColor(DrawTools::ColorDown);
+// 			//g.FillRegion(&SolidBrush(DrawTools::ColorDown), region.get());
+// 		}
+// 		else if (StateError == m_state)
+// 		{
+// 			brush.SetColor(DrawTools::ColorError);
+// 			//g.FillRegion(&SolidBrush(DrawTools::ColorError), region.get());
+// 		}
+// 		else
+// 		{
+// 			brush.SetColor(m_fillColor);
+// 		}
+// 		g.FillRegion(&brush, region.get());
+// 	}
+// 	if (m_isDrawPath)
+// 	{
+// 		g.DrawRectangle(&Pen(m_drawColor),getRect());
+// 	}
+// }
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -242,10 +249,10 @@ DrawItemShape::~DrawItemShape()
 
 //////////////////////////////////////////////////////////////////////////
 // 接口实现
-const std::shared_ptr<Region>& DrawItemShape::getRegion() const
-{
-	return DrawItemBase::getRegion();	
-}
+// const std::shared_ptr<Region>& DrawItemShape::getRegion() const
+// {
+// 	return DrawItemBase::getRegion();	
+// }
 
 void DrawItemShape::readPoints(std::list<PointF>& points) const
 {
@@ -253,7 +260,6 @@ void DrawItemShape::readPoints(std::list<PointF>& points) const
 	{
 		(*itter)->loadPoints(points);
 	}
-	DrawItemBase::readPoints(points);
 }
 void DrawItemShape::writePoints(std::list<PointF>& points)
 {
@@ -261,23 +267,21 @@ void DrawItemShape::writePoints(std::list<PointF>& points)
 	{
 		(*itter)->updatePoints(points);
 	}
-	setRegion(m_lines);
-	DrawItemBase::writePoints(points);
 }
 
 void DrawItemShape::move(PointF offset)
 {
-	std::list<PointF> points;
-	readPoints(points);
-	for(auto itter = points.begin();itter != points.end() ; itter++ )
-	{
-		(*itter) = (*itter) + offset;
-	}
-	writePoints(points);
+	foreachPoint([&offset](PointF& p){
+		p = p+offset;
+	});
 }
 
 void DrawItemShape::OnPaint( Graphics &g )
 {
+	if(isChangeRegion())
+	{
+		ResetRegion();
+	}
 	std::shared_ptr<Region> region = getRegion();
 	static SolidBrush brush(DrawTools::ColorNormal);
 	if (m_isFillPath)
@@ -331,6 +335,27 @@ void DrawItemShape::setRegion(const std::list<IDataLine*>& lines)
 	}
 	path.CloseFigure();
 	m_region = std::shared_ptr<Region>(new Region(&path));
+}
+
+void DrawItemShape::foreachPoint(void (*func) (PointF&))
+{
+	foreachPoint(std::ptr_fun(func));
+}
+
+void DrawItemShape::foreachPoint(void (*func) (const PointF&)) const
+{
+	foreachPoint(std::ptr_fun(func));
+}
+
+bool DrawItemShape::isChangeRegion() const
+{
+	auto it = std::find_if(m_lines.begin(),m_lines.end(),std::mem_fun(&IDataLine::isChange));
+	return it != m_lines.end();
+}
+
+void DrawItemShape::ResetRegion()
+{
+	setRegion(m_lines);
 }
 
 #endif

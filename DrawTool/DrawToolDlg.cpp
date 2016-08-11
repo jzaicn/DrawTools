@@ -313,7 +313,7 @@ void CDrawToolDlg::OnBnClickedInputitem()
 	//更改方法：一旦检测到是异形板，将PanelFace子节点中的Layer="SIDE1 改成 Layer="SIDE2
 	//其他照旧
 
-	std::list<IDrawItem*> infos;
+	DrawItemBasePtrList infos;
 // 	<VERTICAL Layer="VERTICAL14.000000" Name="开孔1">
 // 		<Param Name="pos_x" Value="248" />
 // 		<Param Name="pos_y" Value="483" />

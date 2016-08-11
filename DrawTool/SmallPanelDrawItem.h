@@ -1,7 +1,7 @@
 #pragma once
 #include "DrawItem.h"
 #include "DrawItemStrategy.h"
-
+#include <map>
 /************************************************************************/
 /* 垂直孔 DrawVertical                                                  */
 /************************************************************************/
@@ -55,7 +55,7 @@ public:
 	//////////////////////////////////////////////////////////////////////////
 	// 接口实现
 	virtual void setState( int state );
-	virtual const std::shared_ptr<Region>& getRegion()const;
+	virtual const std::shared_ptr<Region>& getRegion();
 	virtual void readPoints( std::list<PointF>& points )const;
 	virtual void writePoints( std::list<PointF>& points );
 	virtual void OnPaint( Graphics &g );
@@ -63,24 +63,38 @@ public:
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 设置数据
-	void OutterFrame(std::list<IDrawItem*> val) { m_outterFrame = val; }
-	void InnerFrame(std::list<IDrawItem*> val) { m_innerFrame = val; }
-	void InnerShape(std::list<IDrawItem*> val) { m_innerShape = val; }
-	void OutterShape(std::list<IDrawItem*> val) { m_outterShape = val; }
-	void InfoSide(std::list<IDrawItem*> val) { m_infoSide = val; }
-	void InfoVertical(std::list<IDrawItem*> val) { m_infoVertical = val; }
-	void InfoSaw(std::list<IDrawItem*> val) { m_infoSaw = val; }
+	void OutterFrame(DrawItemBasePtrList val) { m_outterFrame = val; }
+	void InnerFrame(DrawItemBasePtrList val) { m_innerFrame = val; }
+	void InnerShape(DrawItemBasePtrList val) { m_innerShape = val; }
+	void OutterShape(DrawItemBasePtrList val) { m_outterShape = val; }
+	void InfoSide(DrawItemBasePtrList val) { m_infoSide = val; }
+	void InfoVertical(DrawItemBasePtrList val) { m_infoVertical = val; }
+	void InfoSaw(DrawItemBasePtrList val) { m_infoSaw = val; }
 	
-	void setInnerShape(IDrawItem* val) { m_innerShape.push_back(val); }
+	void setInnerShape(DrawItemBase* val) { m_innerShape.push_back(val); }
+
+	virtual void foreachPoint(void (*func) (PointF&));
+
+	virtual void foreachPoint(void (*func) (const PointF&))const;
+
+	virtual void move(PointF offset);
+	std::vector<DrawItemBasePtrList*> getAllDrawItem();
+	std::vector<const DrawItemBasePtrList*> getAllDrawItem()const;
+
+	virtual bool isChangeRegion() const;
+
+	virtual void ResetRegion();
+
+
 
 private:
-	std::list<IDrawItem*> m_outterFrame;	//外边框
-	std::list<IDrawItem*> m_innerFrame;		//内边框
-	std::list<IDrawItem*> m_innerShape;		//内异形
-	std::list<IDrawItem*> m_outterShape;	//外异形（刀路）
-	std::list<IDrawItem*> m_infoSide;		//侧面孔
-	std::list<IDrawItem*> m_infoVertical;	//垂直孔
-	std::list<IDrawItem*> m_infoSaw;		//锯缝
+	DrawItemBasePtrList m_outterFrame;	//外边框
+	DrawItemBasePtrList m_innerFrame;	//内边框
+	DrawItemBasePtrList m_innerShape;	//内异形
+	DrawItemBasePtrList m_outterShape;	//外异形（刀路）
+	DrawItemBasePtrList m_infoSide;		//侧面孔
+	DrawItemBasePtrList m_infoVertical;	//垂直孔
+	DrawItemBasePtrList m_infoSaw;		//锯缝
 };
 /************************************************************************/
 /* 编辑板件策略 PanelEditionStrategy                                    */

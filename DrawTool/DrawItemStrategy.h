@@ -20,7 +20,7 @@ public:
 	virtual void OnRButtonDown(UINT nFlags, PointF point, std::list<IDrawItem*> all) = 0;	//响应右键按下
 	virtual void OnRButtonUp(UINT nFlags, PointF point, std::list<IDrawItem*> all) = 0;		//响应右键弹起
 	virtual void OnClear(std::list<IDrawItem*> all) = 0;									//响应清除数据
-
+	virtual ~IDrawItemStrategy(){};
 };
 #endif
 

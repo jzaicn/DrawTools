@@ -93,6 +93,13 @@ public:
 	//正式角坐标到画弧用角坐标转换
 	static void getDrawArcAngularCoordinate(double& beginAngle, double& sweepAngle);
 
+	template<class T1,class T2>
+	static double getDistance(const T1& point1,const T2& point2)
+	{
+		auto dx = point1.X - point2.X;
+		auto dy = point1.Y-point2.Y;
+		return sqrt(dx*dx+dy*dy);
+	}
 
 private:
 	static void DrawTools::getCircleCenter(float beginx,float endx,float beginy,float endy,float radius,int sign,float & center_x,float & center_y);

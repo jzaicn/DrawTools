@@ -27,15 +27,19 @@ public:
 	virtual void setRect(RectF rect) = 0;	//区域
 	virtual RectF getRect()const = 0;		//区域
 
-	virtual const std::shared_ptr<Region>& getRegion()const = 0;			//区域
+	virtual const std::shared_ptr<Region>& getRegion() = 0;			//区域
 
 	virtual void readPoints(std::list<PointF>& points)const = 0;	//点集合
 	virtual void writePoints(std::list<PointF>& points) = 0;	//点集合
 
-	virtual void moveTo(PointF point) = 0;	//移动到
+	virtual void foreachPoint(void (*func)(PointF&)) = 0;
+	virtual void foreachPoint(void (*func)(const PointF&))const = 0;
+
+	//virtual void moveTo(PointF point) = 0;	//移动到
 	virtual void move(PointF offset) = 0;	//偏移
 
 	virtual void OnPaint( Graphics &g ) = 0;	//画图
+	virtual ~IDrawItem(){};
 };
 #endif
 /************************************************************************/
@@ -73,15 +77,18 @@ public:
 	virtual void setDrawPath(bool isDrawPath);				//画轮廓
 	virtual void setFillPath(bool isFillPath);				//填充
 
-	virtual const std::shared_ptr<Region>& getRegion()const;			//区域
+ 	virtual const std::shared_ptr<Region>& getRegion();			//区域
 
-	virtual void readPoints(std::list<PointF>& points)const;		//点集合
-	virtual void writePoints(std::list<PointF>& points);	//点集合
+	virtual bool isChangeRegion() const = 0;
+	virtual void ResetRegion() = 0;
 
-	virtual void moveTo(PointF point);	//移动到
-	virtual void move(PointF offset);	//偏移
+// 	virtual void readPoints(std::list<PointF>& points)const;		//点集合
+// 	virtual void writePoints(std::list<PointF>& points);	//点集合
+// 
+// 	virtual void moveTo(PointF point);	//移动到
+// 	virtual void move(PointF offset);	//偏移
 
-	virtual void OnPaint( Graphics &g );	//画图
+//	virtual void OnPaint( Graphics &g );	//画图
 
 protected:
 	//////////////////////////////////////////////////////////////////////////
@@ -107,6 +114,10 @@ public:
 	const static int StateDown;				//下按状态
 	const static int StateError;			//错误状态
 };
+typedef std::vector<DrawItemBase*> DrawItemBasePtrList;
+
+
+
 #endif
 /************************************************************************/
 /*  绘图形状 DrawItemShape                                               */
@@ -123,7 +134,7 @@ public:
 public:
 	//////////////////////////////////////////////////////////////////////////
 	// 接口实现
-	virtual const std::shared_ptr<Region>& getRegion()const;			//区域
+	//virtual const std::shared_ptr<Region>& getRegion()const;			//区域
 	virtual void setRegion(const std::list<IDataLine*>& lines);			//区域
 
 	virtual void readPoints(std::list<PointF>& points)const;		//点集合
@@ -133,12 +144,47 @@ public:
 
 	virtual void OnPaint( Graphics &g );	//画图
 
+	virtual void foreachPoint(void (*func) (PointF&));
+
+	virtual void foreachPoint(void (*func) (const PointF&))const;
+
+	template<class T>
+	void foreachPoint(T func){
+		std::for_each(m_lines.begin(),m_lines.end(),[&func](IDataLine* dataline)
+		{
+			auto line = dynamic_cast<DataLineBase*>(dataline);
+			if(line)	line->foreachPoint(func);
+			
+			auto linelist = dynamic_cast<DrawLineList*>(dataline);
+			if(linelist)	linelist->foreachPoint(func);
+		});
+	}
+
+	template<class T>
+	void foreachPoint(T func)const{
+		std::for_each(m_lines.begin(),m_lines.end(),[&func](const IDataLine* dataline)
+		{
+			auto line = dynamic_cast<const DataLineBase*>(dataline);
+			if(line)	line->foreachPoint(func);
+
+			auto linelist = dynamic_cast<const DrawLineList*>(dataline);
+			if(linelist)	linelist->foreachPoint(func);
+		});
+	}
+
+	virtual bool isChangeRegion() const;
+
+	virtual void ResetRegion();
+
 protected:
 	//////////////////////////////////////////////////////////////////////////
 	// 数据
 	std::list<IDataLine*> m_lines;
 	
 };
+//
+typedef std::vector<DrawItemShape*> DrawItemShapePtrList;
+
 #endif
 /************************************************************************/
 /*  绘图形状 DrawItemCircle                                             */

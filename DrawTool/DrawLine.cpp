@@ -18,18 +18,19 @@ DataLineBase::DataLineBase(PointF first,PointF last)
 }
 void DataLineBase::loadPoints(std::list<PointF>& points) const
 {
-	for (auto it = m_points.begin();it!= m_points.end();it++)
-	{
-		points.push_back(*it);
-	}
+	foreachPoint([&points](const PointF& p){
+		points.push_back(p);
+	});
+
 }
 void DataLineBase::updatePoints(std::list<PointF>& points)
 {
-	int i = 0;
-	std::for_each(m_points.begin(),m_points.end(),[&points](PointF& p){
+	foreachPoint([&points](PointF& p){
 		p = points.front();
 		points.pop_back();
 	});
+
+	m_isChange = true;
 }
 void DataLineBase::getPath(GraphicsPath& path) const
 {	
@@ -51,8 +52,40 @@ void DataLineBase::onPaint(Graphics &g)
 		auto end = begin;
 		advance(end,1);
 		g.DrawLine(&Pen(DrawTools::ColorBorder),*begin,*end);
-	}	
+	}
 }
+
+void DataLineBase::foreachPoint(void (*func)(PointF&))
+{
+	if(isChange()) m_points_last = m_points;
+	foreachPoint(std::ptr_fun(func));
+}
+
+void DataLineBase::foreachPoint(void (*func)(const PointF&)) const
+{
+	foreachPoint(std::ptr_fun(func));
+}
+
+bool operator ==(const PointF& lhs,const PointF& rhs)
+{
+	return lhs.X == rhs.X && lhs.Y== rhs.Y;
+}
+
+bool DataLineBase::isChange() const
+{
+	assert(m_points.size()==m_points_last.size() || m_points_last.size() == 0);
+	auto begin = m_points.cbegin(),end = m_points.cend();
+	auto begin_last = m_points_last.cbegin(),end_last = m_points_last.cend();
+	while (begin != end && begin_last!=end_last 
+		&& *(begin++) == *(begin_last++))
+	{}
+
+	//若没有遍历到最后一个，则为改变
+	return begin != end;
+}
+
+
+
 #endif
 /************************************************************************/
 /* 直线 DrawStraightLine                                                */
@@ -79,6 +112,10 @@ DrawArcLine::DrawArcLine(PointF first, PointF last,PointF center)
 {
 	assert(m_points.size() == 2);
 	m_points.push_back(m_center);
+
+	//计算sign,radius
+	m_radius = DrawTools::getDistance(first,center);
+	m_sign = -1;
 }
 
 void DrawArcLine::getPath(GraphicsPath& path) const
@@ -106,3 +143,29 @@ const PointF& DrawArcLine::getcenter()const
 }
 
 #endif
+
+void DrawLineList::loadPoints(std::list<PointF>& points) const
+{
+	foreachPoint([&points](const PointF& p){
+		points.push_back(p);
+	});
+}
+
+void DrawLineList::updatePoints(std::list<PointF>& points)
+{
+	foreachPoint([&points](PointF& p){
+		assert(points.empty() == false);
+		p = points.front();
+		points.pop_front();
+	});
+}
+
+void DrawLineList::foreachPoint(void (*func) (PointF&))
+{
+	foreachPoint(std::ptr_fun(func));
+}
+
+void DrawLineList::foreachPoint(void (*func) (const PointF&)) const
+{
+	foreachPoint(std::ptr_fun(func));
+}

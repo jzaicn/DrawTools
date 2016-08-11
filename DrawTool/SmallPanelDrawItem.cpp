@@ -115,13 +115,12 @@ SmallPanel::SmallPanel( RectF rect ):DrawItemBase(rect)
 
 SmallPanel::~SmallPanel( void )
 {
-	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){delete item;});
-	std::for_each(m_innerFrame.begin(),m_innerFrame.end(),[&](IDrawItem* item){delete item;});
-	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){delete item;});
-	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){delete item;});
-	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){delete item;});
-	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){delete item;});
-	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){delete item;});
+	auto l = getAllDrawItem();
+	for (auto it = l.begin();it!= l.end();it++)
+	{
+		auto& drawItem = *it;
+		std::for_each(drawItem->begin(),drawItem->end(),[&](DrawItemBase* item){delete item;});
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -134,7 +133,7 @@ void SmallPanel::setState( int state )
 }
 
 
-const std::shared_ptr<Region>& SmallPanel::getRegion() const
+const std::shared_ptr<Region>& SmallPanel::getRegion()
 {
 	if (m_innerShape.size()>0)
 	{
@@ -148,28 +147,40 @@ const std::shared_ptr<Region>& SmallPanel::getRegion() const
 
 void SmallPanel::readPoints( std::list<PointF>& points ) const
 {
-	DrawItemBase::readPoints(points);
-	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){item->readPoints(points);});
-	std::for_each(m_innerFrame.begin(),m_innerFrame.end(),[&](IDrawItem* item){item->readPoints(points);});
-	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->readPoints(points);});
-	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->readPoints(points);});
-
-	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->readPoints(points);});
-	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->readPoints(points);});
-	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->readPoints(points);});
+	
+	auto allDrawItme = getAllDrawItem();
+	for (auto it = allDrawItme.cbegin();it!= allDrawItme.cend();it++)
+	{
+		auto& itemlist = *it;
+		std::for_each(itemlist->cbegin(),itemlist->cend(),[&](DrawItemBase* item){item->readPoints(points);});
+	}
+// 
+// 	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){item->readPoints(points);});
+// 	std::for_each(m_innerFrame.begin(),m_innerFrame.end(),[&](IDrawItem* item){item->readPoints(points);});
+// 	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->readPoints(points);});
+// 	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->readPoints(points);});
+// 
+// 	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->readPoints(points);});
+// 	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->readPoints(points);});
+// 	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->readPoints(points);});
 }
 
 void SmallPanel::writePoints( std::list<PointF>& points )
 {
-	DrawItemBase::writePoints(points);
-	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){item->writePoints(points);});
-	std::for_each(m_innerFrame.begin(),m_innerFrame.end(),[&](IDrawItem* item){item->writePoints(points);});
-	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->writePoints(points);});
-	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->writePoints(points);});
-
-	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->writePoints(points);});
-	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->writePoints(points);});
-	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->writePoints(points);});
+	auto allDrawItme = getAllDrawItem();
+	for (auto it = allDrawItme.cbegin();it!= allDrawItme.cend();it++)
+	{
+		auto& itemlist = *it;
+		std::for_each(itemlist->cbegin(),itemlist->cend(),[&](DrawItemBase* item){item->writePoints(points);});
+	}
+// 	std::for_each(m_outterFrame.begin(),m_outterFrame.end(),[&](IDrawItem* item){item->writePoints(points);});
+// 	std::for_each(m_innerFrame.begin(),m_innerFrame.end(),[&](IDrawItem* item){item->writePoints(points);});
+// 	std::for_each(m_innerShape.begin(),m_innerShape.end(),[&](IDrawItem* item){item->writePoints(points);});
+// 	std::for_each(m_outterShape.begin(),m_outterShape.end(),[&](IDrawItem* item){item->writePoints(points);});
+// 
+// 	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->writePoints(points);});
+// 	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->writePoints(points);});
+// 	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->writePoints(points);});
 }
 
 void SmallPanel::OnPaint( Graphics &g )
@@ -183,6 +194,85 @@ void SmallPanel::OnPaint( Graphics &g )
 	std::for_each(m_infoSide.begin(),m_infoSide.end(),[&](IDrawItem* item){item->OnPaint(g);});
 	std::for_each(m_infoVertical.begin(),m_infoVertical.end(),[&](IDrawItem* item){item->OnPaint(g);});
 	std::for_each(m_infoSaw.begin(),m_infoSaw.end(),[&](IDrawItem* item){item->OnPaint(g);});
+}
+
+void SmallPanel::foreachPoint(void (*func) (PointF&))
+{
+	auto alldrawItem = getAllDrawItem();
+	std::for_each(alldrawItem.begin(),alldrawItem.end(),[&func](DrawItemBasePtrList* l){
+		auto& f = func;
+		std::for_each(l->begin(),l->end(),[&f](DrawItemBase* p){
+			p->foreachPoint(f);
+		});
+	});
+}
+
+void SmallPanel::foreachPoint(void (*func) (const PointF&)) const
+{
+	auto alldrawItem = getAllDrawItem();
+	std::for_each(alldrawItem.begin(),alldrawItem.end(),[&func](const DrawItemBasePtrList* l){
+		assert(l != nullptr);
+		auto& f = func;
+		std::for_each(l->begin(),l->end(),[&f](const DrawItemBase* p){
+			p->foreachPoint(f);
+		});
+	});
+}
+
+void SmallPanel::move(PointF offset)
+{
+	auto alldrawItem = getAllDrawItem();
+	std::for_each(alldrawItem.begin(),alldrawItem.end(),[&offset](DrawItemBasePtrList* l){
+		assert(l != nullptr);
+		auto& f = offset;
+		std::for_each(l->begin(),l->end(),[&f](DrawItemBase* p){
+			p->move(f);
+		});
+	});
+}
+
+std::vector<DrawItemBasePtrList*> SmallPanel::getAllDrawItem()
+{
+	std::vector<DrawItemBasePtrList*> v;
+	v.push_back(&m_outterFrame);
+	v.push_back(&m_innerFrame);
+	v.push_back(&m_innerShape);
+	v.push_back(&m_outterShape);
+	v.push_back(&m_infoSide);
+	v.push_back(&m_infoVertical);
+	v.push_back(&m_infoSaw);
+	return std::move(v);
+}
+
+std::vector<const DrawItemBasePtrList*> SmallPanel::getAllDrawItem() const
+{
+	std::vector<const DrawItemBasePtrList*> v;
+	v.push_back(&m_outterFrame);
+	v.push_back(&m_innerFrame);
+	v.push_back(&m_innerShape);
+	v.push_back(&m_outterShape);
+	v.push_back(&m_infoSide);
+	v.push_back(&m_infoVertical);
+	v.push_back(&m_infoSaw);
+	return std::move(v);
+}
+
+bool SmallPanel::isChangeRegion() const
+{
+	auto l = getAllDrawItem();
+	auto it = std::find_if(l.cbegin(),l.cend(),[](const DrawItemBasePtrList* p)->bool{
+		auto it = std::find_if(p->cbegin(),p->cend(),std::mem_fun(&DrawItemBase::isChangeRegion));
+		return (it != p->end());
+	});
+	return it != l.end();
+}
+
+void SmallPanel::ResetRegion()
+{
+	auto l = getAllDrawItem();
+	std::for_each(l.begin(),l.end(),[](DrawItemBasePtrList* p){
+		std::for_each(p->begin(),p->end(),std::mem_fun(&DrawItemBase::ResetRegion));
+	});
 }
 
 #endif
