@@ -282,8 +282,8 @@ void DrawItemShape::OnPaint( Graphics &g )
 	{
 		ResetRegion();
 	}
-	std::shared_ptr<Region> region = getRegion();
-	static SolidBrush brush(DrawTools::ColorNormal);
+	auto region = getRegion();
+	SolidBrush brush(DrawTools::ColorNormal);
 	if (m_isFillPath)
 	{
 		if (StateNormal == m_state)

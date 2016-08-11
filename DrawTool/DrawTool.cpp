@@ -80,6 +80,7 @@ BOOL CDrawToolApp::InitInstance()
 		// TODO: 在此放置处理何时用
 		//  “取消”来关闭对话框的代码
 	}
+	
 
 	// 删除上面创建的 shell 管理器。
 	if (pShellManager != NULL)

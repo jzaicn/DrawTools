@@ -4,15 +4,18 @@
 #include <algorithm>
 #include "DrawItemManagement.h"
 
-DrawItemStrategyBase DrawItemManagement::DefaultStrategy;
 
 DrawItemManagement::DrawItemManagement(void)
 {
+	m_strategy= nullptr;
 	m_backgroundColor = Color::Black;
-	m_strategy = &DefaultStrategy;
+
+	m_strategy = new DrawItemStrategyBase();
 }
 DrawItemManagement::~DrawItemManagement(void)
 {
+	delete m_strategy;
+	clearDrawItem();
 }
 
 /************************************************************************/
@@ -96,7 +99,7 @@ void DrawItemManagement::clearDrawItem()
 		delete (*itter);
 	}
 	m_allDrawItemList.clear();
-	m_strategy->OnClear(m_allDrawItemList);
+	//m_strategy->OnClear(m_allDrawItemList);
 }
 
 

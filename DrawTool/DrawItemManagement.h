@@ -19,8 +19,6 @@ private:
 	IDrawItemStrategy* m_strategy;					//工作策略
 	std::list<IDrawItem*> m_allDrawItemList;		//所有的画图元素
 
-	static DrawItemStrategyBase DefaultStrategy;
-
 public:
 	void OnInitial();								//响应初始化
 	void OnPaint(Graphics& g);						//响应绘图
@@ -42,7 +40,7 @@ public:
 	void BackgroundColor(Color val) { m_backgroundColor = val; }
 
 	IDrawItemStrategy* Strategy() const { return m_strategy; }
-	void Strategy(IDrawItemStrategy* val) { m_strategy = val; }
+	void Strategy(IDrawItemStrategy* val) {delete m_strategy; m_strategy = val; }
 
 	void setDrawRectF(RectF drawRect);				//设置绘图区域
 	void setDrawCRect(CRect drawRect);				//设置绘图区域
