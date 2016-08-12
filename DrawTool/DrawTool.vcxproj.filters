@@ -103,6 +103,9 @@
     <ClInclude Include="TestSmallPanel.h">
       <Filter>测试\工程测试</Filter>
     </ClInclude>
+    <ClInclude Include="DrawCommon.h">
+      <Filter>框架</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -149,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="TestSmallPanel.cpp">
       <Filter>测试\工程测试</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCommon.cpp">
+      <Filter>框架</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

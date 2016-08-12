@@ -1,10 +1,11 @@
-#include "StdAfx.h"
+#pragma once
+
 
 #include <list>
 #include <vector>
 #include <algorithm>
 #include "afxwin.h"
-
+#include "DrawCommon.h"
 
 #include "DrawLine.h"
 #include "DrawItem.h"

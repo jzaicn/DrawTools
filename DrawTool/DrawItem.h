@@ -1,7 +1,7 @@
 #pragma once
-#include "stdafx.h"
 #include <vector>
 #include <list>
+#include "DrawCommon.h"
 
 #include "DrawLine.h"
 

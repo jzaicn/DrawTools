@@ -1,6 +1,4 @@
-#include "StdAfx.h"
 #include "DrawItem.h"
-
 #include "DrawTools.h"
 
 /************************************************************************/

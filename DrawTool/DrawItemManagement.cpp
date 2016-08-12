@@ -1,4 +1,3 @@
-#include "StdAfx.h"
 #include "afxwin.h"
 #include "DrawTools.h"
 #include <algorithm>

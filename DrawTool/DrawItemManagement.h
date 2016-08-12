@@ -3,6 +3,7 @@
 #include "atltypes.h"
 #include <vector>
 #include <list>
+#include "DrawCommon.h"
 
 #include "DrawItem.h"
 #include "DrawItemStrategy.h"
