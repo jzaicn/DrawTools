@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 
 
-#include "DrawLine.h"
+#include "DataLine.h"
 #include "DrawItem.h"
 #include "DrawItemStrategy.h"
 #include "SmallPanelDrawItem.h"
@@ -161,10 +161,9 @@ void CDrawToolDlg::OnPaint()
 		COLORREF colBK = GetSysColor(CTLCOLOR_DLG);
 		m_g->FillRectangle(&SolidBrush(Color(GetRValue(colBK), GetGValue(colBK), GetBValue(colBK))), RectF(rcClient.left,rcClient.top,rcClient.Width(),rcClient.Height()));
 
+		
 		m_manager.OnPaint(*m_g);//»­Í¼
 		dc.BitBlt(0, 0, rcClient.Width(), rcClient.Height(), &m_dcBackgroud, 0, 0, SRCCOPY);
-		
-		//CDialogEx::OnPaint();
 	}
 }
 
