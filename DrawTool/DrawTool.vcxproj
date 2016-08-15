@@ -100,12 +100,12 @@
     <None Include="res\DrawTool.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DataLine.h" />
     <ClInclude Include="DrawCommon.h" />
     <ClInclude Include="DrawFrameHeader.h" />
     <ClInclude Include="DrawItem.h" />
     <ClInclude Include="DrawItemManagement.h" />
     <ClInclude Include="DrawItemStrategy.h" />
-    <ClInclude Include="DrawLine.h" />
     <ClInclude Include="DrawTool.h" />
     <ClInclude Include="DrawToolDlg.h" />
     <ClInclude Include="DrawTools.h" />
@@ -121,6 +121,9 @@
     <ClInclude Include="TestSmallPanel.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DataLine.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="DrawCommon.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -134,10 +137,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="DrawItemStrategy.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="DrawLine.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
