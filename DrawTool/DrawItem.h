@@ -1,9 +1,9 @@
 #pragma once
-#include "stdafx.h"
 #include <vector>
 #include <list>
+#include "DrawCommon.h"
 
-#include "DrawLine.h"
+#include "DataLine.h"
 
 /************************************************************************/
 /*  »æÍ¼½Ó¿Ú IDrawItem                                                  */

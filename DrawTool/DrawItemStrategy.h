@@ -1,5 +1,6 @@
 #pragma once
 #include <list>
+#include "DrawCommon.h"
 
 #include "DrawItem.h"
 

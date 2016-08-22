@@ -76,9 +76,6 @@
     <ClInclude Include="DrawItem.h">
       <Filter>框架</Filter>
     </ClInclude>
-    <ClInclude Include="DrawLine.h">
-      <Filter>框架</Filter>
-    </ClInclude>
     <ClInclude Include="DrawToolDlg.h">
       <Filter>运行</Filter>
     </ClInclude>
@@ -103,6 +100,12 @@
     <ClInclude Include="TestSmallPanel.h">
       <Filter>测试\工程测试</Filter>
     </ClInclude>
+    <ClInclude Include="DrawCommon.h">
+      <Filter>框架</Filter>
+    </ClInclude>
+    <ClInclude Include="DataLine.h">
+      <Filter>框架</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -121,9 +124,6 @@
       <Filter>测试\框架测试</Filter>
     </ClCompile>
     <ClCompile Include="DrawItem.cpp">
-      <Filter>框架</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawLine.cpp">
       <Filter>框架</Filter>
     </ClCompile>
     <ClCompile Include="DrawTools.cpp">
@@ -149,6 +149,12 @@
     </ClCompile>
     <ClCompile Include="TestSmallPanel.cpp">
       <Filter>测试\工程测试</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawCommon.cpp">
+      <Filter>框架</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLine.cpp">
+      <Filter>框架</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

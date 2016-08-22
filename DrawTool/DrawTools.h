@@ -1,10 +1,10 @@
 #pragma once
 
-#include "stdafx.h"
 #include <vector>
 #include <list>
 #include <algorithm>
-#include "DrawLine.h"
+#include "DrawCommon.h"
+#include "DataLine.h"
 #include "DrawItem.h"
 
 
